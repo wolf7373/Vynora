@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="vynoraGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00F2FE" />
+      <stop offset="50%" stop-color="#4FACFE" />
+      <stop offset="100%" stop-color="#7F00FF" />
+    </linearGradient>
+  </defs>
+  <!-- Stylized Outer Audio Wave Arc -->
+  <path d="M15 25 C15 65, 50 90, 50 90 C50 90, 85 65, 85 25" stroke="url(#vynoraGradient)" stroke-width="8" stroke-linecap="round"/>
+  <!-- Middle Vinyl Groove -->
+  <path d="M28 32 C28 60, 50 76, 50 76 C50 76, 72 60, 72 32" stroke="url(#vynoraGradient)" stroke-width="6" stroke-linecap="round" stroke-opacity="0.8"/>
+  <!-- Center Play/Stylus Glyph -->
+  <polygon points="44,38 64,50 44,62" fill="url(#vynoraGradient)"/>
+</svg>
