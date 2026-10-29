@@ -112,9 +112,11 @@ export const HomeView: React.FC = () => {
     }
   }, [selectedVibeFilter, timeInfo])
 
-  // Handle Play Song with immediate right docked video (REG-03)
+  // Handle Play Song with immediate right docked video on desktop (REG-03)
   const handlePlaySong = async (track: Track, tracksPool: Track[] = recommendedTracks) => {
-    setIsDockedPlayerOpen(true)
+    if (typeof window !== 'undefined' && window.innerWidth >= 768) {
+      setIsDockedPlayerOpen(true)
+    }
     const idx = tracksPool.findIndex((t) => t.id === track.id)
     setQueue(tracksPool, idx >= 0 ? idx : 0)
     await adapterManager.playTrack(track)
@@ -129,7 +131,9 @@ export const HomeView: React.FC = () => {
         ...activeInstantMix.slice(randomStart),
         ...activeInstantMix.slice(0, randomStart),
       ]
-      setIsDockedPlayerOpen(true)
+      if (typeof window !== 'undefined' && window.innerWidth >= 768) {
+        setIsDockedPlayerOpen(true)
+      }
       setQueue(rotated, 0)
       await adapterManager.playTrack(rotated[0])
     }
@@ -139,7 +143,9 @@ export const HomeView: React.FC = () => {
   const handleShuffleInstantMix = useCallback(async () => {
     if (activeInstantMix.length > 0) {
       const shuffled = [...activeInstantMix].sort(() => Math.random() - 0.5)
-      setIsDockedPlayerOpen(true)
+      if (typeof window !== 'undefined' && window.innerWidth >= 768) {
+        setIsDockedPlayerOpen(true)
+      }
       setQueue(shuffled, 0)
       await adapterManager.playTrack(shuffled[0])
     }
@@ -148,7 +154,9 @@ export const HomeView: React.FC = () => {
   // Handle Surprise Me Banger Pick
   const handleSurpriseMe = useCallback(async () => {
     const { track } = getSurpriseTrack(CATALOG_TRACKS, [])
-    setIsDockedPlayerOpen(true)
+    if (typeof window !== 'undefined' && window.innerWidth >= 768) {
+      setIsDockedPlayerOpen(true)
+    }
     const otherTracks = CATALOG_TRACKS.filter((t) => t.id !== track.id).sort(() => Math.random() - 0.5)
     setQueue([track, ...otherTracks], 0)
     await adapterManager.playTrack(track)
@@ -163,7 +171,9 @@ export const HomeView: React.FC = () => {
         ...mixTracks.slice(randomStart),
         ...mixTracks.slice(0, randomStart),
       ]
-      setIsDockedPlayerOpen(true)
+      if (typeof window !== 'undefined' && window.innerWidth >= 768) {
+        setIsDockedPlayerOpen(true)
+      }
       setQueue(rotated, 0)
       await adapterManager.playTrack(rotated[0])
     }

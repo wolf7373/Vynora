@@ -22,7 +22,7 @@ export const MobileNav: React.FC = () => {
   return (
     <nav
       aria-label="Mobile Navigation"
-      className="md:hidden h-16 bg-vyn-surface/95 border-t border-vyn-border flex items-center justify-around px-2 z-50 select-none pb-[env(safe-area-inset-bottom,0px)]"
+      className="md:hidden min-h-[4rem] h-auto bg-vyn-surface/95 border-t border-vyn-border flex items-center justify-around px-2 z-50 select-none pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-1 backdrop-blur-lg"
     >
       {tabs.map((item) => {
         const Icon = item.icon

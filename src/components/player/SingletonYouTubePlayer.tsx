@@ -205,6 +205,13 @@ export const SingletonYouTubePlayer: React.FC = () => {
           return
         }
 
+        // Strict Source Isolation: YouTube iframe state must ONLY synchronize with the player store
+        // if YouTube is the active audio engine. For direct studio audio (WebAudio), WebAudio is the single source of truth!
+        const isYTAudio = usePlayerStore.getState().activeSource === 'youtube'
+        if (!isYTAudio) {
+          return
+        }
+
         // Play / Pause / Ended state synchronization
         if (
           data.event === 'onStateChange' ||

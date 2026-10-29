@@ -26,7 +26,7 @@ export const AppShell: React.FC = () => {
   } = useUIStore()
 
   return (
-    <div className="h-[100dvh] w-full max-w-full flex flex-col bg-vyn-canvas text-vyn-high overflow-hidden font-sans selection:bg-vyn-primary/20 selection:text-vyn-primary fixed inset-0 overscroll-none">
+    <div className="fixed inset-0 w-full flex flex-col bg-vyn-canvas text-vyn-high overflow-hidden font-sans selection:bg-vyn-primary/20 selection:text-vyn-primary overscroll-none">
       {/* Dynamic Animated Ambient Aurora Motion Background */}
       <AmbientBackground />
 

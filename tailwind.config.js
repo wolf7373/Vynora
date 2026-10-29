@@ -8,6 +8,21 @@ export default {
   theme: {
     extend: {
       colors: {
+        canvas: {
+          base: '#08090C',
+          surface: '#111318',
+          elevated: '#181B22',
+        },
+        accent: {
+          cyan: '#00F2FE',
+          blue: '#4FACFE',
+          violet: '#7F00FF',
+        },
+        text: {
+          primary: '#F8FAFC',
+          muted: '#94A3B8',
+          high: '#F8FAFC',
+        },
         vyn: {
           canvas: '#08090C',
           surface: '#111318',

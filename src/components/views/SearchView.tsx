@@ -200,8 +200,10 @@ export const SearchView: React.FC = () => {
       }
       return
     }
-    setIsDockedPlayerOpen(true)
-    setRightSidebarView('video')
+    if (typeof window !== 'undefined' && window.innerWidth >= 768) {
+      setIsDockedPlayerOpen(true)
+      setRightSidebarView('video')
+    }
 
     // Set Spotify-style smart diverse queue instead of 15 identical songs
     const smartQueue = buildSmartSearchQueue(track, displayedTracks)
