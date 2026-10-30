@@ -4,10 +4,6 @@ import { useUIStore } from '@/stores/useUIStore'
 import { PlaybackAdapterManager } from '@/adapters'
 import { Minimize2 } from 'lucide-react'
 
-// High-compatibility 1-second silent WAV base64 data URI
-const SILENT_WAV_URI =
-  'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA'
-
 interface AnchorRect {
   top: number
   left: number
@@ -39,19 +35,20 @@ export const SingletonYouTubePlayer: React.FC = () => {
   })
 
   const youtubeId = currentTrack?.youtubeId || ''
+  const youtubePlaylistId = currentTrack?.youtubePlaylistId || ''
 
   // 1. Silent Audio Background Loop & Screen Wake Lock for Mobile Background Playback
   useEffect(() => {
     if (typeof window === 'undefined') return
 
     if (!bgAudioRef.current) {
-      const audio = new Audio(SILENT_WAV_URI)
+      const audio = new Audio('/silent.wav')
       audio.loop = true
       audio.volume = 0.001
       bgAudioRef.current = audio
     }
 
-    if (isPlaying && youtubeId) {
+    if (isPlaying && (youtubeId || youtubePlaylistId)) {
       // Play silent loop to register active audio session with mobile OS
       bgAudioRef.current.play().catch(() => {})
 
@@ -110,7 +107,7 @@ export const SingletonYouTubePlayer: React.FC = () => {
         wakeLockRef.current = null
       }
     }
-  }, [isPlaying, youtubeId])
+  }, [isPlaying, youtubeId, youtubePlaylistId])
 
   // 2. Measure & Track Visible Anchor Slot (Desktop Dock vs Mobile Drawer)
   const updatePosition = useCallback(() => {
@@ -320,9 +317,10 @@ export const SingletonYouTubePlayer: React.FC = () => {
 
   // Seamless track transition without iframe destruction/re-creation
   useEffect(() => {
-    if (!youtubeId) return
-    if (prevYoutubeIdRef.current !== youtubeId) {
-      prevYoutubeIdRef.current = youtubeId
+    if (!youtubeId && !youtubePlaylistId) return
+    const key = youtubePlaylistId ? `list-${youtubePlaylistId}` : youtubeId
+    if (prevYoutubeIdRef.current !== key) {
+      prevYoutubeIdRef.current = key
       if (iframeRef.current?.contentWindow) {
         try {
           const isYTAudio = activeSource === 'youtube'
@@ -336,10 +334,17 @@ export const SingletonYouTubePlayer: React.FC = () => {
               '*'
             )
           }
-          iframeRef.current.contentWindow.postMessage(
-            JSON.stringify({ event: 'command', func: 'loadVideoById', args: [youtubeId] }),
-            '*'
-          )
+          if (youtubePlaylistId) {
+            iframeRef.current.contentWindow.postMessage(
+              JSON.stringify({ event: 'command', func: 'loadPlaylist', args: [{ list: youtubePlaylistId, listType: 'playlist' }] }),
+              '*'
+            )
+          } else {
+            iframeRef.current.contentWindow.postMessage(
+              JSON.stringify({ event: 'command', func: 'loadVideoById', args: [youtubeId] }),
+              '*'
+            )
+          }
           iframeRef.current.contentWindow.postMessage(
             JSON.stringify({ event: 'command', func: 'playVideo', args: [] }),
             '*'
@@ -347,7 +352,7 @@ export const SingletonYouTubePlayer: React.FC = () => {
         } catch {}
       }
     }
-  }, [youtubeId, activeSource])
+  }, [youtubeId, youtubePlaylistId, activeSource])
 
   const handleIframeLoad = (e: React.SyntheticEvent<HTMLIFrameElement>) => {
     try {
@@ -366,7 +371,7 @@ export const SingletonYouTubePlayer: React.FC = () => {
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [isFullscreen])
 
-  if (!youtubeId) {
+  if (!youtubeId && !youtubePlaylistId) {
     return (
       <div
         id="vynora-singleton-yt-host"
@@ -375,6 +380,10 @@ export const SingletonYouTubePlayer: React.FC = () => {
       />
     )
   }
+
+  const iframeSrc = youtubePlaylistId
+    ? `https://www.youtube-nocookie.com/embed/videoseries?list=${youtubePlaylistId}&autoplay=1&enablejsapi=1&rel=0&playsinline=1&mute=${activeSource === 'youtube' && !isMuted ? 0 : 1}&origin=${encodeURIComponent(typeof window !== 'undefined' ? window.location.origin : '')}`
+    : `https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&enablejsapi=1&rel=0&playsinline=1&mute=${activeSource === 'youtube' && !isMuted ? 0 : 1}&origin=${encodeURIComponent(typeof window !== 'undefined' ? window.location.origin : '')}`
 
   const containerStyle: React.CSSProperties = targetRect.visible
     ? {
@@ -426,7 +435,7 @@ export const SingletonYouTubePlayer: React.FC = () => {
         id="youtube-player-iframe"
         ref={iframeRef}
         key="vynora-single-yt-iframe"
-        src={`https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&enablejsapi=1&rel=0&playsinline=1&mute=${activeSource === 'youtube' && !isMuted ? 0 : 1}&origin=${encodeURIComponent(typeof window !== 'undefined' ? window.location.origin : '')}`}
+        src={iframeSrc}
         title={currentTrack?.title || 'Vynora Singleton YouTube Player'}
         onLoad={handleIframeLoad}
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"

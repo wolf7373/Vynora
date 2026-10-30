@@ -10,6 +10,12 @@ import { instanceRacingSearcher, type SearchResultTrack } from '@/services/searc
 import { CATALOG_TRACKS } from '@/data/tracksCatalog'
 import { getRecommendations } from '@/services/recommendations/recommendationEngine'
 import { cleanLyricsTrackTitle } from '@/services/lyrics/cleanerRegex'
+import {
+  parseMusicLink,
+  resolveYouTubeTrack,
+  resolveSpotifyTrack,
+  resolveSpotifyPlaylist,
+} from '@/services/search'
 import type { Track } from '@/types/track'
 import { formatTime } from '@/utils/formatTime'
 
@@ -51,27 +57,126 @@ export const SearchView: React.FC = () => {
       return
     }
 
-    // Direct YouTube Link Detection: e.g. youtube.com/watch?v=... or youtu.be/...
-    const ytUrlMatch = trimmed.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([a-zA-Z0-9_-]{11})/)
-    if (ytUrlMatch && ytUrlMatch[1]) {
-      const videoId = ytUrlMatch[1]
-      const directTrack: SearchResultTrack = {
-        id: `yt-${videoId}`,
-        youtubeId: videoId,
-        title: `YouTube Video (${videoId})`,
-        artist: 'Pasted YouTube Stream',
-        album: 'Direct YouTube Web Stream',
-        duration: 180,
-        source: 'youtube',
-        sourceInstance: 'direct-link',
-        coverUrl: `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
-        style: 'acoustic',
-        color: '#ff0000',
+    // Direct Spotify / YouTube Link Detection with Auto-Play & Multi-Track support
+    const parsedLink = parseMusicLink(trimmed)
+    if (parsedLink) {
+      setIsLoading(true)
+      let isSubscribed = true
+
+      const handleImportedLink = async () => {
+        try {
+          if (parsedLink.type === 'youtube-track' && parsedLink.videoId) {
+            const track = await resolveYouTubeTrack(parsedLink.videoId, parsedLink.rawUrl)
+            if (!isSubscribed) return
+            setResults([track])
+            setSearchMeta({ instance: 'youtube-direct', cached: false })
+            setIsLoading(false)
+            // Auto play track immediately
+            if (currentTrack?.id !== track.id) {
+              setQueue([track], 0)
+              await adapterManager.playTrack(track)
+            }
+            return
+          }
+
+          if (parsedLink.type === 'youtube-playlist' && parsedLink.playlistId) {
+            // High-compatibility YouTube Playlist stream
+            const playlistId = parsedLink.playlistId
+            const initialTrack: SearchResultTrack = {
+              id: `yt-playlist-${playlistId}`,
+              title: 'YouTube Playlist Stream',
+              artist: 'Imported YouTube Playlist',
+              album: 'Live YouTube Playlist',
+              duration: 240,
+              source: 'youtube',
+              youtubePlaylistId: playlistId,
+              youtubeId: parsedLink.videoId || 'videoseries',
+              coverUrl: parsedLink.videoId
+                ? `https://i.ytimg.com/vi/${parsedLink.videoId}/hqdefault.jpg`
+                : 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=400&auto=format&fit=crop&q=80',
+              color: '#00F2FE',
+              style: 'acoustic',
+              sourceInstance: 'youtube-playlist',
+            }
+
+            if (!isSubscribed) return
+            setResults([initialTrack])
+            setSearchMeta({ instance: 'youtube-playlist', cached: false })
+            setIsLoading(false)
+
+            // Auto play YouTube playlist directly
+            setQueue([initialTrack], 0)
+            await adapterManager.playTrack(initialTrack)
+            return
+          }
+
+          if (parsedLink.type === 'spotify-track') {
+            const spotInfo = await resolveSpotifyTrack(parsedLink.rawUrl)
+            if (!isSubscribed) return
+
+            // Search internal catalog or Piped racing engine for matched song
+            const searchQueryStr = `${spotInfo.title} ${spotInfo.artist}`
+            const catalogMatch = CATALOG_TRACKS.find(
+              (t) =>
+                t.title.toLowerCase().includes(spotInfo.title.toLowerCase()) ||
+                spotInfo.title.toLowerCase().includes(t.title.toLowerCase())
+            )
+
+            if (catalogMatch) {
+              const matchedTrack: SearchResultTrack = {
+                ...catalogMatch,
+                sourceInstance: 'spotify-match',
+              }
+              setResults([matchedTrack])
+              setSearchMeta({ instance: 'spotify-catalog-match', cached: true })
+              setIsLoading(false)
+              setQueue([matchedTrack], 0)
+              await adapterManager.playTrack(matchedTrack)
+              return
+            }
+
+            // Fallback to online instance search for Spotify song title
+            const searchRes = await instanceRacingSearcher.search(searchQueryStr)
+            if (!isSubscribed) return
+            if (searchRes.tracks.length > 0) {
+              setResults(searchRes.tracks)
+              setSearchMeta({ instance: 'spotify-online-match', cached: false })
+              setIsLoading(false)
+              setQueue(searchRes.tracks, 0)
+              await adapterManager.playTrack(searchRes.tracks[0])
+              return
+            }
+          }
+
+          if (parsedLink.type === 'spotify-playlist') {
+            const spotInfo = await resolveSpotifyPlaylist(parsedLink.rawUrl)
+            if (!isSubscribed) return
+
+            // Search tracks matching Spotify playlist theme
+            const searchRes = await instanceRacingSearcher.search(spotInfo.title)
+            if (!isSubscribed) return
+            if (searchRes.tracks.length > 0) {
+              setResults(searchRes.tracks)
+              setSearchMeta({ instance: 'spotify-playlist-mix', cached: false })
+              setIsLoading(false)
+              setQueue(searchRes.tracks, 0)
+              await adapterManager.playTrack(searchRes.tracks[0])
+              return
+            }
+          }
+        } catch {
+          // If resolving fails, fall back to normal search
+        }
+
+        if (isSubscribed) {
+          setIsLoading(false)
+        }
       }
-      setResults([directTrack])
-      setSearchMeta({ instance: 'direct-link', cached: false })
-      setIsLoading(false)
-      return
+
+      handleImportedLink()
+      return () => {
+        isSubscribed = false
+      }
     }
 
     const trimmedLower = trimmed.toLowerCase()

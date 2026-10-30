@@ -21,6 +21,7 @@ export interface Track {
   style?: string
   playlistId?: string
   isLiked?: boolean
+  youtubePlaylistId?: string
 }
 
 // Known canonical mappings for Regression Guardrail REG-01
