@@ -50,7 +50,7 @@ export const SingletonYouTubePlayer: React.FC = () => {
 
     if (isPlaying && (youtubeId || youtubePlaylistId)) {
       // Play silent loop to register active audio session with mobile OS
-      bgAudioRef.current.play().catch(() => {})
+      bgAudioRef.current.play().catch(() => { })
 
       // Request screen wake lock if supported
       if ('wakeLock' in navigator && !wakeLockRef.current) {
@@ -62,14 +62,14 @@ export const SingletonYouTubePlayer: React.FC = () => {
               wakeLockRef.current = null
             })
           })
-          .catch(() => {})
+          .catch(() => { })
       }
     } else {
       if (bgAudioRef.current && !bgAudioRef.current.paused) {
         bgAudioRef.current.pause()
       }
       if (wakeLockRef.current) {
-        wakeLockRef.current.release().catch(() => {})
+        wakeLockRef.current.release().catch(() => { })
         wakeLockRef.current = null
       }
     }
@@ -79,7 +79,7 @@ export const SingletonYouTubePlayer: React.FC = () => {
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'hidden') {
         if (usePlayerStore.getState().isPlaying && bgAudioRef.current) {
-          bgAudioRef.current.play().catch(() => {})
+          bgAudioRef.current.play().catch(() => { })
           if (iframeRef.current?.contentWindow) {
             iframeRef.current.contentWindow.postMessage(
               JSON.stringify({ event: 'command', func: 'playVideo', args: [] }),
@@ -94,7 +94,7 @@ export const SingletonYouTubePlayer: React.FC = () => {
             .then((lock) => {
               wakeLockRef.current = lock
             })
-            .catch(() => {})
+            .catch(() => { })
         }
       }
     }
@@ -103,7 +103,7 @@ export const SingletonYouTubePlayer: React.FC = () => {
     return () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange)
       if (wakeLockRef.current) {
-        wakeLockRef.current.release().catch(() => {})
+        wakeLockRef.current.release().catch(() => { })
         wakeLockRef.current = null
       }
     }
@@ -271,7 +271,7 @@ export const SingletonYouTubePlayer: React.FC = () => {
             usePlayerStore.getState().setVolume(ytVol)
           }
         }
-      } catch {}
+      } catch { }
     }
 
     window.addEventListener('message', handleMessage)
@@ -349,7 +349,7 @@ export const SingletonYouTubePlayer: React.FC = () => {
             JSON.stringify({ event: 'command', func: 'playVideo', args: [] }),
             '*'
           )
-        } catch {}
+        } catch { }
       }
     }
   }, [youtubeId, youtubePlaylistId, activeSource])
@@ -357,7 +357,7 @@ export const SingletonYouTubePlayer: React.FC = () => {
   const handleIframeLoad = (e: React.SyntheticEvent<HTMLIFrameElement>) => {
     try {
       e.currentTarget.contentWindow?.postMessage(JSON.stringify({ event: 'listening' }), '*')
-    } catch {}
+    } catch { }
   }
 
   // Fullscreen Esc key handler
@@ -387,28 +387,28 @@ export const SingletonYouTubePlayer: React.FC = () => {
 
   const containerStyle: React.CSSProperties = targetRect.visible
     ? {
-        position: 'fixed',
-        top: `${targetRect.top}px`,
-        left: `${targetRect.left}px`,
-        width: `${targetRect.width}px`,
-        height: `${targetRect.height}px`,
-        zIndex: isFullscreen ? 100 : isMobileDrawerOpen ? 75 : 35,
-        borderRadius: isFullscreen ? '0px' : isMobileDrawerOpen ? '16px' : '12px',
-        overflow: 'hidden',
-        pointerEvents: 'auto',
-        opacity: 1,
-        transition: 'border-radius 0.2s ease',
-      }
+      position: 'fixed',
+      top: `${targetRect.top}px`,
+      left: `${targetRect.left}px`,
+      width: `${targetRect.width}px`,
+      height: `${targetRect.height}px`,
+      zIndex: isFullscreen ? 100 : isMobileDrawerOpen ? 75 : 35,
+      borderRadius: isFullscreen ? '0px' : isMobileDrawerOpen ? '16px' : '12px',
+      overflow: 'hidden',
+      pointerEvents: 'auto',
+      opacity: 1,
+      transition: 'border-radius 0.2s ease',
+    }
     : {
-        position: 'fixed',
-        top: '-9999px',
-        left: '-9999px',
-        width: '1px',
-        height: '1px',
-        opacity: 0,
-        pointerEvents: 'none',
-        overflow: 'hidden',
-      }
+      position: 'fixed',
+      top: '-9999px',
+      left: '-9999px',
+      width: '1px',
+      height: '1px',
+      opacity: 0,
+      pointerEvents: 'none',
+      overflow: 'hidden',
+    }
 
   return (
     <div

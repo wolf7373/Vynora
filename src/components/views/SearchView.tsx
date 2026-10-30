@@ -149,23 +149,40 @@ export const SearchView: React.FC = () => {
           }
 
           if (parsedLink.type === 'spotify-playlist') {
-            const spotInfo = await resolveSpotifyPlaylist(parsedLink.rawUrl)
-            if (!isSubscribed) return
+            try {
+              const spotInfo = await resolveSpotifyPlaylist(parsedLink.rawUrl)
+              if (!isSubscribed) return
 
-            // Search tracks matching Spotify playlist theme
-            const searchRes = await instanceRacingSearcher.search(spotInfo.title)
-            if (!isSubscribed) return
-            if (searchRes.tracks.length > 0) {
-              setResults(searchRes.tracks)
-              setSearchMeta({ instance: 'spotify-playlist-mix', cached: false })
+              // Search tracks matching Spotify playlist theme
+              const searchRes = await instanceRacingSearcher.search(spotInfo.title)
+              if (!isSubscribed) return
+              if (searchRes.tracks.length > 0) {
+                setResults(searchRes.tracks)
+                setSearchMeta({ instance: 'spotify-playlist-mix', cached: false })
+                setIsLoading(false)
+                setQueue(searchRes.tracks, 0)
+                await adapterManager.playTrack(searchRes.tracks[0])
+                return
+              }
+            } catch {
+              // Spotify Playlist might be private or restricted by Spotify's API
+              if (!isSubscribed) return
+              const fallbackTracks = CATALOG_TRACKS.slice(0, 25).map((t) => ({ ...t, sourceInstance: 'catalog' }))
+              setResults(fallbackTracks)
+              setSearchMeta({
+                instance: 'spotify-private-playlist-note',
+                cached: false,
+              })
               setIsLoading(false)
-              setQueue(searchRes.tracks, 0)
-              await adapterManager.playTrack(searchRes.tracks[0])
               return
             }
           }
         } catch {
-          // If resolving fails, fall back to normal search
+          // If resolving fails, show high-quality catalog tracks
+          if (isSubscribed) {
+            setResults(CATALOG_TRACKS.slice(0, 25).map((t) => ({ ...t, sourceInstance: 'catalog' })))
+            setIsLoading(false)
+          }
         }
 
         if (isSubscribed) {
@@ -342,7 +359,7 @@ export const SearchView: React.FC = () => {
         </div>
 
         {/* Filter Pills */}
-        <div className="flex items-center gap-1.5 bg-vyn-elevated p-1 rounded-xl border border-vyn-border overflow-x-auto max-w-full">
+        <div className="flex items-center gap-1.5 bg-vyn-elevated p-1 rounded-xl border border-vyn-border overflow-x-auto max-w-full flex-shrink-0">
           {(
             [
               { id: 'all', label: 'All Songs' },
@@ -355,7 +372,7 @@ export const SearchView: React.FC = () => {
             <button
               key={cat.id}
               onClick={() => setActiveCategory(cat.id)}
-              className={`min-h-[44px] min-w-[44px] px-3.5 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${
+              className={`min-h-[44px] min-w-[44px] px-3.5 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap flex-shrink-0 transition-all ${
                 activeCategory === cat.id
                   ? 'bg-vyn-primary text-vyn-canvas font-semibold shadow-glow-cyan'
                   : 'text-vyn-muted hover:text-vyn-high'
@@ -432,9 +449,15 @@ export const SearchView: React.FC = () => {
           ) : displayedTracks.length === 0 ? (
             <div className="p-12 text-center">
               <Search className="w-10 h-10 text-vyn-muted/50 mx-auto mb-2" />
-              <h3 className="text-sm font-semibold text-vyn-high mb-1">No songs found matching "{searchQuery}"</h3>
+              <h3 className="text-sm font-semibold text-vyn-high mb-1">
+                {searchQuery.includes('spotify.com/playlist')
+                  ? 'Private or Restricted Spotify Playlist'
+                  : `No songs found matching "${searchQuery}"`}
+              </h3>
               <p className="text-xs text-vyn-muted max-w-sm mx-auto">
-                Try searching by song name or artist. Results are filtered to ensure high-quality audio.
+                {searchQuery.includes('spotify.com/playlist')
+                  ? 'This Spotify playlist is set to private or requires account login. Try pasting a public YouTube playlist/song or public Spotify track link!'
+                  : 'Try searching by song name or artist. Results are filtered to ensure high-quality audio.'}
               </p>
             </div>
           ) : (

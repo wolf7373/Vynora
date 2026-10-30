@@ -293,14 +293,14 @@ export const HomeView: React.FC = () => {
       </section>
 
       {/* SECTION 2: MOOD & VIBE FILTER CHIPS */}
-      <section className="flex items-center gap-2 overflow-x-auto pt-3 pb-3 px-1 -mt-1 scrollbar-none">
+      <section className="flex items-center gap-2 overflow-x-auto pt-3 pb-3 px-1 -mt-1 scrollbar-none flex-nowrap min-w-0">
         {moodChips.map((chip) => {
           const isSelected = selectedVibeFilter === chip.id
           return (
             <button
               key={chip.id}
               onClick={() => setSelectedVibeFilter(chip.id)}
-              className={`min-h-[44px] px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all duration-200 ${
+              className={`min-h-[44px] px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap flex-shrink-0 transition-all duration-200 ${
                 isSelected
                   ? 'bg-vyn-primary text-vyn-canvas shadow-glow-cyan font-bold ring-2 ring-vyn-primary/30'
                   : 'bg-canvas-elevated text-vyn-muted hover:text-vyn-high hover:bg-white/5 border border-vyn-border'
