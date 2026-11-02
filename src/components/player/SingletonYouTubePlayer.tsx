@@ -23,7 +23,11 @@ export const SingletonYouTubePlayer: React.FC = () => {
   const lastErrorSkipRef = useRef<number>(0)
   const lastTrackEndedRef = useRef<number>(0)
   const autoErrorSkipCountRef = useRef<number>(0)
-  const prevYoutubeIdRef = useRef<string>(currentTrack?.youtubeId || '')
+  const prevYoutubeIdRef = useRef<string>(
+    currentTrack?.youtubePlaylistId
+      ? `list-${currentTrack.youtubePlaylistId}`
+      : currentTrack?.youtubeId || ''
+  )
 
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [targetRect, setTargetRect] = useState<AnchorRect>({
@@ -260,17 +264,9 @@ export const SingletonYouTubePlayer: React.FC = () => {
           }
         }
 
-        // Volume & Mute synchronization if adjusted inside YouTube player controls (only when YouTube is the primary audio source)
-        if (data.event === 'infoDelivery' && typeof data.info?.volume === 'number') {
-          if (usePlayerStore.getState().activeSource !== 'youtube') return
-          const ytVol = data.info.volume / 100
-          const ytMuted = Boolean(data.info.muted || ytVol === 0)
-          if (ytMuted && !usePlayerStore.getState().isMuted) {
-            usePlayerStore.getState().setVolume(0)
-          } else if (!ytMuted && Math.abs(ytVol - usePlayerStore.getState().volume) > 0.05) {
-            usePlayerStore.getState().setVolume(ytVol)
-          }
-        }
+        // Single Source of Truth: Vynora's application store governs volume and mute.
+        // We strictly ignore incoming volume/mute delivery from the iframe so that iframe startup defaults
+        // or buffer resets never overwrite the user's volume or force-mute the player.
       } catch { }
     }
 
@@ -381,9 +377,17 @@ export const SingletonYouTubePlayer: React.FC = () => {
     )
   }
 
-  const iframeSrc = youtubePlaylistId
-    ? `https://www.youtube-nocookie.com/embed/videoseries?list=${youtubePlaylistId}&autoplay=1&enablejsapi=1&rel=0&playsinline=1&mute=${activeSource === 'youtube' && !isMuted ? 0 : 1}&origin=${encodeURIComponent(typeof window !== 'undefined' ? window.location.origin : '')}`
-    : `https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&enablejsapi=1&rel=0&playsinline=1&mute=${activeSource === 'youtube' && !isMuted ? 0 : 1}&origin=${encodeURIComponent(typeof window !== 'undefined' ? window.location.origin : '')}`
+  // Stable singleton iframe source that NEVER reloads during runtime.
+  // Video switches, mute, volume, seek, and playback states are controlled exclusively via postMessage.
+  // Dynamic parameters like `mute=${...}` are strictly excluded to prevent browser iframe re-navigation & time resets.
+  const [stableIframeSrc] = useState<string>(() => {
+    const originParam = typeof window !== 'undefined' ? encodeURIComponent(window.location.origin) : ''
+    if (youtubePlaylistId) {
+      return `https://www.youtube-nocookie.com/embed/videoseries?list=${youtubePlaylistId}&autoplay=1&enablejsapi=1&rel=0&playsinline=1&origin=${originParam}`
+    }
+    const initialVid = youtubeId || 'M7lc1UVf-VE'
+    return `https://www.youtube-nocookie.com/embed/${initialVid}?autoplay=1&enablejsapi=1&rel=0&playsinline=1&origin=${originParam}`
+  })
 
   const containerStyle: React.CSSProperties = targetRect.visible
     ? {
@@ -435,7 +439,7 @@ export const SingletonYouTubePlayer: React.FC = () => {
         id="youtube-player-iframe"
         ref={iframeRef}
         key="vynora-single-yt-iframe"
-        src={iframeSrc}
+        src={stableIframeSrc}
         title={currentTrack?.title || 'Vynora Singleton YouTube Player'}
         onLoad={handleIframeLoad}
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"

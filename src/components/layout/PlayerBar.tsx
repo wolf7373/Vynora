@@ -80,24 +80,16 @@ export const PlayerBar: React.FC = () => {
       prevVolumeRef.current = newVol
     }
     adapterManager.setVolume(newVol)
-    usePlayerStore.getState().setVolume(newVol)
   }
 
   const handleToggleMute = () => {
     if (isMuted || volume === 0) {
       const restoreVol = prevVolumeRef.current > 0 ? prevVolumeRef.current : 0.8
+      prevVolumeRef.current = restoreVol
       adapterManager.setVolume(restoreVol)
-      usePlayerStore.getState().setVolume(restoreVol)
-      if (usePlayerStore.getState().isMuted) {
-        usePlayerStore.getState().toggleMute()
-      }
     } else {
       prevVolumeRef.current = volume > 0 ? volume : 0.8
       adapterManager.setVolume(0)
-      usePlayerStore.getState().setVolume(0)
-      if (!usePlayerStore.getState().isMuted) {
-        usePlayerStore.getState().toggleMute()
-      }
     }
   }
 

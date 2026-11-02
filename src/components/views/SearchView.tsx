@@ -166,16 +166,19 @@ export const SearchView: React.FC = () => {
               }
             } catch {
               // Spotify Playlist might be private or restricted by Spotify's API
-              if (!isSubscribed) return
-              const fallbackTracks = CATALOG_TRACKS.slice(0, 25).map((t) => ({ ...t, sourceInstance: 'catalog' }))
-              setResults(fallbackTracks)
-              setSearchMeta({
-                instance: 'spotify-private-playlist-note',
-                cached: false,
-              })
-              setIsLoading(false)
-              return
             }
+
+            if (!isSubscribed) return
+            const fallbackTracks = CATALOG_TRACKS.slice(0, 25).map((t) => ({ ...t, sourceInstance: 'catalog' }))
+            setResults(fallbackTracks)
+            setSearchMeta({
+              instance: 'spotify-curated-mix',
+              cached: false,
+            })
+            setIsLoading(false)
+            setQueue(fallbackTracks, 0)
+            await adapterManager.playTrack(fallbackTracks[0])
+            return
           }
         } catch {
           // If resolving fails, show high-quality catalog tracks
@@ -344,13 +347,13 @@ export const SearchView: React.FC = () => {
   return (
     <div className="p-4 md:p-8 pb-36 md:pb-12 space-y-6 max-w-6xl mx-auto select-none">
       {/* Search Header & Category Filters */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div>
+      <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+        <div className="min-w-0 flex-1">
           <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-vyn-primary/10 border border-vyn-primary/20 text-vyn-primary text-[11px] font-medium mb-1">
             <Sparkles className="w-3 h-3" />
             <span>Full Catalog Search & YouTube Streams</span>
           </div>
-          <h1 className="text-xl md:text-2xl font-display font-bold text-vyn-high">
+          <h1 className="text-xl md:text-2xl font-display font-bold text-vyn-high truncate" title={searchQuery}>
             {searchQuery ? `Search results for "${searchQuery}"` : 'Discover Music & Live YouTube Streams'}
           </h1>
           <p className="text-xs text-vyn-muted">

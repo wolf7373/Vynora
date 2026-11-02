@@ -36,6 +36,7 @@ declare global {
 export interface YTPlayerInstance {
   loadVideoById: (videoId: string, startSeconds?: number) => void
   cueVideoById: (videoId: string, startSeconds?: number) => void
+  loadPlaylist?: (playlist: string | { list: string; listType: string }, index?: number, startSeconds?: number) => void
   playVideo: () => void
   pauseVideo: () => void
   stopVideo: () => void
@@ -57,6 +58,7 @@ export class YouTubeAdapter implements PlaybackAdapter {
   private pollInterval: ReturnType<typeof setInterval> | null = null
   private isReady = false
   private currentTrack: Track | null = null
+  private currentVideoId: string | null = null
   private containerId = 'vynora-yt-audio-engine'
   private simFFTData = new Uint8Array(64)
   private animFrame = 0
@@ -257,11 +259,14 @@ export class YouTubeAdapter implements PlaybackAdapter {
     this.callbacks.onStateChange('loading')
 
     const videoId = track.youtubeId || ''
-    if (!videoId) {
+    const playlistId = track.youtubePlaylistId || ''
+
+    if (!videoId && !playlistId) {
       this.callbacks.onError('Missing YouTube video ID')
       return
     }
 
+    const key = playlistId ? `list-${playlistId}` : videoId
     const isSingletonActive =
       typeof document !== 'undefined' &&
       (document.getElementById('youtube-player-iframe') ||
@@ -269,7 +274,14 @@ export class YouTubeAdapter implements PlaybackAdapter {
 
     if (isSingletonActive) {
       this.isReady = true
-      this.sendIframeCommand('loadVideoById', [videoId])
+      if (this.currentVideoId !== key) {
+        this.currentVideoId = key
+        if (playlistId) {
+          this.sendIframeCommand('loadPlaylist', [{ list: playlistId, listType: 'playlist' }])
+        } else {
+          this.sendIframeCommand('loadVideoById', [videoId])
+        }
+      }
       this.sendIframeCommand('playVideo')
       return
     }
@@ -278,7 +290,12 @@ export class YouTubeAdapter implements PlaybackAdapter {
       await this.init()
     }
     if (this.player) {
-      this.player.loadVideoById(videoId)
+      this.currentVideoId = key
+      if (playlistId && this.player.loadPlaylist) {
+        this.player.loadPlaylist({ list: playlistId, listType: 'playlist' })
+      } else {
+        this.player.loadVideoById(videoId)
+      }
     }
   }
 

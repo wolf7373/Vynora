@@ -270,3 +270,4 @@ Implemented in `src/components/3d/`:
 3. **Opening Now Playing Screen:** Tap anywhere on the bottom player bar to slide up the full-screen card, lyrics, or video.
 4. **Lock Screen / Background Play:** Lock your phone or switch apps—playback continues uninterrupted with notification controls enabled.
 5. **Switching to 3D Visualizer:** Click the **Studio** tab on mobile or **3D Studio** on desktop to watch the audio-reactive 3D turntable and particle waves.
+

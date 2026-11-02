@@ -54,8 +54,6 @@ export const MobileNowPlayingDrawer: React.FC = () => {
     isShuffle,
     cycleRepeatMode,
     toggleShuffle,
-    setVolume,
-    toggleMute,
   } = usePlayerStore()
 
   const { toggleLikeTrack, isLiked } = usePlaylistStore()
@@ -303,20 +301,16 @@ export const MobileNowPlayingDrawer: React.FC = () => {
       prevVolumeRef.current = newVol
     }
     adapterManager.setVolume(newVol)
-    setVolume(newVol)
   }
 
   const handleToggleMute = () => {
     if (isMuted || volume === 0) {
       const restoreVol = prevVolumeRef.current > 0 ? prevVolumeRef.current : 0.8
+      prevVolumeRef.current = restoreVol
       adapterManager.setVolume(restoreVol)
-      setVolume(restoreVol)
-      if (isMuted) toggleMute()
     } else {
       prevVolumeRef.current = volume > 0 ? volume : 0.8
       adapterManager.setVolume(0)
-      setVolume(0)
-      if (!isMuted) toggleMute()
     }
   }
 
