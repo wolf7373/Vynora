@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Home, Search, Library, Download, Disc3, Plus, Music2, Radio, Heart } from 'lucide-react'
+import { Home, Search, Library, Download, Disc3, Cpu, Plus, Music2, Radio, Heart } from 'lucide-react'
 import { VynoraLogo } from '@/components/common/VynoraLogo'
 import { useUIStore } from '@/stores/useUIStore'
 import { usePlaylistStore } from '@/stores/usePlaylistStore'
@@ -19,6 +19,7 @@ export const LeftSidebar: React.FC = () => {
     { tab: 'library', label: 'Your Library', icon: Library },
     { tab: 'downloaded', label: 'Downloaded', icon: Download },
     { tab: 'visualizer', label: '3D Studio', icon: Disc3 },
+    { tab: 'workstation', label: 'Workstation', icon: Cpu },
   ]
 
   const handleCreatePlaylist = () => {

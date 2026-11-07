@@ -5,6 +5,7 @@ import { SearchView } from '../views/SearchView'
 import { LibraryView } from '../views/LibraryView'
 import { DownloadedView } from '../views/DownloadedView'
 import { VisualizerView } from '../views/VisualizerView'
+import { WorkstationView } from '../views/WorkstationView'
 import { useUIStore } from '@/stores/useUIStore'
 
 export const CenterViewport: React.FC = () => {
@@ -22,6 +23,8 @@ export const CenterViewport: React.FC = () => {
         return <DownloadedView />
       case 'visualizer':
         return <VisualizerView />
+      case 'workstation':
+        return <WorkstationView />
       default:
         return <HomeView />
     }

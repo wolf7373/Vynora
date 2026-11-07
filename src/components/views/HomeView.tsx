@@ -213,7 +213,7 @@ export const HomeView: React.FC = () => {
             <button
               onClick={handlePlayInstantMix}
               aria-label="Play Instant Mix"
-              className="min-h-[44px] px-6 py-2.5 rounded-full bg-gradient-to-r from-accent-cyan to-accent-violet text-canvas-base font-bold text-xs md:text-sm flex items-center gap-2.5 shadow-glow-cyan hover:opacity-95 active:scale-95 transition-all"
+              className="min-h-[44px] px-6 py-2.5 rounded-full bg-vyn-primary text-vyn-canvas font-bold text-xs md:text-sm flex items-center gap-2.5 shadow-glow-cyan hover:opacity-95 active:scale-95 transition-transform transition-opacity motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-vyn-primary focus-visible:outline-none"
             >
               <Play className="w-4 h-4 fill-current ml-0.5" />
               <span>Play Instant Mix</span>
@@ -222,7 +222,7 @@ export const HomeView: React.FC = () => {
             <button
               onClick={handleShuffleInstantMix}
               aria-label="Shuffle Instant Mix"
-              className="min-h-[44px] px-5 py-2.5 rounded-full bg-canvas-elevated hover:bg-white/10 text-vyn-high font-medium text-xs md:text-sm border border-vyn-border flex items-center gap-2 transition-all active:scale-95"
+              className="min-h-[44px] px-5 py-2.5 rounded-full bg-canvas-elevated hover:bg-white/10 text-vyn-high font-medium text-xs md:text-sm border border-vyn-border flex items-center gap-2 transition-colors active:scale-95 motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-vyn-primary focus-visible:outline-none"
             >
               <Shuffle className="w-4 h-4" />
               <span>Shuffle</span>
@@ -231,7 +231,7 @@ export const HomeView: React.FC = () => {
             <button
               onClick={handleSurpriseMe}
               aria-label="Surprise Me"
-              className="min-h-[44px] px-5 py-2.5 rounded-full bg-amber-400/10 hover:bg-amber-400/20 text-amber-300 font-semibold text-xs md:text-sm border border-amber-400/30 flex items-center gap-2 transition-all active:scale-95 shadow-sm"
+              className="min-h-[44px] px-5 py-2.5 rounded-full bg-amber-400/10 hover:bg-amber-400/20 text-amber-300 font-semibold text-xs md:text-sm border border-amber-400/30 flex items-center gap-2 transition-colors active:scale-95 motion-reduce:transition-none shadow-sm focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:outline-none"
             >
               <Sparkles className="w-4 h-4 text-amber-400 animate-pulse" />
               <span>Surprise Me!</span>
@@ -248,16 +248,16 @@ export const HomeView: React.FC = () => {
             setActivePlaylistId('liked-songs')
             setActiveTab('library')
           }}
-          className="glass-panel p-2.5 rounded-xl border border-vyn-border hover:border-vyn-primary/40 flex items-center gap-3 cursor-pointer group hover:bg-white/5 transition-all shadow-sm"
+          className="glass-panel p-2.5 rounded-xl border border-vyn-border hover:border-vyn-primary/40 flex items-center gap-3 cursor-pointer group hover:bg-white/5 transition-colors shadow-sm"
         >
-          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0 text-white shadow-md">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-vyn-primary/20 border border-vyn-primary/30 flex items-center justify-center flex-shrink-0 text-vyn-primary shadow-md">
             <Heart className="w-5 h-5 fill-current" />
           </div>
           <div className="min-w-0 flex-1">
             <span className="text-xs sm:text-sm font-bold text-vyn-high group-hover:text-vyn-primary truncate block transition-colors">
               Liked Songs
             </span>
-            <span className="text-[10px] text-vyn-muted font-mono block">
+            <span className="text-[10px] text-vyn-muted block">
               {likedTracks.length} saved
             </span>
           </div>
@@ -271,7 +271,7 @@ export const HomeView: React.FC = () => {
               setActivePlaylistId(pl.id)
               setActiveTab('library')
             }}
-            className="glass-panel p-2.5 rounded-xl border border-vyn-border hover:border-vyn-primary/40 flex items-center gap-3 cursor-pointer group hover:bg-white/5 transition-all shadow-sm"
+            className="glass-panel p-2.5 rounded-xl border border-vyn-border hover:border-vyn-primary/40 flex items-center gap-3 cursor-pointer group hover:bg-white/5 transition-colors shadow-sm"
           >
             <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-vyn-surface overflow-hidden flex-shrink-0 border border-white/5">
               {pl.coverUrl ? (
@@ -284,7 +284,7 @@ export const HomeView: React.FC = () => {
               <span className="text-xs sm:text-sm font-bold text-vyn-high group-hover:text-vyn-primary truncate block transition-colors">
                 {pl.name}
               </span>
-              <span className="text-[10px] text-vyn-muted font-mono block">
+              <span className="text-[10px] text-vyn-muted block">
                 {pl.tracks.length} tracks
               </span>
             </div>
@@ -300,7 +300,7 @@ export const HomeView: React.FC = () => {
             <button
               key={chip.id}
               onClick={() => setSelectedVibeFilter(chip.id)}
-              className={`min-h-[44px] px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap flex-shrink-0 transition-all duration-200 ${
+              className={`min-h-[44px] px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap flex-shrink-0 transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-vyn-primary focus-visible:outline-none ${
                 isSelected
                   ? 'bg-vyn-primary text-vyn-canvas shadow-glow-cyan font-bold ring-2 ring-vyn-primary/30'
                   : 'bg-canvas-elevated text-vyn-muted hover:text-vyn-high hover:bg-white/5 border border-vyn-border'
@@ -330,21 +330,21 @@ export const HomeView: React.FC = () => {
             <div
               key={mix.id}
               onClick={() => handlePlayDailyMix(mix.id)}
-              className="glass-panel p-4 rounded-2xl border border-vyn-border hover:border-vyn-primary/40 transition-all duration-300 group cursor-pointer relative"
+              className="glass-panel p-4 rounded-2xl border border-vyn-border hover:border-vyn-primary/40 transition-colors duration-200 group cursor-pointer relative"
             >
               <div className="w-full aspect-square rounded-xl bg-vyn-canvas overflow-hidden mb-3 relative border border-vyn-border">
                 <img
                   src={mix.cover}
                   alt={mix.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 motion-reduce:transition-none"
                 />
-                <span className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-full bg-black/70 backdrop-blur-md text-[10px] font-bold text-accent-cyan border border-white/10 uppercase">
+                <span className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-full bg-black/70 backdrop-blur-md text-[10px] font-medium text-accent-cyan border border-white/10">
                   {mix.badge}
                 </span>
 
                 <button
                   aria-label={`Play ${mix.title}`}
-                  className="min-h-[44px] min-w-[44px] w-12 h-12 rounded-full bg-vyn-primary text-vyn-canvas absolute bottom-2.5 right-2.5 flex items-center justify-center opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all shadow-glow-cyan"
+                  className="min-h-[44px] min-w-[44px] w-12 h-12 rounded-full bg-vyn-primary text-vyn-canvas absolute bottom-2.5 right-2.5 flex items-center justify-center opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-opacity transition-transform motion-reduce:transition-none shadow-glow-cyan focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-vyn-primary"
                 >
                   <Play className="w-5 h-5 fill-current ml-0.5" />
                 </button>
@@ -382,7 +382,7 @@ export const HomeView: React.FC = () => {
               <div
                 key={track.id}
                 onClick={() => handlePlaySong(track, recommendedTracks)}
-                className={`glass-panel p-3 rounded-2xl border transition-all duration-300 group cursor-pointer relative flex flex-col justify-between ${
+                className={`glass-panel p-3 rounded-2xl border transition-colors duration-200 group cursor-pointer relative flex flex-col justify-between ${
                   isCurrent
                     ? 'border-vyn-primary/60 bg-vyn-primary/5 shadow-glow-cyan'
                     : 'border-vyn-border hover:border-vyn-primary/30'
@@ -394,7 +394,7 @@ export const HomeView: React.FC = () => {
                       <img
                         src={track.coverUrl}
                         alt={track.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 motion-reduce:transition-none"
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
@@ -409,7 +409,7 @@ export const HomeView: React.FC = () => {
                         toggleLikeTrack(track)
                       }}
                       aria-label={liked ? 'Unlike song' : 'Like song'}
-                      className="min-h-[44px] min-w-[44px] absolute top-1.5 right-1.5 p-2 rounded-full bg-black/60 backdrop-blur-md flex items-center justify-center text-text-muted hover:text-white transition-colors z-20"
+                      className="min-h-[44px] min-w-[44px] absolute top-1.5 right-1.5 p-2 rounded-full bg-black/60 backdrop-blur-md flex items-center justify-center text-text-muted hover:text-white transition-colors z-20 focus-visible:ring-2 focus-visible:ring-vyn-primary"
                     >
                       <Heart
                         className={`w-4 h-4 ${
@@ -421,7 +421,7 @@ export const HomeView: React.FC = () => {
                     {/* Floating Play Button */}
                     <button
                       aria-label={`Play ${track.title}`}
-                      className="min-h-[44px] min-w-[44px] w-11 h-11 rounded-full bg-vyn-primary text-vyn-canvas absolute bottom-2 right-2 flex items-center justify-center opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all shadow-glow-cyan z-20"
+                      className="min-h-[44px] min-w-[44px] w-11 h-11 rounded-full bg-vyn-primary text-vyn-canvas absolute bottom-2 right-2 flex items-center justify-center opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-opacity transition-transform motion-reduce:transition-none shadow-glow-cyan z-20 focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-vyn-primary"
                     >
                       <Play className="w-5 h-5 fill-current ml-0.5" />
                     </button>
@@ -458,7 +458,7 @@ export const HomeView: React.FC = () => {
           </div>
           <button
             onClick={() => setActiveTab('library')}
-            className="min-h-[44px] min-w-[44px] px-3 py-1.5 text-xs text-accent-cyan font-semibold flex items-center gap-1 hover:underline"
+            className="min-h-[44px] min-w-[44px] px-3 py-1.5 text-xs text-accent-cyan font-semibold flex items-center gap-1 hover:underline focus-visible:ring-2 focus-visible:ring-vyn-primary"
           >
             <span>View All in Library</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -473,7 +473,7 @@ export const HomeView: React.FC = () => {
                 setActivePlaylistId(pl.id)
                 setActiveTab('library')
               }}
-              className="glass-panel p-4 rounded-2xl border border-vyn-border hover:border-vyn-primary/40 transition-all flex items-center gap-4 cursor-pointer group"
+              className="glass-panel p-4 rounded-2xl border border-vyn-border hover:border-vyn-primary/40 transition-colors flex items-center gap-4 cursor-pointer group focus-visible:ring-2 focus-visible:ring-vyn-primary"
             >
               <div className="w-16 h-16 rounded-xl bg-canvas-base overflow-hidden flex-shrink-0 border border-white/5">
                 {pl.coverUrl ? (
@@ -487,7 +487,7 @@ export const HomeView: React.FC = () => {
                   {pl.name}
                 </h3>
                 <p className="text-xs text-text-muted truncate mb-1">{pl.description}</p>
-                <span className="text-[10px] font-mono text-accent-cyan font-bold">
+                <span className="text-[10px] text-accent-cyan font-bold">
                   {pl.tracks.length} tracks
                 </span>
               </div>

@@ -357,7 +357,7 @@ export const SearchView: React.FC = () => {
             {searchQuery ? `Search results for "${searchQuery}"` : 'Discover Music & Live YouTube Streams'}
           </h1>
           <p className="text-xs text-vyn-muted">
-            All songs available • Verified official YouTube streams • Instant synchronized lyrics
+            All songs available, verified official YouTube streams, and synchronized lyrics
           </p>
         </div>
 
@@ -375,7 +375,7 @@ export const SearchView: React.FC = () => {
             <button
               key={cat.id}
               onClick={() => setActiveCategory(cat.id)}
-              className={`min-h-[44px] min-w-[44px] px-3.5 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap flex-shrink-0 transition-all ${
+              className={`min-h-[44px] min-w-[44px] px-3.5 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap flex-shrink-0 transition-colors focus-visible:ring-2 focus-visible:ring-vyn-primary focus-visible:outline-none ${
                 activeCategory === cat.id
                   ? 'bg-vyn-primary text-vyn-canvas font-semibold shadow-glow-cyan'
                   : 'text-vyn-muted hover:text-vyn-high'
@@ -394,7 +394,7 @@ export const SearchView: React.FC = () => {
           <button
             key={tag}
             onClick={() => setSearchQuery(tag)}
-            className="min-h-[44px] min-w-[44px] px-3 py-1.5 rounded-full text-xs bg-canvas-elevated hover:bg-white/10 text-vyn-high/80 hover:text-vyn-primary border border-vyn-border whitespace-nowrap flex-shrink-0 transition-all active:scale-95"
+            className="min-h-[44px] min-w-[44px] px-3 py-1.5 rounded-full text-xs bg-canvas-elevated hover:bg-white/10 text-vyn-high/80 hover:text-vyn-primary border border-vyn-border whitespace-nowrap flex-shrink-0 transition-colors active:scale-95 motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-vyn-primary focus-visible:outline-none"
           >
             {tag}
           </button>
@@ -407,28 +407,28 @@ export const SearchView: React.FC = () => {
           {isLoading ? (
             <span className="flex items-center gap-1.5 text-vyn-primary">
               <Loader2 className="w-3.5 h-3.5 animate-spin" />
-              <span>Searching music streams...</span>
+              <span>Searching music streams…</span>
             </span>
           ) : searchMeta ? (
-            <span className="font-mono text-[11px]">
+            <span className="text-[11px]">
               Engine: <strong className="text-vyn-high">{searchMeta.instance}</strong> {searchMeta.cached && '(cached)'}
             </span>
           ) : (
-            <span className="font-mono text-[11px]">
+            <span className="text-[11px]">
               Showing <strong className="text-vyn-high">{displayedTracks.length} tracks</strong> from catalog
             </span>
           )}
         </div>
 
-        <div className="flex items-center gap-1 text-[11px] text-vyn-primary/90 font-mono">
+        <div className="flex items-center gap-1 text-[11px] text-vyn-primary/90">
           <Filter className="w-3 h-3" />
-          <span>Full length tracks • Verified official YouTube streams</span>
+          <span>Full length tracks, verified official YouTube streams</span>
         </div>
       </div>
 
       {/* Track Results List */}
       <div className="glass-panel rounded-2xl border border-vyn-border overflow-hidden">
-        <div className="px-5 py-3 border-b border-vyn-border/60 grid grid-cols-12 text-[11px] font-bold uppercase tracking-wider text-vyn-muted">
+        <div className="px-5 py-3 border-b border-vyn-border/60 grid grid-cols-12 text-[11px] font-semibold text-vyn-muted">
           <span className="col-span-1">#</span>
           <span className="col-span-6 sm:col-span-5">Title & Artist</span>
           <span className="hidden sm:block sm:col-span-4">Source</span>
@@ -475,7 +475,7 @@ export const SearchView: React.FC = () => {
                 <div
                   key={`${track.id}-${idx}`}
                   onClick={() => handlePlaySong(track, idx)}
-                  className={`px-5 py-3 grid grid-cols-12 items-center transition-all group cursor-pointer border-l-4 ${
+                  className={`px-5 py-3 grid grid-cols-12 items-center transition-colors group cursor-pointer border-l-4 ${
                     isCurrent
                       ? 'bg-vyn-primary/10 border-vyn-primary shadow-sm'
                       : 'border-transparent hover:bg-white/5'
@@ -533,8 +533,8 @@ export const SearchView: React.FC = () => {
                   </div>
 
                   {/* Source Engine */}
-                  <div className="hidden sm:block sm:col-span-4 text-xs text-vyn-muted truncate pr-2 font-mono">
-                    <span className="text-[10px] px-2 py-0.5 rounded bg-vyn-elevated border border-vyn-border uppercase font-semibold text-vyn-secondary">
+                  <div className="hidden sm:block sm:col-span-4 text-xs text-vyn-muted truncate pr-2">
+                    <span className="text-[10px] px-2 py-0.5 rounded bg-vyn-elevated border border-vyn-border font-semibold text-vyn-secondary">
                       {track.source === 'youtube' ? 'YouTube Full' : 'Local Audio'}
                     </span>
                   </div>
@@ -552,7 +552,7 @@ export const SearchView: React.FC = () => {
                       }}
                       title={liked ? 'Unlike' : 'Like'}
                       aria-label={`Like ${track.title}`}
-                      className="min-h-[44px] min-w-[44px] w-9 h-9 rounded-lg hover:bg-white/10 flex items-center justify-center text-vyn-muted hover:text-white transition-all active:scale-95"
+                      className="min-h-[44px] min-w-[44px] w-9 h-9 rounded-lg hover:bg-white/10 flex items-center justify-center text-vyn-muted hover:text-white transition-colors active:scale-95 motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-vyn-primary focus-visible:outline-none"
                     >
                       <Heart className={`w-4 h-4 ${liked ? 'fill-red-500 text-red-500' : 'text-vyn-muted'}`} />
                     </button>
@@ -564,7 +564,7 @@ export const SearchView: React.FC = () => {
                       }}
                       title="Add to playlist"
                       aria-label={`Add ${track.title} to playlist`}
-                      className="min-h-[44px] min-w-[44px] w-9 h-9 rounded-lg hover:bg-white/10 flex items-center justify-center text-vyn-muted hover:text-vyn-primary transition-all active:scale-95 cursor-pointer"
+                      className="min-h-[44px] min-w-[44px] w-9 h-9 rounded-lg hover:bg-white/10 flex items-center justify-center text-vyn-muted hover:text-vyn-primary transition-colors active:scale-95 cursor-pointer motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-vyn-primary focus-visible:outline-none"
                     >
                       <Plus className="w-4 h-4" />
                     </button>

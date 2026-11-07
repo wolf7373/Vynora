@@ -1,7 +1,7 @@
 import type { VisualizerMode } from './player'
 import type { Track } from './track'
 
-export type NavTab = 'home' | 'search' | 'library' | 'visualizer' | 'downloaded'
+export type NavTab = 'home' | 'search' | 'library' | 'visualizer' | 'downloaded' | 'workstation'
 
 export type RightSidebarView = 'video' | 'lyrics' | 'closed'
 
