@@ -41,6 +41,17 @@ export const SingletonYouTubePlayer: React.FC = () => {
   const youtubeId = currentTrack?.youtubeId || ''
   const youtubePlaylistId = currentTrack?.youtubePlaylistId || ''
 
+  // Stable singleton iframe source that NEVER reloads during runtime.
+  // Must be declared at top-level unconditionally so React hook count is strictly identical across all renders!
+  const [stableIframeSrc] = useState<string>(() => {
+    const originParam = typeof window !== 'undefined' ? encodeURIComponent(window.location.origin) : ''
+    if (youtubePlaylistId) {
+      return `https://www.youtube-nocookie.com/embed/videoseries?list=${youtubePlaylistId}&autoplay=1&enablejsapi=1&rel=0&playsinline=1&origin=${originParam}`
+    }
+    const initialVid = youtubeId || 'M7lc1UVf-VE'
+    return `https://www.youtube-nocookie.com/embed/${initialVid}?autoplay=1&enablejsapi=1&rel=0&playsinline=1&origin=${originParam}`
+  })
+
   // 1. Silent Audio Background Loop & Screen Wake Lock for Mobile Background Playback
   useEffect(() => {
     if (typeof window === 'undefined') return
@@ -367,29 +378,9 @@ export const SingletonYouTubePlayer: React.FC = () => {
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [isFullscreen])
 
-  if (!youtubeId && !youtubePlaylistId) {
-    return (
-      <div
-        id="vynora-singleton-yt-host"
-        className="fixed -top-[9999px] -left-[9999px] w-[1px] h-[1px] opacity-0 pointer-events-none overflow-hidden"
-        aria-hidden="true"
-      />
-    )
-  }
+  const hasActiveMedia = Boolean(youtubeId || youtubePlaylistId)
 
-  // Stable singleton iframe source that NEVER reloads during runtime.
-  // Video switches, mute, volume, seek, and playback states are controlled exclusively via postMessage.
-  // Dynamic parameters like `mute=${...}` are strictly excluded to prevent browser iframe re-navigation & time resets.
-  const [stableIframeSrc] = useState<string>(() => {
-    const originParam = typeof window !== 'undefined' ? encodeURIComponent(window.location.origin) : ''
-    if (youtubePlaylistId) {
-      return `https://www.youtube-nocookie.com/embed/videoseries?list=${youtubePlaylistId}&autoplay=1&enablejsapi=1&rel=0&playsinline=1&origin=${originParam}`
-    }
-    const initialVid = youtubeId || 'M7lc1UVf-VE'
-    return `https://www.youtube-nocookie.com/embed/${initialVid}?autoplay=1&enablejsapi=1&rel=0&playsinline=1&origin=${originParam}`
-  })
-
-  const containerStyle: React.CSSProperties = targetRect.visible
+  const containerStyle: React.CSSProperties = (hasActiveMedia && targetRect.visible)
     ? {
       position: 'fixed',
       top: `${targetRect.top}px`,
