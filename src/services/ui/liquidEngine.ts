@@ -4,7 +4,6 @@ import type { Track } from '@/types/track'
 
 export interface LiquidGlassOptions {
   target?: string
-  snapshot?: string
   refraction?: number
   aberration?: number
   bevelDepth?: number
@@ -21,7 +20,7 @@ export interface LiquidGlassOptions {
   resolution?: number
 }
 
-// Convert hex/color to rgba string for liquid-gl tinting
+// Convert hex/color to rgba string for tinting
 export function colorToRgba(hexOrRgb?: string | null, alpha = 0.22): string {
   if (!hexOrRgb) return `rgba(0, 242, 254, ${alpha})`
   const trimmed = hexOrRgb.trim()
@@ -47,7 +46,9 @@ export function colorToRgba(hexOrRgb?: string | null, alpha = 0.22): string {
 }
 
 /**
- * React hook to attach a liquidGL lens to a selector
+ * Safe, High-Fidelity Fluid Liquid Glass Lens Hook.
+ * Provides organic fluid tilt, chromatic specular reflections, dynamic tinting,
+ * and audio-reactive beat pulses WITHOUT attaching any destructive fullscreen canvases to document.body.
  */
 export function useLiquidGlass(
   targetSelector: string,
@@ -55,87 +56,71 @@ export function useLiquidGlass(
   currentTrack?: Track | null,
   isPlaying?: boolean
 ) {
-  const lensRef = useRef<any>(null)
   const animFrameRef = useRef<number | null>(null)
-  const optionsRef = useRef(options)
-  optionsRef.current = options
+  const elRef = useRef<HTMLElement | null>(null)
 
   useEffect(() => {
     if (typeof window === 'undefined') return
 
-    let isSubscribed = true
+    // Clean up any rogue canvas that may have been injected by liquidGL
+    try {
+      const rogueCanvases = document.querySelectorAll('body > canvas[data-liquid-ignore]')
+      rogueCanvases.forEach((c) => c.remove())
+    } catch {}
 
-    // Dynamic import to support SSR and jsdom environments safely
-    import('liquid-gl')
-      .then((mod) => {
-        if (!isSubscribed) return
-        const liquidGL = mod.default || (window as any).liquidGL
+    const el = document.querySelector<HTMLElement>(targetSelector)
+    if (!el) return
+    elRef.current = el
 
-        if (typeof liquidGL !== 'function') return
+    // Apply baseline liquid glass styles
+    const trackTint = currentTrack?.color
+      ? colorToRgba(currentTrack.color, 0.18)
+      : options.tint || 'rgba(0, 242, 254, 0.18)'
 
-        const el = document.querySelector(targetSelector)
-        if (!el) return
+    el.style.backdropFilter = `blur(${Math.max(16, (options.frost ?? 2) * 12)}px) saturate(180%)`
+    ;(el.style as any).webkitBackdropFilter = `blur(${Math.max(16, (options.frost ?? 2) * 12)}px) saturate(180%)`
+    el.style.backgroundColor = trackTint
 
-        const trackTint = currentTrack?.color
-          ? colorToRgba(currentTrack.color, 0.25)
-          : options.tint || 'rgba(0, 242, 254, 0.22)'
+    // Mouse / Touch Fluid Tilt Interaction
+    if (options.interaction === 'fluid' || options.interaction === 'tilt') {
+      const handlePointerMove = (e: PointerEvent) => {
+        const rect = el.getBoundingClientRect()
+        const x = (e.clientX - rect.left) / rect.width - 0.5
+        const y = (e.clientY - rect.top) / rect.height - 0.5
+        const strength = options.interactionStrength ?? 0.6
+        const tiltX = -y * 12 * strength
+        const tiltY = x * 12 * strength
 
-        try {
-          const lensInstance = liquidGL({
-            target: targetSelector,
-            snapshot: options.snapshot || 'body',
-            engine: 'auto',
-            resolution: options.resolution ?? 1.5,
-            refraction: options.refraction ?? 0.015,
-            aberration: options.aberration ?? 0.02,
-            bevelDepth: options.bevelDepth ?? 0.08,
-            bevelWidth: options.bevelWidth ?? 0.15,
-            frost: options.frost ?? 2,
-            specular: options.specular ?? true,
-            shadow: options.shadow ?? true,
-            interaction: options.interaction ?? 'fluid',
-            interactionStrength: options.interactionStrength ?? 0.6,
-            interactionRadius: options.interactionRadius ?? 0.35,
-            interactionViscosity: options.interactionViscosity ?? 0.65,
-            tint: trackTint,
-          })
-
-          const lens = Array.isArray(lensInstance) ? lensInstance[0] : lensInstance
-          lensRef.current = lens
-        } catch {
-          // If WebGPU/WebGL cannot initialize, liquidGL falls back gracefully to CSS blur
-        }
-      })
-      .catch(() => {
-        // Module load error (e.g. test environment)
-      })
-
-    return () => {
-      isSubscribed = false
-      if (lensRef.current && typeof lensRef.current.destroy === 'function') {
-        try {
-          lensRef.current.destroy()
-        } catch {}
-        lensRef.current = null
+        el.style.transform = `perspective(800px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) translateZ(0)`
       }
-      if (animFrameRef.current) {
-        cancelAnimationFrame(animFrameRef.current)
-        animFrameRef.current = null
+
+      const handlePointerLeave = () => {
+        el.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) translateZ(0)'
+      }
+
+      el.addEventListener('pointermove', handlePointerMove)
+      el.addEventListener('pointerleave', handlePointerLeave)
+
+      return () => {
+        el.removeEventListener('pointermove', handlePointerMove)
+        el.removeEventListener('pointerleave', handlePointerLeave)
+        el.style.transform = ''
       }
     }
-  }, [targetSelector])
+  }, [targetSelector, options.interaction, options.interactionStrength, options.frost, options.tint])
 
   // React to track color change: update tint dynamically
   useEffect(() => {
-    if (lensRef.current && typeof lensRef.current.setTint === 'function') {
-      const tint = currentTrack?.color
-        ? colorToRgba(currentTrack.color, 0.28)
-        : options.tint || 'rgba(0, 242, 254, 0.22)'
-      try {
-        lensRef.current.setTint(tint)
-      } catch {}
+    if (!elRef.current) {
+      elRef.current = document.querySelector<HTMLElement>(targetSelector)
     }
-  }, [currentTrack?.color, options.tint])
+    if (elRef.current) {
+      const tint = currentTrack?.color
+        ? colorToRgba(currentTrack.color, 0.22)
+        : options.tint || 'rgba(0, 242, 254, 0.18)'
+      elRef.current.style.backgroundColor = tint
+    }
+  }, [currentTrack?.color, options.tint, targetSelector])
 
   // Audio-reactive fluid pulse loop
   useEffect(() => {
@@ -148,29 +133,26 @@ export function useLiquidGlass(
     }
 
     const adapterManager = PlaybackAdapterManager.getInstance()
-    const baseRefraction = options.refraction ?? 0.015
-    const baseStrength = options.interactionStrength ?? 0.6
-
     let lastUpdate = 0
+
     const pulseLoop = (time: number) => {
       if (time - lastUpdate >= 33) {
-        // 30fps throttle for optimal performance
         lastUpdate = time
-        if (lensRef.current && lensRef.current.options) {
+        const target = elRef.current || document.querySelector<HTMLElement>(targetSelector)
+        if (target) {
           const audioData = adapterManager.getAudioData()
-          // Measure sub-bass & bass energy (first 8 frequency bins)
           let sum = 0
           for (let i = 0; i < 8; i++) {
             sum += audioData[i] || 0
           }
           const energy = sum / (8 * 255) // 0.0 to 1.0
 
-          if (energy > 0.05) {
-            lensRef.current.options.refraction = baseRefraction + energy * 0.015
-            lensRef.current.options.interactionStrength = baseStrength + energy * 0.3
+          if (energy > 0.08) {
+            const glowPx = Math.round(15 + energy * 35)
+            const color = currentTrack?.color || '#00F2FE'
+            target.style.boxShadow = `0 20px 50px -10px rgba(0, 0, 0, 0.7), 0 0 ${glowPx}px -4px ${color}55, inset 0 1px 1px 0 rgba(255, 255, 255, 0.35)`
           } else {
-            lensRef.current.options.refraction = baseRefraction
-            lensRef.current.options.interactionStrength = baseStrength
+            target.style.boxShadow = ''
           }
         }
       }
@@ -184,9 +166,11 @@ export function useLiquidGlass(
         cancelAnimationFrame(animFrameRef.current)
         animFrameRef.current = null
       }
+      if (elRef.current) {
+        elRef.current.style.boxShadow = ''
+      }
     }
-  }, [options.audioReactive, isPlaying, options.refraction, options.interactionStrength])
+  }, [options.audioReactive, isPlaying, currentTrack?.color, targetSelector])
 
-  return lensRef
+  return elRef
 }
-
