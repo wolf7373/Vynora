@@ -29,7 +29,7 @@ export const LeftSidebar: React.FC = () => {
   }
 
   return (
-    <aside className="w-64 bg-vyn-surface/90 border-r border-vyn-border flex flex-col h-full flex-shrink-0 select-none">
+    <aside className="w-64 liquid-glass-pane border-r border-white/10 flex flex-col h-full flex-shrink-0 select-none">
       {/* Brand Header */}
       <div className="h-16 px-5 border-b border-vyn-border flex items-center gap-3">
         <VynoraLogo className="w-8 h-8" />

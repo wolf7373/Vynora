@@ -60,6 +60,7 @@ export const SearchView: React.FC = () => {
     // Direct Spotify / YouTube Link Detection with Auto-Play & Multi-Track support
     const parsedLink = parseMusicLink(trimmed)
     if (parsedLink) {
+      setActiveCategory('all')
       setIsLoading(true)
       let isSubscribed = true
 
@@ -200,6 +201,22 @@ export const SearchView: React.FC = () => {
     }
 
     const trimmedLower = trimmed.toLowerCase()
+
+    // URL fallback: if a URL was pasted that could not be parsed as a direct stream
+    const isUrlQuery =
+      trimmed.startsWith('http://') ||
+      trimmed.startsWith('https://') ||
+      trimmed.includes('spotify.com') ||
+      trimmed.includes('youtube.com') ||
+      trimmed.includes('youtu.be')
+
+    if (isUrlQuery) {
+      const fallbackTracks = CATALOG_TRACKS.slice(0, 25).map((t) => ({ ...t, sourceInstance: 'catalog' }))
+      setResults(fallbackTracks)
+      setSearchMeta({ instance: 'catalog-recommended', cached: true })
+      setIsLoading(false)
+      return
+    }
 
     // 1. Instant local catalog matches
     const catalogMatches: SearchResultTrack[] = CATALOG_TRACKS.filter((t) => {
@@ -347,8 +364,8 @@ export const SearchView: React.FC = () => {
   return (
     <div className="p-4 md:p-8 pb-36 md:pb-12 space-y-6 max-w-6xl mx-auto select-none">
       {/* Search Header & Category Filters */}
-      <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
-        <div className="min-w-0 flex-1">
+      <div className="w-full flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div className="min-w-0 flex-1 max-w-2xl">
           <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-vyn-primary/10 border border-vyn-primary/20 text-vyn-primary text-[11px] font-medium mb-1">
             <Sparkles className="w-3 h-3" />
             <span>Full Catalog Search & YouTube Streams</span>
@@ -362,7 +379,7 @@ export const SearchView: React.FC = () => {
         </div>
 
         {/* Filter Pills */}
-        <div className="flex items-center gap-1.5 bg-vyn-elevated p-1 rounded-xl border border-vyn-border overflow-x-auto max-w-full flex-shrink-0">
+        <div className="flex items-center gap-1.5 bg-vyn-elevated p-1 rounded-xl border border-vyn-border overflow-x-auto shrink-0 scrollbar-none">
           {(
             [
               { id: 'all', label: 'All Songs' },
@@ -450,7 +467,7 @@ export const SearchView: React.FC = () => {
               ))}
             </div>
           ) : displayedTracks.length === 0 ? (
-            <div className="p-12 text-center">
+            <div className="p-12 text-center space-y-3">
               <Search className="w-10 h-10 text-vyn-muted/50 mx-auto mb-2" />
               <h3 className="text-sm font-semibold text-vyn-high mb-1">
                 {searchQuery.includes('spotify.com/playlist')
@@ -462,6 +479,18 @@ export const SearchView: React.FC = () => {
                   ? 'This Spotify playlist is set to private or requires account login. Try pasting a public YouTube playlist/song or public Spotify track link!'
                   : 'Try searching by song name or artist. Results are filtered to ensure high-quality audio.'}
               </p>
+              <div className="pt-2">
+                <button
+                  onClick={() => {
+                    setSearchQuery('')
+                    setActiveCategory('all')
+                    setResults(CATALOG_TRACKS.map((t) => ({ ...t, sourceInstance: 'catalog' })))
+                  }}
+                  className="min-h-[44px] px-4 py-2 rounded-xl bg-vyn-primary/10 hover:bg-vyn-primary/20 text-vyn-primary border border-vyn-primary/30 text-xs font-semibold transition-all cursor-pointer active:scale-95"
+                >
+                  Explore Verified Catalog
+                </button>
+              </div>
             </div>
           ) : (
             displayedTracks.map((track, idx) => {

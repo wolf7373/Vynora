@@ -13,9 +13,13 @@ export interface ParsedLinkResult {
  * Checks if a search query is a Spotify or YouTube URL
  */
 export function parseMusicLink(query: string): ParsedLinkResult | null {
-  const trimmed = query.trim()
+  let trimmed = query.trim()
   if (!trimmed.startsWith('http://') && !trimmed.startsWith('https://')) {
-    return null
+    if (trimmed.includes('spotify.com') || trimmed.includes('youtube.com') || trimmed.includes('youtu.be')) {
+      trimmed = 'https://' + trimmed
+    } else {
+      return null
+    }
   }
 
   // 1. YouTube Link Detection

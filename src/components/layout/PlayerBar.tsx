@@ -22,6 +22,7 @@ import { useUIStore } from '@/stores/useUIStore'
 import { usePlaylistStore } from '@/stores/usePlaylistStore'
 import { PlaybackAdapterManager } from '@/adapters'
 import { formatTime } from '@/utils/formatTime'
+import { useLiquidGlass } from '@/services/ui/liquidEngine'
 
 export const PlayerBar: React.FC = () => {
   const {
@@ -54,6 +55,23 @@ export const PlayerBar: React.FC = () => {
   const isRealFFT = adapterManager.isRealFFT()
 
   const prevVolumeRef = React.useRef<number>(0.8)
+
+  // Attach liquidGL fluid reactive glass lens to PlayerBar
+  useLiquidGlass(
+    '#vynora-player-bar-liquid',
+    {
+      audioReactive: true,
+      refraction: 0.016,
+      bevelDepth: 0.08,
+      bevelWidth: 0.14,
+      frost: 2,
+      specular: true,
+      interaction: 'fluid',
+      interactionStrength: 0.65,
+    },
+    currentTrack,
+    isPlaying
+  )
 
   if (!currentTrack) {
     return null
@@ -113,10 +131,13 @@ export const PlayerBar: React.FC = () => {
 
   return (
     <footer
+      id="vynora-player-bar-liquid"
       onClick={handleBarClick}
       title="Click anywhere to open full now playing screen & lyrics"
-      className="relative h-16 md:h-20 bg-vyn-surface/95 border-t border-vyn-border hover:border-vyn-primary/30 px-3 md:px-6 flex items-center justify-between gap-2 md:gap-4 z-40 flex-shrink-0 select-none backdrop-blur-xl cursor-pointer transition-all duration-200 group/footer"
+      className="relative h-16 md:h-20 liquid-glass-pane border-t border-white/10 hover:border-vyn-primary/40 px-3 md:px-6 flex items-center justify-between gap-2 md:gap-4 z-40 flex-shrink-0 select-none cursor-pointer transition-all duration-200 group/footer"
     >
+      {/* liquidGL Top Specular Edge Highlight */}
+      <div className="liquid-specular-edge" />
       {/* Mobile Top Progress Scrubber Line (Like Spotify) */}
       <div className="md:hidden absolute top-0 left-0 right-0 h-1 bg-white/10 overflow-hidden">
         <div
