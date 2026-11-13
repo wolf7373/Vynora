@@ -26,6 +26,7 @@ import { usePlaylistStore } from '@/stores/usePlaylistStore'
 import { useUIStore } from '@/stores/useUIStore'
 import { formatTime } from '@/utils/formatTime'
 import type { Track } from '@/types/track'
+import { LiquidGlassPlayerCard } from '@/components/player/LiquidGlassPlayerCard'
 
 export const HomeView: React.FC = () => {
   const [selectedVibeFilter, setSelectedVibeFilter] = useState<string>('all')
@@ -191,51 +192,58 @@ export const HomeView: React.FC = () => {
 
   return (
     <div className="p-4 md:p-8 pb-36 md:pb-12 space-y-8 max-w-7xl mx-auto select-none">
-      {/* SECTION 1: PERSONALIZED CONTEXTUAL HERO BANNER */}
+      {/* SECTION 1: PERSONALIZED CONTEXTUAL HERO BANNER WITH LIQUID GLASS PLAYER */}
       <section className="glass-panel-elevated p-6 md:p-8 rounded-3xl relative overflow-hidden border border-vyn-border shadow-2xl">
         <div className="absolute -top-24 -left-24 w-96 h-96 bg-vyn-primary/15 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-accent-violet/20 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="relative z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-vyn-primary/10 border border-vyn-primary/20 text-vyn-primary text-xs font-semibold mb-3">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>{heroInfo.badge}</span>
+        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div className="lg:col-span-7">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-vyn-primary/10 border border-vyn-primary/20 text-vyn-primary text-xs font-semibold mb-3">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>{heroInfo.badge}</span>
+            </div>
+
+            <h1 className="text-2xl sm:text-3xl md:text-5xl font-display font-extrabold tracking-tight text-vyn-high mb-2">
+              {heroInfo.title}
+            </h1>
+            <p className="text-xs md:text-sm text-vyn-muted max-w-xl mb-6 leading-relaxed">
+              {heroInfo.description}
+            </p>
+
+            <div className="flex flex-wrap items-center gap-3">
+              <button
+                onClick={handlePlayInstantMix}
+                aria-label="Play Instant Mix"
+                className="min-h-[44px] px-6 py-2.5 rounded-full bg-vyn-primary text-vyn-canvas font-bold text-xs md:text-sm flex items-center gap-2.5 shadow-glow-cyan hover:opacity-95 active:scale-95 transition-transform transition-opacity motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-vyn-primary focus-visible:outline-none"
+              >
+                <Play className="w-4 h-4 fill-current ml-0.5" />
+                <span>Play Instant Mix</span>
+              </button>
+
+              <button
+                onClick={handleShuffleInstantMix}
+                aria-label="Shuffle Instant Mix"
+                className="min-h-[44px] px-5 py-2.5 rounded-full bg-canvas-elevated hover:bg-white/10 text-vyn-high font-medium text-xs md:text-sm border border-vyn-border flex items-center gap-2 transition-colors active:scale-95 motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-vyn-primary focus-visible:outline-none"
+              >
+                <Shuffle className="w-4 h-4" />
+                <span>Shuffle</span>
+              </button>
+
+              <button
+                onClick={handleSurpriseMe}
+                aria-label="Surprise Me"
+                className="min-h-[44px] px-5 py-2.5 rounded-full bg-amber-400/10 hover:bg-amber-400/20 text-amber-300 font-semibold text-xs md:text-sm border border-amber-400/30 flex items-center gap-2 transition-colors active:scale-95 motion-reduce:transition-none shadow-sm focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:outline-none"
+              >
+                <Sparkles className="w-4 h-4 text-amber-400 animate-pulse" />
+                <span>Surprise Me!</span>
+              </button>
+            </div>
           </div>
 
-          <h1 className="text-2xl sm:text-3xl md:text-5xl font-display font-extrabold tracking-tight text-vyn-high mb-2">
-            {heroInfo.title}
-          </h1>
-          <p className="text-xs md:text-sm text-vyn-muted max-w-2xl mb-6 leading-relaxed">
-            {heroInfo.description}
-          </p>
-
-          <div className="flex flex-wrap items-center gap-3">
-            <button
-              onClick={handlePlayInstantMix}
-              aria-label="Play Instant Mix"
-              className="min-h-[44px] px-6 py-2.5 rounded-full bg-vyn-primary text-vyn-canvas font-bold text-xs md:text-sm flex items-center gap-2.5 shadow-glow-cyan hover:opacity-95 active:scale-95 transition-transform transition-opacity motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-vyn-primary focus-visible:outline-none"
-            >
-              <Play className="w-4 h-4 fill-current ml-0.5" />
-              <span>Play Instant Mix</span>
-            </button>
-
-            <button
-              onClick={handleShuffleInstantMix}
-              aria-label="Shuffle Instant Mix"
-              className="min-h-[44px] px-5 py-2.5 rounded-full bg-canvas-elevated hover:bg-white/10 text-vyn-high font-medium text-xs md:text-sm border border-vyn-border flex items-center gap-2 transition-colors active:scale-95 motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-vyn-primary focus-visible:outline-none"
-            >
-              <Shuffle className="w-4 h-4" />
-              <span>Shuffle</span>
-            </button>
-
-            <button
-              onClick={handleSurpriseMe}
-              aria-label="Surprise Me"
-              className="min-h-[44px] px-5 py-2.5 rounded-full bg-amber-400/10 hover:bg-amber-400/20 text-amber-300 font-semibold text-xs md:text-sm border border-amber-400/30 flex items-center gap-2 transition-colors active:scale-95 motion-reduce:transition-none shadow-sm focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:outline-none"
-            >
-              <Sparkles className="w-4 h-4 text-amber-400 animate-pulse" />
-              <span>Surprise Me!</span>
-            </button>
+          {/* Dedicated Liquid Glass Audio Player Card Showcase */}
+          <div className="lg:col-span-5 flex justify-center">
+            <LiquidGlassPlayerCard variant="hero" />
           </div>
         </div>
       </section>
