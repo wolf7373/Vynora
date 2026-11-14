@@ -22,6 +22,7 @@ export interface UIState {
   isQueueDrawerOpen: boolean
   isAddToPlaylistOpen: boolean
   trackForPlaylist: Track | null
+  isSyncModalOpen: boolean
 }
 
 export interface UIActions {
@@ -40,6 +41,7 @@ export interface UIActions {
   setIsSleepTimerOpen: (isOpen: boolean) => void
   setIsPlaybackSettingsOpen: (isOpen: boolean) => void
   setIsQueueDrawerOpen: (isOpen: boolean) => void
+  setIsSyncModalOpen: (isOpen: boolean) => void
   openAddToPlaylist: (track: Track) => void
   closeAddToPlaylist: () => void
 }

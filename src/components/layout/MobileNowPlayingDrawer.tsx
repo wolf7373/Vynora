@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react'
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { Drawer } from 'vaul'
 import {
   Play,
@@ -88,9 +88,24 @@ export const MobileNowPlayingDrawer: React.FC = () => {
     }
   }, [currentTrack?.id, currentTrack?.coverUrl, currentTrack?.color])
 
+  // Ensure rich vivid fluid colors inside drawer even if album art is dark
+  const vibrantPalette = useMemo(() => {
+    const primary = palette.primary && palette.primary !== '#000000' && palette.primary !== '#111827'
+      ? palette.primary
+      : '#00F2FE'
+    return {
+      primary,
+      secondary: palette.secondary || '#7F00FF',
+      glow: palette.glowColor || 'rgba(0, 242, 254, 0.7)',
+      accent: '#FF5E3A',
+      electric: '#8B5CF6',
+    }
+  }, [palette])
+
   // --- Dynamic Mouse Parallax & 3D Card Tilt for Heavy Liquid Glass feel ---
   const [drawerParallax, setDrawerParallax] = useState<{ x: number; y: number }>({ x: 0, y: 0 })
   const [cardTilt, setCardTilt] = useState<{ x: number; y: number }>({ x: 0, y: 0 })
+  const drawerCursorRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (!isMobileDrawerOpen) return
@@ -99,19 +114,36 @@ export const MobileNowPlayingDrawer: React.FC = () => {
     let targetY = 0
     let currX = 0
     let currY = 0
+    let curFlareX = window.innerWidth / 2
+    let curFlareY = window.innerHeight / 2
+    let targetFlareX = window.innerWidth / 2
+    let targetFlareY = window.innerHeight / 2
 
     const handlePointerMove = (e: MouseEvent | PointerEvent) => {
       const w = window.innerWidth || 1
       const h = window.innerHeight || 1
       targetX = (e.clientX / w - 0.5) * 2
       targetY = (e.clientY / h - 0.5) * 2
+      targetFlareX = e.clientX
+      targetFlareY = e.clientY
+    }
+
+    if (typeof process !== 'undefined' && process.env.NODE_ENV === 'test') {
+      return
     }
 
     const loop = () => {
       currX += (targetX - currX) * 0.08
       currY += (targetY - currY) * 0.08
+      curFlareX += (targetFlareX - curFlareX) * 0.15
+      curFlareY += (targetFlareY - curFlareY) * 0.15
+
+      if (drawerCursorRef.current) {
+        drawerCursorRef.current.style.transform = `translate3d(${curFlareX.toFixed(1)}px, ${curFlareY.toFixed(1)}px, 0) translate(-50%, -50%)`
+      }
+
       setDrawerParallax({ x: currX, y: currY })
-      setCardTilt({ x: currX * 7.5, y: -currY * 7.5 })
+      setCardTilt({ x: currX * 12, y: -currY * 12 })
       animId = requestAnimationFrame(loop)
     }
 
@@ -359,43 +391,52 @@ export const MobileNowPlayingDrawer: React.FC = () => {
   return (
     <Drawer.Root open={isMobileDrawerOpen} onOpenChange={setIsMobileDrawerOpen}>
       <Drawer.Portal>
-        <Drawer.Overlay className="fixed inset-0 bg-black/90 backdrop-blur-2xl z-50 transition-opacity duration-300" />
+        <Drawer.Overlay className="fixed inset-0 bg-black/45 backdrop-blur-xl z-50 transition-opacity duration-300" />
         <Drawer.Content
           aria-label="Now Playing Drawer"
-          style={{
-            background: palette.gradient,
-            transition: 'background 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
-          }}
-          className="heavy-liquid-glass-chassis fixed inset-0 h-[100dvh] max-h-[100dvh] w-full z-50 flex flex-col outline-none select-none text-text-primary shadow-[0_-25px_80px_rgba(0,0,0,0.95)] overflow-hidden"
+          className="fixed inset-0 h-[100dvh] max-h-[100dvh] w-full z-50 flex flex-col outline-none select-none text-text-primary shadow-[0_-25px_80px_rgba(0,0,0,0.95)] overflow-hidden bg-[#07080B]/55 backdrop-blur-3xl"
         >
-          {/* Animated Dynamic Aurora Glow Orbs with Parallax */}
+          {/* Real-time Cursor Glow Flare inside Drawer */}
           <div
+            ref={drawerCursorRef}
+            className="absolute top-0 left-0 w-[550px] h-[550px] rounded-full pointer-events-none blur-[95px] opacity-75 will-change-transform mix-blend-screen"
             style={{
-              backgroundColor: palette.primary,
-              transform: `translate3d(${(drawerParallax.x * 40).toFixed(1)}px, ${(drawerParallax.y * 30).toFixed(1)}px, 0)`,
+              background: `radial-gradient(circle at center, ${vibrantPalette.primary} 0%, ${vibrantPalette.electric} 40%, ${vibrantPalette.accent} 70%, transparent 80%)`,
             }}
-            className="absolute -top-36 -left-36 w-96 h-96 rounded-full blur-[120px] opacity-40 pointer-events-none animate-aurora-1 will-change-transform"
           />
+
+          {/* Large Vibrant Liquid Aurora Wave 1 with Parallax */}
           <div
             style={{
-              backgroundColor: palette.secondary,
-              transform: `translate3d(${(drawerParallax.x * -50).toFixed(1)}px, ${(drawerParallax.y * -40).toFixed(1)}px, 0)`,
+              background: `radial-gradient(ellipse at center, ${vibrantPalette.primary} 0%, ${vibrantPalette.accent} 45%, transparent 75%)`,
+              transform: `translate3d(${(drawerParallax.x * 90).toFixed(1)}px, ${(drawerParallax.y * 65).toFixed(1)}px, 0)`,
             }}
-            className="absolute top-1/4 -right-32 w-88 h-88 rounded-full blur-[110px] opacity-35 pointer-events-none animate-aurora-2 will-change-transform"
+            className="absolute -top-28 -left-28 w-[75vw] h-[75vw] max-w-[850px] max-h-[850px] rounded-full blur-[100px] opacity-70 pointer-events-none will-change-transform"
           />
+
+          {/* Large Vibrant Liquid Counter-Wave 2 with Reverse Parallax */}
           <div
             style={{
-              backgroundColor: palette.glowColor,
-              transform: `translate3d(${(drawerParallax.x * 20).toFixed(1)}px, ${(drawerParallax.y * 20).toFixed(1)}px, 0)`,
+              background: `radial-gradient(circle at center, ${vibrantPalette.electric} 0%, #00F2FE 40%, transparent 75%)`,
+              transform: `translate3d(${(drawerParallax.x * -110).toFixed(1)}px, ${(drawerParallax.y * -80).toFixed(1)}px, 0)`,
             }}
-            className="absolute -bottom-32 left-1/4 w-[420px] h-[420px] rounded-full blur-[130px] opacity-30 pointer-events-none animate-pulse-glow will-change-transform"
+            className="absolute top-1/3 -right-28 w-[70vw] h-[70vw] max-w-[800px] max-h-[800px] rounded-full blur-[110px] opacity-65 pointer-events-none will-change-transform"
+          />
+
+          {/* Bottom Ambient Glow Core */}
+          <div
+            style={{
+              background: `radial-gradient(circle, ${vibrantPalette.primary} 0%, ${vibrantPalette.electric} 50%, transparent 80%)`,
+              transform: `translate3d(${(drawerParallax.x * 50).toFixed(1)}px, ${(drawerParallax.y * 40).toFixed(1)}px, 0)`,
+            }}
+            className="absolute -bottom-24 left-1/4 w-[60vw] h-[60vw] max-w-[700px] max-h-[700px] rounded-full blur-[120px] opacity-60 pointer-events-none will-change-transform animate-pulse-glow"
           />
 
           {/* Liquid Caustics Shimmer Layer inside Drawer */}
           <div
-            className="absolute inset-0 opacity-20 pointer-events-none mix-blend-screen will-change-transform"
+            className="absolute inset-0 opacity-25 pointer-events-none mix-blend-screen will-change-transform"
             style={{
-              background: `radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), ${palette.primary}40 0%, rgba(0, 242, 254, 0.1) 40%, transparent 70%)`,
+              background: `radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), ${vibrantPalette.primary}55 0%, rgba(0, 242, 254, 0.2) 40%, transparent 70%)`,
             }}
           />
 
@@ -502,10 +543,10 @@ export const MobileNowPlayingDrawer: React.FC = () => {
                   {/* Glowing Animated Aura Orb behind Album Art */}
                   <div
                     style={{
-                      backgroundColor: palette.primary,
-                      boxShadow: `0 0 100px 30px ${palette.glowColor}`,
+                      backgroundColor: vibrantPalette.primary,
+                      boxShadow: `0 0 120px 40px ${vibrantPalette.glow}`,
                     }}
-                    className="absolute w-56 h-56 rounded-full blur-[80px] opacity-45 pointer-events-none animate-pulse"
+                    className="absolute w-64 h-64 rounded-full blur-[80px] opacity-70 pointer-events-none animate-pulse"
                   />
 
                   <div
@@ -519,7 +560,7 @@ export const MobileNowPlayingDrawer: React.FC = () => {
                       transform: `perspective(1000px) rotateY(${cardTilt.x.toFixed(1)}deg) rotateX(${cardTilt.y.toFixed(1)}deg) translateX(${swipeOffset}px) rotate(${swipeOffset * 0.04}deg)`,
                       opacity: 1 - Math.min(0.4, Math.abs(swipeOffset) / 360),
                       transition: isSwiping ? 'none' : 'transform 0.35s cubic-bezier(0.18, 0.9, 0.3, 1), opacity 0.35s ease',
-                      boxShadow: `0 35px 90px -15px ${palette.glowColor}, 0 0 35px ${palette.secondary}40`,
+                      boxShadow: `0 35px 90px -15px ${vibrantPalette.glow}, 0 0 45px ${vibrantPalette.secondary}60`,
                       touchAction: 'none',
                     }}
                     className="w-56 h-56 sm:w-68 sm:h-68 md:w-80 md:h-80 heavy-liquid-glass-lens flex items-center justify-center relative group cursor-grab active:cursor-grabbing select-none shadow-2xl z-10"

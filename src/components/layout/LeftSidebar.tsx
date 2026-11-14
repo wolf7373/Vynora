@@ -8,9 +8,8 @@ import { PWAInstallModal } from '@/components/modals/PWAInstallModal'
 import type { NavTab } from '@/types'
 
 export const LeftSidebar: React.FC = () => {
-  const { activeTab, setActiveTab } = useUIStore()
+  const { activeTab, setActiveTab, setIsSyncModalOpen } = useUIStore()
   const { playlists, activePlaylistId, likedTracks, createPlaylist, setActivePlaylistId } = usePlaylistStore()
-  const [isSyncModalOpen, setIsSyncModalOpen] = useState(false)
   const [isInstallModalOpen, setIsInstallModalOpen] = useState(false)
 
   const navItems: { tab: NavTab; label: string; icon: React.FC<{ className?: string }> }[] = [
@@ -172,7 +171,6 @@ export const LeftSidebar: React.FC = () => {
         </button>
       </div>
 
-      <SyncCodeModal isOpen={isSyncModalOpen} onClose={() => setIsSyncModalOpen(false)} />
       <PWAInstallModal isOpen={isInstallModalOpen} onClose={() => setIsInstallModalOpen(false)} />
     </aside>
   )

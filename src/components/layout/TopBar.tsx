@@ -12,6 +12,7 @@ export const TopBar: React.FC = () => {
     navHistoryIndex,
     goBack,
     goForward,
+    setIsSyncModalOpen,
   } = useUIStore()
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -127,11 +128,16 @@ export const TopBar: React.FC = () => {
           </button>
         )}
 
-        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full liquid-glass-pill text-[11px] text-vyn-muted font-mono border-white/10 shadow-sm">
+        <button
+          onClick={() => setIsSyncModalOpen(true)}
+          title="Vynora Device Sync (VYN) - Click to connect or share sync code"
+          aria-label="Open Device Sync Modal"
+          className="min-h-[44px] px-3.5 py-1.5 rounded-full liquid-glass-pill hover:border-vyn-primary/60 hover:text-white flex items-center gap-1.5 text-[11px] font-mono text-vyn-primary active:scale-95 transition-all cursor-pointer shadow-md"
+        >
           <Radio className="w-3.5 h-3.5 text-vyn-primary animate-pulse" />
-          <span className="hidden xs:inline">VYN-3.0</span>
-          <span className="xs:hidden">VYN</span>
-        </div>
+          <span className="font-bold hidden xs:inline">VYN-3.0</span>
+          <span className="font-bold xs:hidden">VYN</span>
+        </button>
       </div>
     </header>
   )

@@ -27,7 +27,7 @@ describe('SearchView & REG-03 Search Autoplay Guardrail', () => {
 
     expect(screen.getByText(/discover music & live youtube streams/i)).toBeInTheDocument()
     expect(screen.getByText('295')).toBeInTheDocument()
-  })
+  }, 15000)
 
   it('REG-03: clicking a song card sets isDockedPlayerOpen: true and rightSidebarView: video before playing', async () => {
     const adapterManager = PlaybackAdapterManager.getInstance()

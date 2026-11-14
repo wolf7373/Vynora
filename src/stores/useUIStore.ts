@@ -20,6 +20,7 @@ const INITIAL_STATE: UIState = {
   isQueueDrawerOpen: false,
   isAddToPlaylistOpen: false,
   trackForPlaylist: null,
+  isSyncModalOpen: false,
 }
 
 export const useUIStore = create<UIStore>((set, get) => ({
@@ -106,6 +107,10 @@ export const useUIStore = create<UIStore>((set, get) => ({
 
   setIsQueueDrawerOpen: (isOpen: boolean) => {
     set({ isQueueDrawerOpen: isOpen })
+  },
+
+  setIsSyncModalOpen: (isOpen: boolean) => {
+    set({ isSyncModalOpen: isOpen })
   },
 
   openAddToPlaylist: (track: Track) => {

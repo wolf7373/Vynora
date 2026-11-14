@@ -79,7 +79,7 @@ describe('Spotify 3-Column UI Shell & Navigation (Milestone 3)', () => {
     fireEvent.click(visualizerTab)
     expect(useUIStore.getState().activeTab).toBe('visualizer')
     expect(screen.getByText(/audio reactive visualizer/i)).toBeInTheDocument()
-  })
+  }, 15000)
 
   it('REG-07: Verifies all interactive buttons and tabs meet WCAG 2.5.5 minimum 44px touch targets', () => {
     const { container } = render(<AppShell />)

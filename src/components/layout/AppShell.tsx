@@ -10,6 +10,7 @@ import { AmbientBackground } from './AmbientBackground'
 import { SleepTimerModal } from '@/components/modals/SleepTimerModal'
 import { PlaybackSettingsModal } from '@/components/modals/PlaybackSettingsModal'
 import { AddToPlaylistModal } from '@/components/modals/AddToPlaylistModal'
+import { SyncCodeModal } from '@/components/sync/SyncCodeModal'
 import { SingletonYouTubePlayer } from '@/components/player/SingletonYouTubePlayer'
 import { useGlobalShortcuts } from '@/hooks/useGlobalShortcuts'
 import { useUIStore } from '@/stores/useUIStore'
@@ -23,6 +24,8 @@ export const AppShell: React.FC = () => {
     setIsSleepTimerOpen,
     isPlaybackSettingsOpen,
     setIsPlaybackSettingsOpen,
+    isSyncModalOpen,
+    setIsSyncModalOpen,
   } = useUIStore()
 
   return (
@@ -70,6 +73,12 @@ export const AppShell: React.FC = () => {
 
       {/* Add To Playlist Modal */}
       <AddToPlaylistModal />
+
+      {/* Cross-Device Sync Modal (Accessible via TopBar VYN badge & LeftSidebar) */}
+      <SyncCodeModal
+        isOpen={isSyncModalOpen}
+        onClose={() => setIsSyncModalOpen(false)}
+      />
 
       {/* Singleton YouTube Video & Audio Player Host (Zero Audio Overlap & Lockstep Sync) */}
       <SingletonYouTubePlayer />
