@@ -40,6 +40,7 @@ export const MobileNowPlayingDrawer: React.FC = () => {
     setIsQueueDrawerOpen,
     setIsSleepTimerOpen,
     setIsPlaybackSettingsOpen,
+    mobileDrawerTab,
     setMobileDrawerTab,
   } = useUIStore()
 
@@ -61,9 +62,13 @@ export const MobileNowPlayingDrawer: React.FC = () => {
   const adapterManager = PlaybackAdapterManager.getInstance()
   const isRealFFT = adapterManager.isRealFFT()
 
-  // Drawer View Tabs: 'visualizer' | 'lyrics' | 'video'
-  const [activeTab, setActiveTab] = useState<'visualizer' | 'lyrics' | 'video'>('visualizer')
+  // Drawer View Tabs: 'visualizer' | 'lyrics' | 'video' directly bound to useUIStore
+  const activeTab = mobileDrawerTab || 'visualizer'
   const [isInstallModalOpen, setIsInstallModalOpen] = useState(false)
+
+  const handleTabSelect = (tab: 'visualizer' | 'lyrics' | 'video') => {
+    setMobileDrawerTab(tab)
+  }
 
   // Dynamic extracted palette from song album art
   const [palette, setPalette] = useState<ExtractedPalette>(() =>
@@ -347,13 +352,6 @@ export const MobileNowPlayingDrawer: React.FC = () => {
     adapterManager.seek(newTime)
   }
 
-  // Synchronize active drawer tab with useUIStore for SingletonYouTubePlayer positioning
-  useEffect(() => {
-    if (isMobileDrawerOpen) {
-      setMobileDrawerTab(activeTab)
-    }
-  }, [activeTab, isMobileDrawerOpen, setMobileDrawerTab])
-
   const handlePlayPause = async () => {
     if (isPlaying) {
       await adapterManager.pause()
@@ -498,7 +496,7 @@ export const MobileNowPlayingDrawer: React.FC = () => {
             <div className="flex items-center justify-center my-1.5 gap-1.5 flex-shrink-0">
               <div className="flex items-center gap-1 liquid-glass-tube p-1 rounded-2xl shadow-xl">
                 <button
-                  onClick={() => setActiveTab('visualizer')}
+                  onClick={() => handleTabSelect('visualizer')}
                   className={`min-h-[44px] px-4 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                     activeTab === 'visualizer'
                       ? 'bg-gradient-to-r from-vyn-primary to-vyn-secondary text-black shadow-glow-cyan font-black'
@@ -510,7 +508,7 @@ export const MobileNowPlayingDrawer: React.FC = () => {
                 </button>
 
                 <button
-                  onClick={() => setActiveTab('lyrics')}
+                  onClick={() => handleTabSelect('lyrics')}
                   className={`min-h-[44px] px-4 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                     activeTab === 'lyrics'
                       ? 'bg-gradient-to-r from-vyn-primary to-vyn-secondary text-black shadow-glow-cyan font-black'
@@ -522,7 +520,7 @@ export const MobileNowPlayingDrawer: React.FC = () => {
                 </button>
 
                 <button
-                  onClick={() => setActiveTab('video')}
+                  onClick={() => handleTabSelect('video')}
                   className={`min-h-[44px] px-4 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                     activeTab === 'video'
                       ? 'bg-gradient-to-r from-vyn-primary to-vyn-secondary text-black shadow-glow-cyan font-black'
@@ -563,10 +561,10 @@ export const MobileNowPlayingDrawer: React.FC = () => {
                       boxShadow: `0 35px 90px -15px ${vibrantPalette.glow}, 0 0 45px ${vibrantPalette.secondary}60`,
                       touchAction: 'none',
                     }}
-                    className="w-56 h-56 sm:w-68 sm:h-68 md:w-80 md:h-80 heavy-liquid-glass-lens flex items-center justify-center relative group cursor-grab active:cursor-grabbing select-none shadow-2xl z-10"
+                    className="w-60 h-60 sm:w-72 sm:h-72 md:w-80 md:h-80 rounded-3xl overflow-hidden heavy-liquid-glass-lens flex items-center justify-center relative group cursor-grab active:cursor-grabbing select-none shadow-2xl z-10"
                   >
                     {/* Top specular reflection curve */}
-                    <div className="liquid-specular-edge" />
+                    <div className="liquid-specular-edge pointer-events-none" />
 
                     {currentTrack?.coverUrl ? (
                       <img
@@ -586,17 +584,21 @@ export const MobileNowPlayingDrawer: React.FC = () => {
                       </div>
                     )}
 
-                    {/* Drag Hints */}
+                    {/* Drag Hints Overlay */}
                     {isSwiping && swipeOffset < -20 && (
-                      <div className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/85 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/20 text-white text-xs font-black flex items-center gap-1.5 shadow-xl animate-pulse pointer-events-none">
-                        <span>Next Track</span>
-                        <SkipForward className="w-4 h-4 text-vyn-primary" />
+                      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center pointer-events-none transition-opacity">
+                        <div className="bg-black/85 px-4 py-2 rounded-full border border-white/20 text-white text-xs font-black flex items-center gap-2 shadow-xl animate-pulse">
+                          <span>Next Track</span>
+                          <SkipForward className="w-4 h-4 text-vyn-primary" />
+                        </div>
                       </div>
                     )}
                     {isSwiping && swipeOffset > 20 && (
-                      <div className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/85 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/20 text-white text-xs font-black flex items-center gap-1.5 shadow-xl animate-pulse pointer-events-none">
-                        <SkipBack className="w-4 h-4 text-vyn-primary" />
-                        <span>Prev Track</span>
+                      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center pointer-events-none transition-opacity">
+                        <div className="bg-black/85 px-4 py-2 rounded-full border border-white/20 text-white text-xs font-black flex items-center gap-2 shadow-xl animate-pulse">
+                          <SkipBack className="w-4 h-4 text-vyn-primary" />
+                          <span>Prev Track</span>
+                        </div>
                       </div>
                     )}
 
@@ -611,7 +613,7 @@ export const MobileNowPlayingDrawer: React.FC = () => {
                     )}
 
                     {/* Swipe Hint Top Left */}
-                    <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full liquid-glass-tube border border-white/20 text-[10px] text-white/90 font-mono shadow-md">
+                    <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full liquid-glass-tube border border-white/20 text-[10px] text-white/90 font-mono shadow-md pointer-events-none">
                       ↔ Swipe to change
                     </div>
                   </div>
@@ -656,10 +658,10 @@ export const MobileNowPlayingDrawer: React.FC = () => {
                     </span>
                   </div>
 
-                  {/* Full Height Lyrics Scroll View */}
+                  {/* Full Height Lyrics Scroll View (Layout 3: Luminous White & Generous 7-9 Lines Density) */}
                   <div
                     ref={lyricsContainerRef}
-                    className="flex-1 overflow-y-auto flex flex-col gap-4 py-8 px-4 text-center scrollbar-none custom-scrollbar"
+                    className="flex-1 overflow-y-auto flex flex-col gap-2 sm:gap-3 py-4 px-3 sm:px-6 text-center scrollbar-none custom-scrollbar"
                   >
                     {isLyricsLoading ? (
                       <div className="flex flex-col items-center justify-center py-16 gap-3 text-white/60">
@@ -689,24 +691,20 @@ export const MobileNowPlayingDrawer: React.FC = () => {
                             }}
                             className={`transition-all duration-300 cursor-pointer select-none leading-relaxed px-4 py-2 rounded-2xl ${
                               isCurrent
-                                ? 'karaoke-glass-capsule scale-105 shadow-2xl text-white'
+                                ? 'bg-white/20 border border-white/40 shadow-[0_0_30px_rgba(0,242,254,0.35)] backdrop-blur-2xl scale-[1.03] text-white'
                                 : isPast
-                                ? 'text-white/50 text-sm sm:text-base font-medium hover:text-white/80'
-                                : 'text-white/25 text-sm sm:text-base font-normal hover:text-white/50'
+                                ? 'text-white/60 text-sm sm:text-base font-semibold hover:text-white/90'
+                                : 'text-white/30 text-xs sm:text-sm font-normal hover:text-white/60'
                             }`}
                           >
                             <p
-                              className={`font-black ${isCurrent ? 'text-xl sm:text-2xl md:text-3xl' : ''}`}
-                              style={
+                              className={`font-black ${
                                 isCurrent
-                                  ? {
-                                      color: palette.primary,
-                                      textShadow: `0 0 25px ${palette.glowColor}`,
-                                    }
-                                  : undefined
-                              }
+                                  ? 'text-lg sm:text-xl md:text-2xl text-white drop-shadow-[0_0_12px_rgba(255,255,255,0.85)]'
+                                  : ''
+                              }`}
                             >
-                              <span className="text-[10px] font-mono mr-2.5 opacity-40 font-normal">
+                              <span className="text-[10px] font-mono mr-2.5 opacity-50 font-normal">
                                 {formatTime(line.rawTime)}
                               </span>
                               {line.text}
@@ -715,7 +713,7 @@ export const MobileNowPlayingDrawer: React.FC = () => {
                         )
                       })
                     ) : (
-                      <div className="whitespace-pre-line text-sm text-white/70 leading-relaxed py-6">
+                      <div className="whitespace-pre-line text-sm text-white/75 leading-relaxed py-4">
                         {lyrics.plainText}
                       </div>
                     )}

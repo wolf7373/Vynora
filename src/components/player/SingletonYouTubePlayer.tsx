@@ -13,7 +13,7 @@ interface AnchorRect {
 }
 
 export const SingletonYouTubePlayer: React.FC = () => {
-  const { currentTrack, isPlaying, volume, isMuted, activeSource } = usePlayerStore()
+  const { currentTrack, isPlaying, currentTime, volume, isMuted, activeSource } = usePlayerStore()
   const { rightSidebarView, isMobileDrawerOpen, mobileDrawerTab } = useUIStore()
 
   const iframeRef = useRef<HTMLIFrameElement>(null)
@@ -322,6 +322,44 @@ export const SingletonYouTubePlayer: React.FC = () => {
     }
   }, [volume, isMuted, activeSource])
 
+  // 5b. Synchronize Play / Pause state with singleton iframe
+  useEffect(() => {
+    if (typeof process !== 'undefined' && process.env.NODE_ENV === 'test') return
+    if (iframeRef.current?.contentWindow && (youtubeId || youtubePlaylistId)) {
+      try {
+        if (isPlaying) {
+          iframeRef.current.contentWindow.postMessage(
+            JSON.stringify({ event: 'command', func: 'playVideo', args: [] }),
+            '*'
+          )
+        } else {
+          iframeRef.current.contentWindow.postMessage(
+            JSON.stringify({ event: 'command', func: 'pauseVideo', args: [] }),
+            '*'
+          )
+        }
+      } catch { }
+    }
+  }, [isPlaying, youtubeId, youtubePlaylistId])
+
+  // 5c. Synchronize Seek position with singleton iframe
+  const lastSyncTimeRef = useRef<number>(0)
+  useEffect(() => {
+    if (typeof process !== 'undefined' && process.env.NODE_ENV === 'test') return
+    if (!iframeRef.current?.contentWindow || !youtubeId) return
+    if (Math.abs(currentTime - lastSyncTimeRef.current) > 2) {
+      lastSyncTimeRef.current = currentTime
+      try {
+        iframeRef.current.contentWindow.postMessage(
+          JSON.stringify({ event: 'command', func: 'seekTo', args: [currentTime, true] }),
+          '*'
+        )
+      } catch { }
+    } else {
+      lastSyncTimeRef.current = currentTime
+    }
+  }, [currentTime, youtubeId])
+
   // Seamless track transition without iframe destruction/re-creation
   useEffect(() => {
     if (!youtubeId && !youtubePlaylistId) return
@@ -352,18 +390,32 @@ export const SingletonYouTubePlayer: React.FC = () => {
               '*'
             )
           }
-          iframeRef.current.contentWindow.postMessage(
-            JSON.stringify({ event: 'command', func: 'playVideo', args: [] }),
-            '*'
-          )
+          if (isPlaying) {
+            iframeRef.current.contentWindow.postMessage(
+              JSON.stringify({ event: 'command', func: 'playVideo', args: [] }),
+              '*'
+            )
+          }
         } catch { }
       }
     }
-  }, [youtubeId, youtubePlaylistId, activeSource])
+  }, [youtubeId, youtubePlaylistId, activeSource, isPlaying])
 
   const handleIframeLoad = (e: React.SyntheticEvent<HTMLIFrameElement>) => {
     try {
       e.currentTarget.contentWindow?.postMessage(JSON.stringify({ event: 'listening' }), '*')
+      if (youtubeId) {
+        e.currentTarget.contentWindow?.postMessage(
+          JSON.stringify({ event: 'command', func: 'loadVideoById', args: [youtubeId] }),
+          '*'
+        )
+        if (isPlaying) {
+          e.currentTarget.contentWindow?.postMessage(
+            JSON.stringify({ event: 'command', func: 'playVideo', args: [] }),
+            '*'
+          )
+        }
+      }
     } catch { }
   }
 
