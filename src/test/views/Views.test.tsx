@@ -29,7 +29,7 @@ describe('Vynora Studio Views', () => {
       render(<HomeView />)
       expect(screen.getAllByText(/Vishal/i).length).toBeGreaterThan(0)
       expect(screen.getByText(/Play Instant Mix/i)).toBeInTheDocument()
-      expect(screen.getByText('Kesariya')).toBeInTheDocument()
+      expect(screen.getAllByText('Kesariya').length).toBeGreaterThan(0)
     })
   })
 

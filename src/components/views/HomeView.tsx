@@ -193,13 +193,14 @@ export const HomeView: React.FC = () => {
   return (
     <div className="p-4 md:p-8 pb-36 md:pb-12 space-y-8 max-w-7xl mx-auto select-none">
       {/* SECTION 1: PERSONALIZED CONTEXTUAL HERO BANNER WITH LIQUID GLASS PLAYER */}
-      <section className="glass-panel-elevated p-6 md:p-8 rounded-3xl relative overflow-hidden border border-vyn-border shadow-2xl">
-        <div className="absolute -top-24 -left-24 w-96 h-96 bg-vyn-primary/15 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-accent-violet/20 rounded-full blur-3xl pointer-events-none" />
+      <section className="liquid-glass-card p-6 md:p-10 rounded-[2.5rem] relative overflow-hidden border border-white/20 shadow-2xl">
+        <div className="liquid-specular-edge" />
+        <div className="absolute -top-24 -left-24 w-96 h-96 bg-vyn-primary/20 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-accent-violet/25 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           <div className="lg:col-span-7">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-vyn-primary/10 border border-vyn-primary/20 text-vyn-primary text-xs font-semibold mb-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full liquid-glass-pill text-vyn-primary text-xs font-semibold mb-3 border-vyn-primary/30 shadow-glow-cyan">
               <Sparkles className="w-3.5 h-3.5" />
               <span>{heroInfo.badge}</span>
             </div>
@@ -215,7 +216,7 @@ export const HomeView: React.FC = () => {
               <button
                 onClick={handlePlayInstantMix}
                 aria-label="Play Instant Mix"
-                className="min-h-[44px] px-6 py-2.5 rounded-full bg-vyn-primary text-vyn-canvas font-bold text-xs md:text-sm flex items-center gap-2.5 shadow-glow-cyan hover:opacity-95 active:scale-95 transition-transform transition-opacity motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-vyn-primary focus-visible:outline-none"
+                className="min-h-[44px] px-6 py-2.5 rounded-full liquid-glass-pill bg-gradient-to-b from-white/95 to-white/75 text-black font-extrabold text-xs md:text-sm flex items-center gap-2.5 shadow-xl hover:scale-105 active:scale-95 transition-all cursor-pointer border-white/60 focus-visible:ring-2 focus-visible:ring-vyn-primary focus-visible:outline-none"
               >
                 <Play className="w-4 h-4 fill-current ml-0.5" />
                 <span>Play Instant Mix</span>
@@ -224,7 +225,7 @@ export const HomeView: React.FC = () => {
               <button
                 onClick={handleShuffleInstantMix}
                 aria-label="Shuffle Instant Mix"
-                className="min-h-[44px] px-5 py-2.5 rounded-full bg-canvas-elevated hover:bg-white/10 text-vyn-high font-medium text-xs md:text-sm border border-vyn-border flex items-center gap-2 transition-colors active:scale-95 motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-vyn-primary focus-visible:outline-none"
+                className="min-h-[44px] px-5 py-2.5 rounded-full liquid-glass-pill hover:bg-white/10 text-vyn-high font-medium text-xs md:text-sm flex items-center gap-2 transition-all active:scale-95 cursor-pointer border-white/15 focus-visible:ring-2 focus-visible:ring-vyn-primary focus-visible:outline-none"
               >
                 <Shuffle className="w-4 h-4" />
                 <span>Shuffle</span>
@@ -233,7 +234,7 @@ export const HomeView: React.FC = () => {
               <button
                 onClick={handleSurpriseMe}
                 aria-label="Surprise Me"
-                className="min-h-[44px] px-5 py-2.5 rounded-full bg-amber-400/10 hover:bg-amber-400/20 text-amber-300 font-semibold text-xs md:text-sm border border-amber-400/30 flex items-center gap-2 transition-colors active:scale-95 motion-reduce:transition-none shadow-sm focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:outline-none"
+                className="min-h-[44px] px-5 py-2.5 rounded-full liquid-glass-pill text-amber-300 font-semibold text-xs md:text-sm border-amber-400/30 flex items-center gap-2 transition-all active:scale-95 shadow-sm cursor-pointer focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:outline-none"
               >
                 <Sparkles className="w-4 h-4 text-amber-400 animate-pulse" />
                 <span>Surprise Me!</span>
@@ -256,9 +257,9 @@ export const HomeView: React.FC = () => {
             setActivePlaylistId('liked-songs')
             setActiveTab('library')
           }}
-          className="glass-panel p-2.5 rounded-xl border border-vyn-border hover:border-vyn-primary/40 flex items-center gap-3 cursor-pointer group hover:bg-white/5 transition-colors shadow-sm"
+          className="liquid-glass-card p-3 rounded-2xl border border-white/15 hover:border-vyn-primary/50 flex items-center gap-3 cursor-pointer group hover:scale-[1.02] transition-all shadow-md"
         >
-          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-vyn-primary/20 border border-vyn-primary/30 flex items-center justify-center flex-shrink-0 text-vyn-primary shadow-md">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0 text-white shadow-md">
             <Heart className="w-5 h-5 fill-current" />
           </div>
           <div className="min-w-0 flex-1">
@@ -279,9 +280,9 @@ export const HomeView: React.FC = () => {
               setActivePlaylistId(pl.id)
               setActiveTab('library')
             }}
-            className="glass-panel p-2.5 rounded-xl border border-vyn-border hover:border-vyn-primary/40 flex items-center gap-3 cursor-pointer group hover:bg-white/5 transition-colors shadow-sm"
+            className="liquid-glass-card p-3 rounded-2xl border border-white/15 hover:border-vyn-primary/50 flex items-center gap-3 cursor-pointer group hover:scale-[1.02] transition-all shadow-md"
           >
-            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-vyn-surface overflow-hidden flex-shrink-0 border border-white/5">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-vyn-surface overflow-hidden flex-shrink-0 border border-white/10 shadow-sm">
               {pl.coverUrl ? (
                 <img src={pl.coverUrl} alt={pl.name} className="w-full h-full object-cover" />
               ) : (
@@ -308,10 +309,10 @@ export const HomeView: React.FC = () => {
             <button
               key={chip.id}
               onClick={() => setSelectedVibeFilter(chip.id)}
-              className={`min-h-[44px] px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap flex-shrink-0 transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-vyn-primary focus-visible:outline-none ${
+              className={`min-h-[44px] px-4 py-2 rounded-2xl text-xs font-semibold whitespace-nowrap flex-shrink-0 transition-all duration-200 cursor-pointer focus-visible:ring-2 focus-visible:ring-vyn-primary focus-visible:outline-none ${
                 isSelected
-                  ? 'bg-vyn-primary text-vyn-canvas shadow-glow-cyan font-bold ring-2 ring-vyn-primary/30'
-                  : 'bg-canvas-elevated text-vyn-muted hover:text-vyn-high hover:bg-white/5 border border-vyn-border'
+                  ? 'liquid-glass-pill text-vyn-primary shadow-glow-cyan font-bold border-vyn-primary/40 ring-2 ring-vyn-primary/30'
+                  : 'liquid-glass-pill text-vyn-muted hover:text-vyn-high border-white/10'
               }`}
             >
               {chip.label}
@@ -338,21 +339,21 @@ export const HomeView: React.FC = () => {
             <div
               key={mix.id}
               onClick={() => handlePlayDailyMix(mix.id)}
-              className="glass-panel p-4 rounded-2xl border border-vyn-border hover:border-vyn-primary/40 transition-colors duration-200 group cursor-pointer relative"
+              className="liquid-glass-card p-4 rounded-3xl border border-white/15 hover:border-vyn-primary/50 transition-all duration-300 group cursor-pointer relative hover:-translate-y-1 shadow-lg"
             >
-              <div className="w-full aspect-square rounded-xl bg-vyn-canvas overflow-hidden mb-3 relative border border-vyn-border">
+              <div className="w-full aspect-square rounded-2xl bg-vyn-canvas overflow-hidden mb-3 relative border border-white/10 shadow-md">
                 <img
                   src={mix.cover}
                   alt={mix.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 motion-reduce:transition-none"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 motion-reduce:transition-none"
                 />
-                <span className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-full bg-black/70 backdrop-blur-md text-[10px] font-medium text-accent-cyan border border-white/10">
+                <span className="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-full bg-black/60 backdrop-blur-md text-[10px] font-semibold text-accent-cyan border border-white/15">
                   {mix.badge}
                 </span>
 
                 <button
                   aria-label={`Play ${mix.title}`}
-                  className="min-h-[44px] min-w-[44px] w-12 h-12 rounded-full bg-vyn-primary text-vyn-canvas absolute bottom-2.5 right-2.5 flex items-center justify-center opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-opacity transition-transform motion-reduce:transition-none shadow-glow-cyan focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-vyn-primary"
+                  className="min-h-[44px] min-w-[44px] w-12 h-12 rounded-full liquid-glass-pill bg-white text-black absolute bottom-2.5 right-2.5 flex items-center justify-center opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all motion-reduce:transition-none shadow-xl focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-vyn-primary"
                 >
                   <Play className="w-5 h-5 fill-current ml-0.5" />
                 </button>
@@ -390,19 +391,19 @@ export const HomeView: React.FC = () => {
               <div
                 key={track.id}
                 onClick={() => handlePlaySong(track, recommendedTracks)}
-                className={`glass-panel p-3 rounded-2xl border transition-colors duration-200 group cursor-pointer relative flex flex-col justify-between ${
+                className={`liquid-glass-card p-3.5 rounded-3xl border transition-all duration-300 group cursor-pointer relative flex flex-col justify-between hover:-translate-y-1 shadow-lg ${
                   isCurrent
-                    ? 'border-vyn-primary/60 bg-vyn-primary/5 shadow-glow-cyan'
-                    : 'border-vyn-border hover:border-vyn-primary/30'
+                    ? 'border-vyn-primary/70 bg-vyn-primary/10 shadow-glow-cyan'
+                    : 'border-white/15 hover:border-vyn-primary/40'
                 }`}
               >
                 <div>
-                  <div className="w-full aspect-square rounded-xl bg-vyn-canvas overflow-hidden mb-2.5 relative border border-white/5">
+                  <div className="w-full aspect-square rounded-2xl bg-vyn-canvas overflow-hidden mb-2.5 relative border border-white/10 shadow-md">
                     {track.coverUrl ? (
                       <img
                         src={track.coverUrl}
                         alt={track.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 motion-reduce:transition-none"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 motion-reduce:transition-none"
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
@@ -417,7 +418,7 @@ export const HomeView: React.FC = () => {
                         toggleLikeTrack(track)
                       }}
                       aria-label={liked ? 'Unlike song' : 'Like song'}
-                      className="min-h-[44px] min-w-[44px] absolute top-1.5 right-1.5 p-2 rounded-full bg-black/60 backdrop-blur-md flex items-center justify-center text-text-muted hover:text-white transition-colors z-20 focus-visible:ring-2 focus-visible:ring-vyn-primary"
+                      className="min-h-[44px] min-w-[44px] absolute top-1.5 right-1.5 p-2 rounded-full liquid-glass-pill flex items-center justify-center text-text-muted hover:text-white transition-all z-20 focus-visible:ring-2 focus-visible:ring-vyn-primary border-white/20 cursor-pointer"
                     >
                       <Heart
                         className={`w-4 h-4 ${
@@ -429,7 +430,7 @@ export const HomeView: React.FC = () => {
                     {/* Floating Play Button */}
                     <button
                       aria-label={`Play ${track.title}`}
-                      className="min-h-[44px] min-w-[44px] w-11 h-11 rounded-full bg-vyn-primary text-vyn-canvas absolute bottom-2 right-2 flex items-center justify-center opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-opacity transition-transform motion-reduce:transition-none shadow-glow-cyan z-20 focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-vyn-primary"
+                      className="min-h-[44px] min-w-[44px] w-11 h-11 rounded-full liquid-glass-pill bg-white text-black absolute bottom-2 right-2 flex items-center justify-center opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all motion-reduce:transition-none shadow-xl z-20 focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-vyn-primary"
                     >
                       <Play className="w-5 h-5 fill-current ml-0.5" />
                     </button>
@@ -441,7 +442,7 @@ export const HomeView: React.FC = () => {
                   <p className="text-[11px] text-text-muted truncate mb-2">{track.artist}</p>
                 </div>
 
-                <div className="pt-2 border-t border-vyn-border/40 flex items-center justify-between text-[10px] text-vyn-muted">
+                <div className="pt-2 border-t border-white/10 flex items-center justify-between text-[10px] text-vyn-muted">
                   <span className="font-mono text-accent-cyan font-bold truncate max-w-[100px]">
                     {track.vibeTag || 'Official'}
                   </span>

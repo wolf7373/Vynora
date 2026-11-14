@@ -162,7 +162,7 @@ export const LiquidGlassPlayerCard: React.FC<LiquidGlassPlayerCardProps> = ({
           <button
             onClick={handleToggleMute}
             aria-label={isMuted ? 'Unmute' : 'Mute'}
-            className="min-h-[36px] min-w-[36px] p-2 rounded-full bg-white/10 hover:bg-white/20 active:scale-95 text-white/80 hover:text-white transition-all flex items-center justify-center cursor-pointer"
+            className="min-h-[44px] min-w-[44px] p-2.5 rounded-full bg-white/10 hover:bg-white/20 active:scale-95 text-white/80 hover:text-white transition-all flex items-center justify-center cursor-pointer"
           >
             {isMuted || volume === 0 ? (
               <VolumeX className="w-3.5 h-3.5 text-red-400" />
@@ -272,7 +272,7 @@ export const LiquidGlassPlayerCard: React.FC<LiquidGlassPlayerCardProps> = ({
           <button
             onClick={handlePlayPause}
             aria-label={isPlaying ? 'Pause' : 'Play'}
-            className="min-h-[52px] min-w-[52px] w-13 h-13 rounded-full bg-white text-black flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-xl cursor-pointer"
+            className="min-h-[44px] min-w-[44px] min-h-[52px] min-w-[52px] w-13 h-13 rounded-full bg-white text-black flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-xl cursor-pointer"
           >
             {isPlaying ? (
               <Pause className="w-6 h-6 fill-current" />

@@ -235,13 +235,13 @@ export const PlayerBar: React.FC = () => {
         onClick={(e) => e.stopPropagation()}
       >
         {/* Buttons Row with Generous Spacing */}
-        <div className="flex items-center gap-3 sm:gap-6">
+        <div className="flex items-center gap-3 sm:gap-5">
           <button
             onClick={toggleShuffle}
             title={`Shuffle: ${isShuffle ? 'On' : 'Off'}`}
             aria-label="Toggle shuffle"
-            className={`min-h-[44px] min-w-[44px] p-2 rounded-xl flex items-center justify-center transition-all cursor-pointer active:scale-95 ${
-              isShuffle ? 'text-vyn-primary bg-vyn-primary/10 shadow-glow-cyan' : 'text-vyn-muted hover:text-vyn-high'
+            className={`min-h-[44px] min-w-[44px] p-2.5 rounded-2xl flex items-center justify-center transition-all cursor-pointer active:scale-95 ${
+              isShuffle ? 'liquid-glass-pill text-vyn-primary border-vyn-primary/40 shadow-glow-cyan' : 'text-vyn-muted hover:text-vyn-high hover:bg-white/5'
             }`}
           >
             <Shuffle className="w-4 h-4" />
@@ -251,7 +251,7 @@ export const PlayerBar: React.FC = () => {
             onClick={() => adapterManager.playPrevious()}
             title="Previous track"
             aria-label="Previous track"
-            className="min-h-[44px] min-w-[44px] p-2 rounded-xl text-vyn-muted hover:text-vyn-high flex items-center justify-center transition-all active:scale-90 cursor-pointer"
+            className="min-h-[44px] min-w-[44px] p-2.5 rounded-2xl text-vyn-muted hover:text-vyn-high hover:bg-white/5 flex items-center justify-center transition-all active:scale-90 cursor-pointer"
           >
             <SkipBack className="w-5 h-5 fill-current" />
           </button>
@@ -260,7 +260,7 @@ export const PlayerBar: React.FC = () => {
             onClick={handlePlayPause}
             title={isPlaying ? 'Pause' : 'Play'}
             aria-label={isPlaying ? 'Pause' : 'Play'}
-            className="min-h-[44px] min-w-[44px] w-12 h-12 rounded-full bg-vyn-primary text-vyn-canvas flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-glow-cyan cursor-pointer"
+            className="min-h-[44px] min-w-[44px] w-12 h-12 rounded-full liquid-glass-pill bg-gradient-to-b from-white/95 to-white/70 text-black flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-xl cursor-pointer border-white/60"
           >
             {isPlaying ? (
               <Pause className="w-5 h-5 fill-current" />
@@ -273,7 +273,7 @@ export const PlayerBar: React.FC = () => {
             onClick={() => adapterManager.playNext()}
             title="Next track"
             aria-label="Next track"
-            className="min-h-[44px] min-w-[44px] p-2 rounded-xl text-vyn-muted hover:text-vyn-high flex items-center justify-center transition-all active:scale-90 cursor-pointer"
+            className="min-h-[44px] min-w-[44px] p-2.5 rounded-2xl text-vyn-muted hover:text-vyn-high hover:bg-white/5 flex items-center justify-center transition-all active:scale-90 cursor-pointer"
           >
             <SkipForward className="w-5 h-5 fill-current" />
           </button>
@@ -282,8 +282,8 @@ export const PlayerBar: React.FC = () => {
             onClick={cycleRepeatMode}
             title={`Repeat mode: ${repeatMode}`}
             aria-label={`Repeat mode: ${repeatMode}`}
-            className={`min-h-[44px] min-w-[44px] p-2 rounded-xl flex items-center justify-center transition-all relative cursor-pointer active:scale-95 ${
-              repeatMode !== 'off' ? 'text-vyn-primary bg-vyn-primary/10 shadow-glow-cyan' : 'text-vyn-muted hover:text-vyn-high'
+            className={`min-h-[44px] min-w-[44px] p-2.5 rounded-2xl flex items-center justify-center transition-all relative cursor-pointer active:scale-95 ${
+              repeatMode !== 'off' ? 'liquid-glass-pill text-vyn-primary border-vyn-primary/40 shadow-glow-cyan' : 'text-vyn-muted hover:text-vyn-high hover:bg-white/5'
             }`}
           >
             <Repeat className="w-4 h-4" />
@@ -335,8 +335,8 @@ export const PlayerBar: React.FC = () => {
           onClick={() => toggleRightSidebarView('lyrics')}
           title="Toggle Lyrics Dock"
           aria-label="Toggle Lyrics Dock"
-          className={`min-h-[44px] min-w-[44px] p-2 rounded-lg flex items-center justify-center transition-all ${
-            rightSidebarView === 'lyrics' ? 'text-vyn-primary bg-vyn-primary/10' : 'text-vyn-muted hover:text-vyn-high'
+          className={`min-h-[44px] min-w-[44px] p-2.5 rounded-2xl flex items-center justify-center transition-all cursor-pointer ${
+            rightSidebarView === 'lyrics' ? 'liquid-glass-pill text-vyn-primary border-vyn-primary/40 shadow-glow-cyan font-bold' : 'text-vyn-muted hover:text-vyn-high hover:bg-white/5'
           }`}
         >
           <Mic2 className="w-4 h-4" />
@@ -347,8 +347,8 @@ export const PlayerBar: React.FC = () => {
           onClick={() => toggleRightSidebarView('video')}
           title="Toggle Video Dock"
           aria-label="Toggle Video Dock"
-          className={`min-h-[44px] min-w-[44px] p-2 rounded-lg flex items-center justify-center transition-all ${
-            rightSidebarView === 'video' ? 'text-vyn-primary bg-vyn-primary/10' : 'text-vyn-muted hover:text-vyn-high'
+          className={`min-h-[44px] min-w-[44px] p-2.5 rounded-2xl flex items-center justify-center transition-all cursor-pointer ${
+            rightSidebarView === 'video' ? 'liquid-glass-pill text-vyn-primary border-vyn-primary/40 shadow-glow-cyan font-bold' : 'text-vyn-muted hover:text-vyn-high hover:bg-white/5'
           }`}
         >
           <Tv className="w-4 h-4" />
@@ -359,8 +359,8 @@ export const PlayerBar: React.FC = () => {
           onClick={() => setIsQueueDrawerOpen(!isQueueDrawerOpen)}
           title="Play Queue"
           aria-label="Toggle Play Queue"
-          className={`min-h-[44px] min-w-[44px] p-2 rounded-lg flex items-center justify-center transition-all ${
-            isQueueDrawerOpen ? 'text-vyn-primary bg-vyn-primary/10' : 'text-vyn-muted hover:text-vyn-high'
+          className={`min-h-[44px] min-w-[44px] p-2.5 rounded-2xl flex items-center justify-center transition-all cursor-pointer ${
+            isQueueDrawerOpen ? 'liquid-glass-pill text-vyn-primary border-vyn-primary/40 shadow-glow-cyan font-bold' : 'text-vyn-muted hover:text-vyn-high hover:bg-white/5'
           }`}
         >
           <ListMusic className="w-4 h-4" />
@@ -371,7 +371,7 @@ export const PlayerBar: React.FC = () => {
           onClick={() => setIsSleepTimerOpen(true)}
           title="Sleep Timer"
           aria-label="Open Sleep Timer"
-          className="min-h-[44px] min-w-[44px] p-2 rounded-lg text-vyn-muted hover:text-vyn-high flex items-center justify-center transition-all"
+          className="min-h-[44px] min-w-[44px] p-2.5 rounded-2xl text-vyn-muted hover:text-vyn-high hover:bg-white/5 flex items-center justify-center transition-all cursor-pointer"
         >
           <Clock className="w-4 h-4" />
         </button>
@@ -381,18 +381,18 @@ export const PlayerBar: React.FC = () => {
           onClick={() => setIsPlaybackSettingsOpen(true)}
           title="Playback Settings"
           aria-label="Open Playback Settings"
-          className="min-h-[44px] min-w-[44px] p-2 rounded-lg text-vyn-muted hover:text-vyn-high flex items-center justify-center transition-all"
+          className="min-h-[44px] min-w-[44px] p-2.5 rounded-2xl text-vyn-muted hover:text-vyn-high hover:bg-white/5 flex items-center justify-center transition-all cursor-pointer"
         >
           <Sliders className="w-4 h-4" />
         </button>
 
         {/* Volume Slider Group */}
-        <div className="hidden sm:flex items-center gap-1.5">
+        <div className="hidden sm:flex items-center gap-1.5 px-2 py-1 rounded-2xl liquid-glass-pill border-white/10">
           <button
             onClick={handleToggleMute}
             title={isMuted ? 'Unmute' : 'Mute'}
             aria-label={isMuted ? 'Unmute' : 'Mute'}
-            className="min-h-[44px] min-w-[44px] p-2 rounded-lg text-vyn-muted hover:text-vyn-high flex items-center justify-center"
+            className="min-h-[44px] min-w-[44px] p-2 rounded-xl text-vyn-muted hover:text-vyn-high flex items-center justify-center cursor-pointer"
           >
             {isMuted || volume === 0 ? (
               <VolumeX className="w-4 h-4 text-red-400" />
@@ -410,7 +410,7 @@ export const PlayerBar: React.FC = () => {
             value={isMuted ? 0 : volume}
             onChange={handleVolumeChange}
             aria-label="Volume slider"
-            className="w-16 md:w-20 h-1 bg-white/10 rounded-full appearance-none cursor-pointer accent-vyn-primary"
+            className="w-16 md:w-20 h-1.5 bg-white/20 rounded-full appearance-none cursor-pointer accent-vyn-primary"
           />
         </div>
       </div>

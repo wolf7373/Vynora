@@ -752,7 +752,7 @@ export const MobileNowPlayingDrawer: React.FC = () => {
             </div>
 
             {/* 6. Restored Dedicated Volume Slider Bar */}
-            <div className="w-full max-w-md mx-auto flex items-center gap-3 px-3.5 py-1.5 my-1 bg-white/10 hover:bg-white/15 rounded-2xl border border-white/10 backdrop-blur-md transition-all shadow-md flex-shrink-0">
+            <div className="w-full max-w-md mx-auto flex items-center gap-3 px-3.5 py-1.5 my-1 liquid-glass-pill rounded-2xl border-white/15 transition-all shadow-lg flex-shrink-0">
               <button
                 onClick={handleToggleMute}
                 aria-label={isMuted || volume === 0 ? 'Unmute volume' : 'Mute volume'}
@@ -788,7 +788,7 @@ export const MobileNowPlayingDrawer: React.FC = () => {
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setIsQueueDrawerOpen(true)}
-                  className="min-h-[44px] px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-white/20 active:scale-95 hover:scale-105 text-white/85 hover:text-white transition-all text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-md"
+                  className="min-h-[44px] px-4 py-2 rounded-full liquid-glass-pill active:scale-95 hover:scale-105 text-white/90 hover:text-white transition-all text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-md border-white/15"
                 >
                   <ListMusic className="w-3.5 h-3.5 text-vyn-primary" />
                   <span>Queue {queue.length > 0 ? `(${queue.length})` : ''}</span>
@@ -796,7 +796,7 @@ export const MobileNowPlayingDrawer: React.FC = () => {
 
                 <button
                   onClick={() => setIsPlaybackSettingsOpen(true)}
-                  className="min-h-[44px] px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-white/20 active:scale-95 hover:scale-105 text-white/85 hover:text-white transition-all text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-md"
+                  className="min-h-[44px] px-4 py-2 rounded-full liquid-glass-pill active:scale-95 hover:scale-105 text-white/90 hover:text-white transition-all text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-md border-white/15"
                 >
                   <Sliders className="w-3.5 h-3.5 text-vyn-primary" />
                   <span>Crossfade</span>

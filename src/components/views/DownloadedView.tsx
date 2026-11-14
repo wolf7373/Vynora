@@ -113,7 +113,7 @@ export const DownloadedView: React.FC = () => {
         <button
           onClick={() => fileInputRef.current?.click()}
           disabled={isProcessing}
-          className="min-h-[44px] min-w-[44px] px-4 py-2 rounded-xl bg-vyn-primary text-vyn-canvas text-xs font-semibold flex items-center gap-2 shadow-glow-cyan hover:scale-105 active:scale-95 transition-all disabled:opacity-50"
+          className="min-h-[44px] min-w-[44px] px-5 py-2.5 rounded-full liquid-glass-pill bg-gradient-to-b from-white/95 to-white/75 text-black text-xs font-extrabold flex items-center gap-2 shadow-xl hover:scale-105 active:scale-95 transition-all cursor-pointer border-white/60 disabled:opacity-50"
         >
           <Upload className="w-4 h-4" />
           <span>{isProcessing ? 'Importing Audio...' : '+ Import Local Songs'}</span>
@@ -133,7 +133,7 @@ export const DownloadedView: React.FC = () => {
 
       {/* Storage Quota & Security Info Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="glass-panel-elevated p-5 rounded-2xl border border-vyn-border flex flex-col justify-between">
+        <div className="liquid-glass-card p-5 rounded-3xl border border-white/15 flex flex-col justify-between shadow-lg">
           <div className="flex items-center justify-between mb-3">
             <span className="text-[11px] text-vyn-muted uppercase tracking-wider font-semibold">Storage Meter</span>
             <HardDrive className="w-4 h-4 text-vyn-primary" />
@@ -148,17 +148,17 @@ export const DownloadedView: React.FC = () => {
               </span>
             </div>
             {/* Storage Progress Bar */}
-            <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
+            <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
               <div
-                className="h-full bg-gradient-to-r from-vyn-primary to-vyn-accent rounded-full transition-all duration-500"
+                className="h-full bg-gradient-to-r from-vyn-primary to-vyn-accent rounded-full transition-all duration-500 shadow-sm"
                 style={{ width: `${Math.max(1, Math.min(100, quota?.percentUsed || 0))}%` }}
               />
             </div>
           </div>
         </div>
 
-        <div className="glass-panel-elevated p-5 rounded-2xl border border-vyn-border flex items-center gap-3.5">
-          <div className="w-10 h-10 rounded-xl bg-vyn-secondary/10 border border-vyn-secondary/30 flex items-center justify-center text-vyn-secondary flex-shrink-0">
+        <div className="liquid-glass-card p-5 rounded-3xl border border-white/15 flex items-center gap-3.5 shadow-lg">
+          <div className="w-10 h-10 rounded-2xl bg-vyn-secondary/15 border border-vyn-secondary/30 flex items-center justify-center text-vyn-secondary flex-shrink-0">
             <ShieldCheck className="w-5 h-5" />
           </div>
           <div>
@@ -169,8 +169,8 @@ export const DownloadedView: React.FC = () => {
           </div>
         </div>
 
-        <div className="glass-panel-elevated p-5 rounded-2xl border border-vyn-border flex items-center gap-3.5">
-          <div className="w-10 h-10 rounded-xl bg-vyn-primary/10 border border-vyn-primary/30 flex items-center justify-center text-vyn-primary flex-shrink-0">
+        <div className="liquid-glass-card p-5 rounded-3xl border border-white/15 flex items-center gap-3.5 shadow-lg">
+          <div className="w-10 h-10 rounded-2xl bg-vyn-primary/15 border border-vyn-primary/30 flex items-center justify-center text-vyn-primary flex-shrink-0">
             <CheckCircle2 className="w-5 h-5" />
           </div>
           <div>
@@ -191,10 +191,10 @@ export const DownloadedView: React.FC = () => {
         onDragLeave={() => setIsDragging(false)}
         onDrop={handleDrop}
         onClick={() => fileInputRef.current?.click()}
-        className={`p-6 border-2 border-dashed rounded-2xl text-center cursor-pointer transition-all ${
+        className={`p-7 border-2 border-dashed rounded-3xl text-center cursor-pointer transition-all ${
           isDragging
-            ? 'border-vyn-primary bg-vyn-primary/10 shadow-glow-cyan'
-            : 'border-vyn-border hover:border-vyn-primary/40 bg-vyn-surface/40'
+            ? 'border-vyn-primary liquid-glass-card shadow-glow-cyan'
+            : 'border-white/20 hover:border-vyn-primary/50 liquid-glass-pane'
         }`}
       >
         <Upload className="w-8 h-8 text-vyn-muted mx-auto mb-2" />
@@ -205,7 +205,7 @@ export const DownloadedView: React.FC = () => {
       </div>
 
       {/* Offline Tracks Table */}
-      <div className="glass-panel rounded-2xl border border-vyn-border overflow-hidden">
+      <div className="liquid-glass-card rounded-3xl border border-white/15 overflow-hidden shadow-xl">
         <div className="px-5 py-3 border-b border-vyn-border/60 grid grid-cols-12 text-[11px] font-bold uppercase tracking-wider text-vyn-muted">
           <span className="col-span-1">#</span>
           <span className="col-span-6 sm:col-span-5">Track & File</span>

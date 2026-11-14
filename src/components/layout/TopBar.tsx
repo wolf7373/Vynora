@@ -34,10 +34,11 @@ export const TopBar: React.FC = () => {
   }
 
   return (
-    <header className="h-16 border-b border-vyn-border bg-vyn-canvas/80 backdrop-blur-md px-4 md:px-6 flex items-center justify-between gap-3 sticky top-0 z-30 flex-shrink-0 select-none">
+    <header className="h-16 border-b border-white/10 liquid-glass-pane px-4 md:px-6 flex items-center justify-between gap-3 sticky top-0 z-30 flex-shrink-0 select-none relative">
+      <div className="liquid-specular-edge" />
       {/* Mobile-Only Brand Header when on Home/Library/Studio */}
       <div className={`md:hidden items-center gap-2.5 ${activeTab === 'search' ? 'hidden' : 'flex'}`}>
-        <div className="w-8 h-8 rounded-lg bg-vyn-primary/10 border border-vyn-primary/30 flex items-center justify-center shadow-glow-cyan flex-shrink-0">
+        <div className="w-8 h-8 rounded-xl liquid-glass-pill flex items-center justify-center shadow-glow-cyan flex-shrink-0 border-vyn-primary/30">
           <Disc3 className="w-4 h-4 text-vyn-primary" />
         </div>
         <div className="min-w-0">
@@ -57,7 +58,7 @@ export const TopBar: React.FC = () => {
           disabled={!canGoBack}
           title={canGoBack ? 'Go back' : 'No previous history'}
           aria-label="Previous view"
-          className={`min-h-[44px] min-w-[44px] w-11 h-11 rounded-full bg-vyn-surface/90 hover:bg-vyn-elevated border border-vyn-border flex items-center justify-center transition-all ${
+          className={`min-h-[44px] min-w-[44px] w-11 h-11 rounded-full liquid-glass-pill flex items-center justify-center transition-all ${
             canGoBack
               ? 'text-vyn-high cursor-pointer active:scale-95 hover:border-vyn-primary/40'
               : 'text-vyn-muted/30 opacity-40 cursor-not-allowed'
@@ -71,7 +72,7 @@ export const TopBar: React.FC = () => {
           disabled={!canGoForward}
           title={canGoForward ? 'Go forward' : 'No forward history'}
           aria-label="Next view"
-          className={`min-h-[44px] min-w-[44px] w-11 h-11 rounded-full bg-vyn-surface/90 hover:bg-vyn-elevated border border-vyn-border flex items-center justify-center transition-all ${
+          className={`min-h-[44px] min-w-[44px] w-11 h-11 rounded-full liquid-glass-pill flex items-center justify-center transition-all ${
             canGoForward
               ? 'text-vyn-high cursor-pointer active:scale-95 hover:border-vyn-primary/40'
               : 'text-vyn-muted/30 opacity-40 cursor-not-allowed'
@@ -98,14 +99,14 @@ export const TopBar: React.FC = () => {
             onKeyDown={handleKeyDown}
             placeholder="Search songs, artists, or paste YouTube link..."
             aria-label="Search music"
-            className="w-full h-11 pl-10 pr-10 rounded-full bg-vyn-surface border border-vyn-border focus:border-vyn-primary/60 focus:bg-vyn-elevated focus:outline-none focus:ring-1 focus:ring-vyn-primary/40 text-xs md:text-sm text-vyn-high placeholder:text-vyn-muted transition-all"
+            className="w-full h-11 pl-10 pr-10 rounded-full liquid-glass-input text-xs md:text-sm text-vyn-high placeholder:text-vyn-muted focus:outline-none transition-all"
           />
           {searchQuery.length > 0 && (
             <button
               onClick={handleClear}
               title="Clear search"
               aria-label="Clear search query"
-              className="min-h-[44px] min-w-[44px] w-11 h-11 absolute right-0 flex items-center justify-center text-vyn-muted hover:text-vyn-high transition-colors"
+              className="min-h-[44px] min-w-[44px] w-11 h-11 absolute right-0 flex items-center justify-center text-vyn-muted hover:text-vyn-high transition-colors cursor-pointer"
             >
               <X className="w-4 h-4" />
             </button>
@@ -120,13 +121,13 @@ export const TopBar: React.FC = () => {
           <button
             onClick={() => setActiveTab('search')}
             aria-label="Open search view"
-            className="md:hidden min-h-[44px] min-w-[44px] p-2.5 rounded-full bg-vyn-surface border border-vyn-border flex items-center justify-center text-vyn-muted hover:text-vyn-high active:scale-95 transition-all"
+            className="md:hidden min-h-[44px] min-w-[44px] p-2.5 rounded-full liquid-glass-pill flex items-center justify-center text-vyn-muted hover:text-vyn-high active:scale-95 transition-all cursor-pointer"
           >
             <Search className="w-4 h-4" />
           </button>
         )}
 
-        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-vyn-elevated border border-vyn-border text-[11px] text-vyn-muted font-mono">
+        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full liquid-glass-pill text-[11px] text-vyn-muted font-mono border-white/10 shadow-sm">
           <Radio className="w-3.5 h-3.5 text-vyn-primary animate-pulse" />
           <span className="hidden xs:inline">VYN-3.0</span>
           <span className="xs:hidden">VYN</span>

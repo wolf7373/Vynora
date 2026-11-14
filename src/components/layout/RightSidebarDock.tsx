@@ -28,16 +28,17 @@ export const RightSidebarDock: React.FC = () => {
     <aside
       id="vynora-right-dock"
       aria-label="Right Media Dock"
-      className="hidden md:flex w-80 md:w-96 bg-vyn-surface/95 border-l border-vyn-border flex-col h-full flex-shrink-0 z-20 select-none shadow-2xl transition-all duration-300"
+      className="hidden md:flex w-80 md:w-96 liquid-glass-pane border-l border-white/10 flex-col h-full flex-shrink-0 z-20 select-none shadow-2xl transition-all duration-300 relative"
     >
+      <div className="liquid-specular-edge" />
       {/* Dock Header */}
-      <div className="h-16 px-4 border-b border-vyn-border flex items-center justify-between gap-2">
-        <div className="flex items-center gap-1 bg-vyn-elevated/80 p-1 rounded-lg border border-vyn-border">
+      <div className="h-16 px-4 border-b border-white/10 flex items-center justify-between gap-2">
+        <div className="flex items-center gap-1 p-1 rounded-2xl liquid-glass-pill border-white/10">
           <button
             onClick={() => setRightSidebarView('video')}
-            className={`min-h-[44px] min-w-[44px] px-3 py-1.5 rounded-md text-xs font-medium flex items-center gap-2 transition-all ${
+            className={`min-h-[44px] min-w-[44px] px-3.5 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer ${
               rightSidebarView === 'video'
-                ? 'bg-vyn-primary text-vyn-canvas font-semibold shadow-glow-cyan'
+                ? 'liquid-glass-pill bg-white text-black font-extrabold shadow-md border-white/60'
                 : 'text-vyn-muted hover:text-vyn-high'
             }`}
           >
@@ -47,9 +48,9 @@ export const RightSidebarDock: React.FC = () => {
 
           <button
             onClick={() => setRightSidebarView('lyrics')}
-            className={`min-h-[44px] min-w-[44px] px-3 py-1.5 rounded-md text-xs font-medium flex items-center gap-2 transition-all ${
+            className={`min-h-[44px] min-w-[44px] px-3.5 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer ${
               rightSidebarView === 'lyrics'
-                ? 'bg-vyn-primary text-vyn-canvas font-semibold shadow-glow-cyan'
+                ? 'liquid-glass-pill bg-white text-black font-extrabold shadow-md border-white/60'
                 : 'text-vyn-muted hover:text-vyn-high'
             }`}
           >
@@ -64,7 +65,7 @@ export const RightSidebarDock: React.FC = () => {
               onClick={handleToggleFullscreen}
               title="Toggle Fullscreen Video"
               aria-label="Toggle Fullscreen Video"
-              className="min-h-[44px] min-w-[44px] w-9 h-9 rounded-lg hover:bg-white/10 flex items-center justify-center text-vyn-muted hover:text-white transition-colors cursor-pointer"
+              className="min-h-[44px] min-w-[44px] w-10 h-10 rounded-xl liquid-glass-pill flex items-center justify-center text-vyn-muted hover:text-white transition-all cursor-pointer border-white/10"
             >
               <Maximize2 className="w-4 h-4" />
             </button>
@@ -74,7 +75,7 @@ export const RightSidebarDock: React.FC = () => {
             onClick={() => setRightSidebarView('closed')}
             title="Close dock"
             aria-label="Close media dock"
-            className="min-h-[44px] min-w-[44px] w-9 h-9 rounded-lg hover:bg-white/10 flex items-center justify-center text-vyn-muted hover:text-vyn-high transition-colors cursor-pointer"
+            className="min-h-[44px] min-w-[44px] w-10 h-10 rounded-xl liquid-glass-pill flex items-center justify-center text-vyn-muted hover:text-vyn-high transition-all cursor-pointer border-white/10"
           >
             <X className="w-4 h-4" />
           </button>
@@ -85,8 +86,8 @@ export const RightSidebarDock: React.FC = () => {
       <div className="flex-1 overflow-hidden flex flex-col p-4">
         {/* Track Header Card */}
         {currentTrack && (
-          <div className="p-3 mb-3 rounded-xl bg-vyn-elevated/70 border border-vyn-border flex items-center gap-3">
-            <div className="w-12 h-12 rounded-lg bg-vyn-canvas flex items-center justify-center overflow-hidden flex-shrink-0 border border-vyn-border">
+          <div className="p-3.5 mb-3 rounded-2xl liquid-glass-card border border-white/15 flex items-center gap-3 shadow-md">
+            <div className="w-12 h-12 rounded-xl bg-black/40 flex items-center justify-center overflow-hidden flex-shrink-0 border border-white/15 shadow-sm">
               {currentTrack.coverUrl ? (
                 <img
                   src={currentTrack.coverUrl}

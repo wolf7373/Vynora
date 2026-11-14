@@ -29,9 +29,10 @@ export const LeftSidebar: React.FC = () => {
   }
 
   return (
-    <aside className="w-64 liquid-glass-pane border-r border-white/10 flex flex-col h-full flex-shrink-0 select-none">
+    <aside className="w-64 liquid-glass-pane border-r border-white/10 flex flex-col h-full flex-shrink-0 select-none relative">
+      <div className="liquid-specular-edge" />
       {/* Brand Header */}
-      <div className="h-16 px-5 border-b border-vyn-border flex items-center gap-3">
+      <div className="h-16 px-5 border-b border-white/10 flex items-center gap-3">
         <VynoraLogo className="w-8 h-8" />
         <div>
           <span className="font-display font-bold text-sm tracking-widest bg-gradient-to-r from-vyn-primary via-vyn-secondary to-vyn-accent bg-clip-text text-transparent">
@@ -42,7 +43,7 @@ export const LeftSidebar: React.FC = () => {
       </div>
 
       {/* Main Navigation Items */}
-      <div className="p-3 space-y-1">
+      <div className="p-3 space-y-1.5">
         {navItems.map((item) => {
           const Icon = item.icon
           const isActive = activeTab === item.tab
@@ -50,10 +51,10 @@ export const LeftSidebar: React.FC = () => {
             <button
               key={item.tab}
               onClick={() => setActiveTab(item.tab)}
-              className={`w-full min-h-[44px] px-3.5 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-3.5 transition-all duration-200 active:scale-[0.98] ${
+              className={`w-full min-h-[44px] px-3.5 py-2.5 rounded-2xl text-xs font-semibold flex items-center gap-3.5 transition-all duration-200 active:scale-[0.98] cursor-pointer ${
                 isActive
-                  ? 'bg-vyn-primary/10 text-vyn-primary border border-vyn-primary/20 shadow-glow-cyan'
-                  : 'text-vyn-muted hover:text-vyn-high hover:bg-white/5'
+                  ? 'liquid-glass-pill text-vyn-primary border-vyn-primary/40 shadow-glow-cyan font-bold'
+                  : 'text-vyn-muted hover:text-vyn-high hover:bg-white/5 border border-transparent'
               }`}
             >
               <Icon className={`w-4 h-4 ${isActive ? 'text-vyn-primary' : 'text-vyn-muted'}`} />
@@ -64,13 +65,13 @@ export const LeftSidebar: React.FC = () => {
       </div>
 
       {/* Playlists Section Divider */}
-      <div className="px-5 py-3 border-t border-vyn-border/60 flex items-center justify-between">
+      <div className="px-5 py-3 border-t border-white/10 flex items-center justify-between">
         <span className="text-[11px] font-bold uppercase tracking-wider text-vyn-muted">Playlists</span>
         <button
           onClick={handleCreatePlaylist}
           title="Create New Playlist"
           aria-label="Create New Playlist"
-          className="min-h-[44px] min-w-[44px] w-8 h-8 rounded-lg hover:bg-white/10 flex items-center justify-center text-vyn-muted hover:text-vyn-primary transition-all active:scale-95"
+          className="min-h-[44px] min-w-[44px] w-8 h-8 rounded-xl hover:bg-white/10 flex items-center justify-center text-vyn-muted hover:text-vyn-primary transition-all active:scale-95 cursor-pointer border border-transparent hover:border-white/10"
         >
           <Plus className="w-4 h-4" />
         </button>
@@ -83,13 +84,13 @@ export const LeftSidebar: React.FC = () => {
             setActivePlaylistId('liked-songs')
             setActiveTab('library')
           }}
-          className={`w-full min-h-[44px] px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-2.5 transition-all ${
+          className={`w-full min-h-[44px] px-3 py-2 rounded-2xl text-xs font-semibold flex items-center gap-2.5 transition-all cursor-pointer ${
             activePlaylistId === 'liked-songs' && activeTab === 'library'
-              ? 'bg-gradient-to-r from-accent-cyan/15 to-accent-violet/15 text-accent-cyan border border-accent-cyan/30 shadow-sm'
-              : 'text-vyn-muted hover:text-vyn-high hover:bg-white/5'
+              ? 'liquid-glass-pill text-accent-cyan border-accent-cyan/40 shadow-glow-cyan'
+              : 'text-vyn-muted hover:text-vyn-high hover:bg-white/5 border border-transparent'
           }`}
         >
-          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center text-white shadow-sm flex-shrink-0">
+          <div className="w-7 h-7 rounded-xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center text-white shadow-md flex-shrink-0">
             <Heart className="w-3.5 h-3.5 fill-current" />
           </div>
           <div className="min-w-0 text-left">
@@ -143,29 +144,29 @@ export const LeftSidebar: React.FC = () => {
       </div>
 
       {/* Install App & Cross-Device Sync Footer */}
-      <div className="p-3 border-t border-vyn-border/60 space-y-1">
+      <div className="p-3 border-t border-white/10 space-y-2">
         <button
           onClick={() => setIsInstallModalOpen(true)}
-          className="w-full min-h-[44px] px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center justify-between text-vyn-muted hover:text-vyn-primary hover:bg-vyn-primary/10 border border-transparent hover:border-vyn-primary/20 transition-all duration-200 group cursor-pointer"
+          className="w-full min-h-[44px] px-3.5 py-2.5 rounded-2xl text-xs font-semibold flex items-center justify-between text-vyn-muted hover:text-vyn-primary liquid-glass-pill hover:border-vyn-primary/40 transition-all duration-200 group cursor-pointer"
         >
           <div className="flex items-center gap-2.5">
             <Download className="w-4 h-4 text-vyn-primary group-hover:scale-110 transition-transform" />
             <span>Install App</span>
           </div>
-          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-vyn-primary/15 text-vyn-primary border border-vyn-primary/30">
+          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-vyn-primary/20 text-vyn-primary border border-vyn-primary/30">
             PWA
           </span>
         </button>
 
         <button
           onClick={() => setIsSyncModalOpen(true)}
-          className="w-full min-h-[44px] px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center justify-between text-vyn-muted hover:text-vyn-primary hover:bg-vyn-primary/10 border border-transparent hover:border-vyn-primary/20 transition-all duration-200 group cursor-pointer"
+          className="w-full min-h-[44px] px-3.5 py-2.5 rounded-2xl text-xs font-semibold flex items-center justify-between text-vyn-muted hover:text-accent-cyan liquid-glass-pill hover:border-accent-cyan/40 transition-all duration-200 group cursor-pointer"
         >
           <div className="flex items-center gap-2.5">
             <Radio className="w-4 h-4 text-accent-cyan group-hover:animate-pulse" />
             <span>Sync Devices</span>
           </div>
-          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-white/5 text-accent-cyan">
+          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-accent-cyan/20 text-accent-cyan border border-accent-cyan/30">
             VYN
           </span>
         </button>

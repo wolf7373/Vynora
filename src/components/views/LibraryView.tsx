@@ -62,7 +62,7 @@ export const LibraryView: React.FC = () => {
 
         <button
           onClick={handleCreateNew}
-          className="min-h-[44px] min-w-[44px] px-4 py-2 rounded-xl bg-vyn-primary text-vyn-canvas text-xs font-semibold flex items-center gap-2 shadow-glow-cyan hover:scale-105 active:scale-95 transition-all"
+          className="min-h-[44px] min-w-[44px] px-5 py-2.5 rounded-full liquid-glass-pill bg-gradient-to-b from-white/95 to-white/75 text-black text-xs font-extrabold flex items-center gap-2 shadow-xl hover:scale-105 active:scale-95 transition-all cursor-pointer border-white/60"
         >
           <Plus className="w-4 h-4" />
           <span>New Playlist</span>
@@ -73,10 +73,10 @@ export const LibraryView: React.FC = () => {
       <div className="flex items-center gap-2 overflow-x-auto pt-1 pb-1 scrollbar-none">
         <button
           onClick={() => setActivePlaylistId('liked-songs')}
-          className={`min-h-[44px] px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap flex items-center gap-2 transition-all ${
+          className={`min-h-[44px] px-4 py-1.5 rounded-2xl text-xs font-semibold whitespace-nowrap flex items-center gap-2 transition-all cursor-pointer ${
             isLikedView
-              ? 'bg-gradient-to-r from-indigo-500 to-pink-500 text-white shadow-md font-bold'
-              : 'glass-panel text-vyn-muted hover:text-vyn-high border border-vyn-border'
+              ? 'liquid-glass-pill text-white shadow-md font-bold bg-gradient-to-r from-indigo-500/80 to-pink-500/80 border-white/30'
+              : 'liquid-glass-pill text-vyn-muted hover:text-vyn-high border-white/10'
           }`}
         >
           <Heart className="w-3.5 h-3.5 fill-current" />
@@ -89,10 +89,10 @@ export const LibraryView: React.FC = () => {
             <button
               key={pl.id}
               onClick={() => setActivePlaylistId(pl.id)}
-              className={`min-h-[44px] px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
+              className={`min-h-[44px] px-4 py-1.5 rounded-2xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
                 isSelected
-                  ? 'bg-vyn-primary text-vyn-canvas shadow-glow-cyan font-bold'
-                  : 'glass-panel text-vyn-muted hover:text-vyn-high border border-vyn-border'
+                  ? 'liquid-glass-pill bg-white text-black font-extrabold shadow-md border-white/60'
+                  : 'liquid-glass-pill text-vyn-muted hover:text-vyn-high border-white/10'
               }`}
             >
               {pl.name}
@@ -117,9 +117,9 @@ export const LibraryView: React.FC = () => {
         <div className="space-y-6">
           {/* Active Playlist Detail Card */}
           {currentPlaylist && (
-            <div className="glass-panel-elevated p-6 rounded-2xl border border-vyn-border flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div className="liquid-glass-card p-6 md:p-8 rounded-3xl border border-white/20 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-xl">
               <div className="flex items-center gap-4">
-                <div className="w-16 h-16 rounded-xl bg-vyn-surface border border-vyn-border flex items-center justify-center flex-shrink-0 text-vyn-primary overflow-hidden">
+                <div className="w-16 h-16 rounded-2xl bg-black/40 border border-white/15 flex items-center justify-center flex-shrink-0 text-vyn-primary overflow-hidden shadow-md">
                   {isLikedView ? (
                     <div className="w-full h-full bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center text-white">
                       <Heart className="w-8 h-8 fill-current" />
@@ -129,7 +129,7 @@ export const LibraryView: React.FC = () => {
                   )}
                 </div>
                 <div>
-                  <h2 className="text-lg font-bold text-vyn-high">{currentPlaylist.name}</h2>
+                  <h2 className="text-lg md:text-xl font-bold text-vyn-high">{currentPlaylist.name}</h2>
                   <p className="text-xs text-vyn-muted mb-1">{currentPlaylist.description || 'Personal Mix'}</p>
                   <span className="text-[10px] text-vyn-muted font-mono">
                     {currentPlaylist.tracks.length} track{currentPlaylist.tracks.length === 1 ? '' : 's'}
@@ -141,9 +141,9 @@ export const LibraryView: React.FC = () => {
                 <button
                   onClick={() => handlePlayPlaylist(0)}
                   disabled={currentPlaylist.tracks.length === 0}
-                  className="min-h-[44px] min-w-[44px] px-4 py-2 rounded-xl bg-vyn-primary text-vyn-canvas text-xs font-semibold flex items-center gap-2 shadow-glow-cyan disabled:opacity-40 hover:scale-105 active:scale-95 transition-all"
+                  className="min-h-[44px] min-w-[44px] px-5 py-2.5 rounded-full liquid-glass-pill bg-gradient-to-b from-white/95 to-white/75 text-black text-xs font-extrabold flex items-center gap-2 shadow-xl disabled:opacity-40 hover:scale-105 active:scale-95 transition-all cursor-pointer border-white/60"
                 >
-                  <Play className="w-4 h-4 fill-current" />
+                  <Play className="w-4 h-4 fill-current ml-0.5" />
                   <span>Play All</span>
                 </button>
 
@@ -152,7 +152,7 @@ export const LibraryView: React.FC = () => {
                     onClick={() => deletePlaylist(currentPlaylist.id)}
                     title="Delete playlist"
                     aria-label="Delete playlist"
-                    className="min-h-[44px] min-w-[44px] p-2.5 rounded-xl border border-vyn-border text-vyn-muted hover:text-red-400 hover:bg-white/5 transition-colors"
+                    className="min-h-[44px] min-w-[44px] p-2.5 rounded-full liquid-glass-pill text-vyn-muted hover:text-red-400 hover:border-red-400/40 transition-all cursor-pointer"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -162,14 +162,14 @@ export const LibraryView: React.FC = () => {
           )}
 
           {/* Quick Add Samples bar */}
-          <div className="glass-panel p-4 rounded-xl border border-vyn-border flex items-center justify-between gap-2 overflow-x-auto">
+          <div className="liquid-glass-card p-4 rounded-2xl border border-white/15 flex items-center justify-between gap-2 overflow-x-auto shadow-md">
             <span className="text-xs text-vyn-muted font-medium whitespace-nowrap">Quick Add:</span>
             <div className="flex items-center gap-2">
               {CATALOG_TRACKS.slice(0, 4).map((track) => (
                 <button
                   key={track.id}
                   onClick={() => addTrackToPlaylist(currentPlaylist.id, track)}
-                  className="min-h-[44px] min-w-[44px] text-[11px] px-3 py-1 rounded-lg bg-vyn-surface hover:bg-vyn-elevated border border-vyn-border text-vyn-high font-medium whitespace-nowrap transition-all"
+                  className="min-h-[44px] min-w-[44px] text-[11px] px-3.5 py-1.5 rounded-xl liquid-glass-pill text-vyn-high font-medium whitespace-nowrap transition-all border-white/10 hover:border-vyn-primary/40 cursor-pointer"
                 >
                   + {track.title}
                 </button>
@@ -178,7 +178,7 @@ export const LibraryView: React.FC = () => {
           </div>
 
           {/* Playlist Tracks List */}
-          <div className="glass-panel rounded-2xl border border-vyn-border overflow-hidden">
+          <div className="liquid-glass-card rounded-3xl border border-white/15 overflow-hidden shadow-xl">
             {currentPlaylist?.tracks.length === 0 ? (
               <div className="p-8 text-center text-vyn-muted">
                 <Music2 className="w-8 h-8 text-vyn-muted/50 mx-auto mb-2" />

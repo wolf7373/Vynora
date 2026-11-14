@@ -213,11 +213,11 @@ export const WorkstationView: React.FC = () => {
         </div>
 
         {/* Master Transport & BPM Rack */}
-        <div className="flex flex-wrap items-center gap-3 bg-vyn-surface p-3 rounded-2xl border border-vyn-border">
+        <div className="flex flex-wrap items-center gap-3 liquid-glass-card p-3 rounded-2xl border border-white/15 shadow-md">
           <button
             onClick={() => setIsPlayingSeq(!isPlayingSeq)}
             aria-label={isPlayingSeq ? 'Pause Sequencer' : 'Start Sequencer'}
-            className="min-h-[44px] px-5 py-2 rounded-xl bg-vyn-primary text-vyn-canvas font-bold text-xs flex items-center gap-2 shadow-glow-cyan active:scale-95 transition-transform motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-vyn-primary focus-visible:outline-none"
+            className="min-h-[44px] px-5 py-2 rounded-xl liquid-glass-pill bg-gradient-to-b from-white/95 to-white/75 text-black font-extrabold text-xs flex items-center gap-2 shadow-xl hover:scale-105 active:scale-95 transition-all cursor-pointer border-white/60 focus-visible:ring-2 focus-visible:ring-vyn-primary focus-visible:outline-none"
           >
             {isPlayingSeq ? <Pause className="w-4 h-4 fill-current" /> : <Play className="w-4 h-4 fill-current" />}
             <span>{isPlayingSeq ? 'Halt clock' : 'Engage clock'}</span>
@@ -227,13 +227,13 @@ export const WorkstationView: React.FC = () => {
             onClick={resetPattern}
             title="Reset Pattern"
             aria-label="Reset Pattern"
-            className="min-h-[44px] min-w-[44px] px-3 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-vyn-high border border-vyn-border flex items-center justify-center transition-colors active:scale-95 motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-vyn-primary focus-visible:outline-none"
+            className="min-h-[44px] min-w-[44px] px-3 py-2 rounded-xl liquid-glass-pill text-vyn-high border-white/10 flex items-center justify-center transition-all cursor-pointer active:scale-95 motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-vyn-primary focus-visible:outline-none"
           >
             <RotateCcw className="w-4 h-4" />
           </button>
 
           {/* BPM Knob Control */}
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-vyn-canvas border border-white/5 text-xs">
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl liquid-glass-pill border-white/10 text-xs">
             <span className="text-vyn-muted">Tempo</span>
             <input
               type="range"
@@ -248,7 +248,7 @@ export const WorkstationView: React.FC = () => {
           </div>
 
           {/* Master Out Level */}
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-vyn-canvas border border-white/5 text-xs">
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl liquid-glass-pill border-white/10 text-xs">
             <span className="text-vyn-muted">Out</span>
             <input
               type="range"
@@ -268,12 +268,13 @@ export const WorkstationView: React.FC = () => {
       </header>
 
       {/* 2. REAL-TIME DSP OSCILLOSCOPE MONITOR */}
-      <section className="bg-vyn-surface rounded-2xl border border-vyn-border p-4 relative overflow-hidden">
+      <section className="liquid-glass-card rounded-3xl border border-white/15 p-5 shadow-xl relative overflow-hidden">
+        <div className="liquid-specular-edge" />
         <div className="flex items-center justify-between mb-3 text-xs">
           <div className="flex items-center gap-2 text-vyn-muted">
             <Activity className="w-4 h-4 text-vyn-primary" />
             <span className="text-vyn-high font-bold">Real-time spectral oscilloscope</span>
-            <span className="text-[10px] px-2 py-0.5 rounded bg-white/5 border border-white/10 font-mono">44.1 kHz, 32-bit Float</span>
+            <span className="text-[10px] px-2 py-0.5 rounded-full liquid-glass-pill border-white/10 font-mono">44.1 kHz, 32-bit Float</span>
           </div>
           <div className="flex items-center gap-3 text-[11px] text-vyn-muted">
             <span>Clock step: <strong className="text-vyn-primary font-mono">{(currentStep + 1).toString().padStart(2, '0')}/16</strong></span>
@@ -281,13 +282,13 @@ export const WorkstationView: React.FC = () => {
           </div>
         </div>
 
-        <div className="w-full h-32 md:h-44 rounded-xl overflow-hidden border border-white/10 relative">
+        <div className="w-full h-32 md:h-44 rounded-2xl overflow-hidden border border-white/10 relative shadow-inner">
           <canvas
             ref={canvasRef}
             width={960}
             height={180}
             aria-label="Live audio frequency and waveform visualizer"
-            className="w-full h-full block bg-vyn-canvas"
+            className="w-full h-full block bg-black/60"
           />
         </div>
       </section>
@@ -306,7 +307,7 @@ export const WorkstationView: React.FC = () => {
           {stems.map((stem) => (
             <div
               key={stem.id}
-              className="p-3.5 rounded-2xl bg-vyn-surface border border-vyn-border hover:border-vyn-border/80 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 transition-colors"
+              className="p-4 rounded-3xl liquid-glass-card border border-white/10 hover:border-vyn-primary/40 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 transition-all shadow-md"
             >
               {/* Stem Info & Mixing Controls */}
               <div className="flex items-center gap-3 w-full md:w-64 flex-shrink-0">
@@ -319,20 +320,20 @@ export const WorkstationView: React.FC = () => {
                   <div className="flex items-center gap-2 mt-1">
                     <button
                       onClick={() => toggleMuteStem(stem.id)}
-                      className={`text-[10px] px-2 py-0.5 rounded font-bold transition-colors ${
+                      className={`text-[10px] px-2.5 py-1 rounded-xl font-bold transition-all cursor-pointer ${
                         stem.isMuted
-                          ? 'bg-vyn-primary/20 text-vyn-primary border border-vyn-primary/40'
-                          : 'bg-white/5 text-vyn-muted hover:text-white border border-white/10'
+                          ? 'liquid-glass-pill text-vyn-primary border-vyn-primary/40 shadow-glow-cyan'
+                          : 'liquid-glass-pill text-vyn-muted hover:text-white border-white/10'
                       }`}
                     >
                       {stem.isMuted ? 'Muted' : 'Mute'}
                     </button>
                     <button
                       onClick={() => toggleSoloStem(stem.id)}
-                      className={`text-[10px] px-2 py-0.5 rounded font-bold transition-colors ${
+                      className={`text-[10px] px-2.5 py-1 rounded-xl font-bold transition-all cursor-pointer ${
                         stem.isSolo
-                          ? 'bg-vyn-primary/20 text-vyn-primary border border-vyn-primary/40'
-                          : 'bg-white/5 text-vyn-muted hover:text-white border border-white/10'
+                          ? 'liquid-glass-pill text-vyn-primary border-vyn-primary/40 shadow-glow-cyan'
+                          : 'liquid-glass-pill text-vyn-muted hover:text-white border-white/10'
                       }`}
                     >
                       Solo
@@ -364,7 +365,7 @@ export const WorkstationView: React.FC = () => {
                       key={stepIdx}
                       onClick={() => toggleStep(stem.id, stepIdx)}
                       aria-label={`Step ${stepIdx + 1} for ${stem.name}`}
-                      className={`min-h-[44px] min-w-[28px] rounded-lg text-[10px] font-mono font-bold flex flex-col items-center justify-center transition-colors focus-visible:ring-2 focus-visible:ring-vyn-primary focus-visible:outline-none ${
+                      className={`min-h-[44px] min-w-[28px] rounded-xl text-[10px] font-mono font-bold flex flex-col items-center justify-center transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-vyn-primary focus-visible:outline-none ${
                         isCurrent
                           ? 'ring-2 ring-white scale-105 z-10'
                           : isBeatQuarter
@@ -372,8 +373,8 @@ export const WorkstationView: React.FC = () => {
                           : 'border border-white/5'
                       } ${
                         active
-                          ? 'bg-vyn-primary text-vyn-canvas shadow-glow-cyan'
-                          : 'bg-vyn-elevated text-vyn-muted hover:bg-white/10'
+                          ? 'liquid-glass-pill bg-white text-black font-extrabold shadow-md border-white/60'
+                          : 'liquid-glass-pill text-vyn-muted hover:bg-white/10 border-white/10'
                       }`}
                     >
                       <span>{(stepIdx + 1).toString().padStart(2, '0')}</span>
@@ -387,7 +388,7 @@ export const WorkstationView: React.FC = () => {
       </section>
 
       {/* 4. HARDWARE DSP SIGNAL PROCESSOR RACK */}
-      <section className="p-6 rounded-2xl bg-vyn-surface border border-vyn-border">
+      <section className="p-6 rounded-3xl liquid-glass-card border border-white/15 shadow-xl">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
           <div>
             <div className="flex items-center gap-2">
@@ -402,10 +403,10 @@ export const WorkstationView: React.FC = () => {
               <button
                 key={preset}
                 onClick={() => setActivePreset(preset)}
-                className={`min-h-[44px] px-3.5 py-1.5 rounded-lg text-xs font-medium transition-colors focus-visible:ring-2 focus-visible:ring-vyn-primary ${
+                className={`min-h-[44px] px-4 py-1.5 rounded-2xl text-xs font-semibold transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-vyn-primary ${
                   activePreset === preset
-                    ? 'bg-vyn-primary/20 text-vyn-primary border border-vyn-primary/40'
-                    : 'bg-white/5 text-vyn-muted hover:text-white border border-white/10'
+                    ? 'liquid-glass-pill bg-white text-black font-extrabold shadow-md border-white/60'
+                    : 'liquid-glass-pill text-vyn-muted hover:text-white border-white/10'
                 }`}
               >
                 {preset}

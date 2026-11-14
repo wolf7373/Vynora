@@ -22,8 +22,9 @@ export const MobileNav: React.FC = () => {
   return (
     <nav
       aria-label="Mobile Navigation"
-      className="md:hidden min-h-[4rem] h-auto liquid-glass-pane border-t border-white/10 flex items-center justify-around px-2 z-50 select-none pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-1"
+      className="md:hidden min-h-[4rem] h-auto liquid-glass-pane border-t border-white/10 flex items-center justify-around px-2 z-50 select-none pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-1 relative"
     >
+      <div className="liquid-specular-edge" />
       {tabs.map((item) => {
         const Icon = item.icon
         const isActive = activeTab === item.tab
@@ -31,8 +32,8 @@ export const MobileNav: React.FC = () => {
           <button
             key={item.tab}
             onClick={() => setActiveTab(item.tab)}
-            className={`min-h-[44px] min-w-[44px] flex-1 py-1 flex flex-col items-center justify-center transition-all ${
-              isActive ? 'text-vyn-primary font-semibold' : 'text-vyn-muted hover:text-vyn-high'
+            className={`min-h-[44px] min-w-[44px] flex-1 py-1.5 rounded-2xl flex flex-col items-center justify-center transition-all ${
+              isActive ? 'liquid-glass-pill text-vyn-primary font-bold shadow-glow-cyan border-vyn-primary/30' : 'text-vyn-muted hover:text-vyn-high'
             }`}
           >
             <Icon className="w-5 h-5 mb-0.5" />
@@ -45,8 +46,8 @@ export const MobileNav: React.FC = () => {
       <button
         onClick={handleOpenNowPlaying}
         aria-label="Now Playing View"
-        className={`min-h-[44px] min-w-[44px] flex-1 py-1 flex flex-col items-center justify-center transition-all ${
-          isMobileDrawerOpen ? 'text-vyn-primary font-semibold' : 'text-vyn-muted hover:text-vyn-high'
+        className={`min-h-[44px] min-w-[44px] flex-1 py-1.5 rounded-2xl flex flex-col items-center justify-center transition-all ${
+          isMobileDrawerOpen ? 'liquid-glass-pill text-vyn-primary font-bold shadow-glow-cyan border-vyn-primary/30' : 'text-vyn-muted hover:text-vyn-high'
         }`}
       >
         <div className="relative">

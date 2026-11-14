@@ -379,7 +379,7 @@ export const SearchView: React.FC = () => {
         </div>
 
         {/* Filter Pills */}
-        <div className="flex items-center gap-1.5 bg-vyn-elevated p-1 rounded-xl border border-vyn-border overflow-x-auto shrink-0 scrollbar-none">
+        <div className="flex items-center gap-1.5 p-1 rounded-2xl liquid-glass-pill border-white/10 overflow-x-auto shrink-0 scrollbar-none">
           {(
             [
               { id: 'all', label: 'All Songs' },
@@ -392,9 +392,9 @@ export const SearchView: React.FC = () => {
             <button
               key={cat.id}
               onClick={() => setActiveCategory(cat.id)}
-              className={`min-h-[44px] min-w-[44px] px-3.5 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap flex-shrink-0 transition-colors focus-visible:ring-2 focus-visible:ring-vyn-primary focus-visible:outline-none ${
+              className={`min-h-[44px] min-w-[44px] px-4 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap flex-shrink-0 transition-all cursor-pointer focus-visible:ring-2 focus-visible:ring-vyn-primary focus-visible:outline-none ${
                 activeCategory === cat.id
-                  ? 'bg-vyn-primary text-vyn-canvas font-semibold shadow-glow-cyan'
+                  ? 'liquid-glass-pill bg-white text-black font-extrabold shadow-md border-white/60'
                   : 'text-vyn-muted hover:text-vyn-high'
               }`}
             >
@@ -411,7 +411,7 @@ export const SearchView: React.FC = () => {
           <button
             key={tag}
             onClick={() => setSearchQuery(tag)}
-            className="min-h-[44px] min-w-[44px] px-3 py-1.5 rounded-full text-xs bg-canvas-elevated hover:bg-white/10 text-vyn-high/80 hover:text-vyn-primary border border-vyn-border whitespace-nowrap flex-shrink-0 transition-colors active:scale-95 motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-vyn-primary focus-visible:outline-none"
+            className="min-h-[44px] min-w-[44px] px-3.5 py-1.5 rounded-full text-xs liquid-glass-pill hover:text-vyn-primary border-white/10 whitespace-nowrap flex-shrink-0 transition-all active:scale-95 cursor-pointer focus-visible:ring-2 focus-visible:ring-vyn-primary focus-visible:outline-none"
           >
             {tag}
           </button>
@@ -419,7 +419,7 @@ export const SearchView: React.FC = () => {
       </div>
 
       {/* Meta Bar: Instance Source & Filter Guard */}
-      <div className="flex flex-wrap items-center justify-between gap-2 px-4 py-2.5 rounded-xl bg-vyn-surface/60 border border-vyn-border text-xs text-vyn-muted">
+      <div className="flex flex-wrap items-center justify-between gap-2 px-4 py-2.5 rounded-2xl liquid-glass-pill border-white/10 text-xs text-vyn-muted">
         <div className="flex items-center gap-2">
           {isLoading ? (
             <span className="flex items-center gap-1.5 text-vyn-primary">
@@ -444,7 +444,7 @@ export const SearchView: React.FC = () => {
       </div>
 
       {/* Track Results List */}
-      <div className="glass-panel rounded-2xl border border-vyn-border overflow-hidden">
+      <div className="liquid-glass-card rounded-3xl border border-white/15 overflow-hidden shadow-xl">
         <div className="px-5 py-3 border-b border-vyn-border/60 grid grid-cols-12 text-[11px] font-semibold text-vyn-muted">
           <span className="col-span-1">#</span>
           <span className="col-span-6 sm:col-span-5">Title & Artist</span>

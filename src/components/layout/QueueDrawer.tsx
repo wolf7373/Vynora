@@ -52,10 +52,11 @@ export const QueueDrawer: React.FC = () => {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="w-full sm:max-w-md h-full bg-vyn-surface/95 border-l border-white/10 shadow-2xl flex flex-col p-4 sm:p-6 text-vyn-high overflow-hidden backdrop-blur-2xl"
+        className="w-full sm:max-w-md h-full liquid-glass-pane border-l border-white/15 shadow-2xl flex flex-col p-4 sm:p-6 text-vyn-high overflow-hidden backdrop-blur-3xl relative"
       >
+        <div className="liquid-specular-edge" />
         {/* Header */}
-        <div className="flex items-center justify-between pb-4 border-b border-white/5 flex-shrink-0">
+        <div className="flex items-center justify-between pb-4 border-b border-white/10 flex-shrink-0">
           <div className="flex items-center gap-2">
             <ListMusic className="w-5 h-5 text-accent-cyan" />
             <h2 className="text-base font-bold tracking-wide">Play Queue</h2>
@@ -70,7 +71,7 @@ export const QueueDrawer: React.FC = () => {
                 onClick={clearQueue}
                 title="Clear queue"
                 aria-label="Clear queue"
-                className="min-h-[44px] min-w-[44px] flex items-center justify-center text-xs text-text-muted hover:text-red-400 hover:bg-white/5 rounded-xl transition-colors"
+                className="min-h-[44px] min-w-[44px] flex items-center justify-center text-xs text-text-muted hover:text-red-400 liquid-glass-pill rounded-xl transition-all cursor-pointer border-white/10"
               >
                 <Trash2 className="w-4 h-4" />
               </button>
@@ -78,7 +79,7 @@ export const QueueDrawer: React.FC = () => {
             <button
               onClick={() => setIsQueueDrawerOpen(false)}
               aria-label="Close queue drawer"
-              className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-xl text-text-muted hover:text-white hover:bg-white/5 transition-colors"
+              className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-xl text-text-muted hover:text-white liquid-glass-pill transition-all cursor-pointer border-white/10"
             >
               <X className="w-5 h-5" />
             </button>
@@ -93,7 +94,7 @@ export const QueueDrawer: React.FC = () => {
               Now Playing
             </h3>
             {currentTrack ? (
-              <div className="flex items-center gap-3 p-3 rounded-2xl bg-canvas-elevated border border-accent-cyan/30 shadow-lg">
+              <div className="flex items-center gap-3 p-3.5 rounded-2xl liquid-glass-card border border-accent-cyan/40 shadow-glow-cyan">
                 <div className="relative w-12 h-12 rounded-xl bg-canvas-base border border-white/10 overflow-hidden flex-shrink-0 flex items-center justify-center">
                   {currentTrack.coverUrl ? (
                     <img

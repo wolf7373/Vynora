@@ -14,30 +14,30 @@ export const AmbientBackground: React.FC = () => {
       aria-hidden="true"
       className="fixed inset-0 pointer-events-none overflow-hidden z-0 select-none overscroll-none"
     >
-      {/* Dynamic Aurora Orb 1: Floating Primary Gradient */}
+      {/* Dynamic Aurora Orb 1: Warm Amber / Coral Liquid Mesh Flare */}
       <div
-        className="absolute -top-[15%] -left-[10%] w-[55vw] h-[55vw] max-w-[650px] max-h-[650px] rounded-full blur-[130px] opacity-35 animate-aurora-1 transition-colors duration-1000"
+        className="absolute -top-[15%] left-[10%] w-[65vw] h-[50vw] max-w-[850px] max-h-[600px] rounded-full blur-[130px] opacity-45 animate-aurora-1 transition-colors duration-1000"
         style={{
-          background: `radial-gradient(circle, ${primaryColor} 0%, rgba(0, 242, 254, 0.25) 50%, transparent 75%)`,
+          background: `radial-gradient(ellipse at center, ${primaryColor} 0%, #FF5E3A 35%, rgba(255, 42, 109, 0.25) 60%, transparent 75%)`,
         }}
       />
 
-      {/* Dynamic Aurora Orb 2: Deep Indigo / Violet Counter-Orb */}
+      {/* Dynamic Aurora Orb 2: Deep Indigo / Cyan Counter-Orb */}
       <div
-        className="absolute top-[35%] -right-[15%] w-[60vw] h-[60vw] max-w-[700px] max-h-[700px] rounded-full blur-[150px] opacity-25 animate-aurora-2 transition-colors duration-1000"
+        className="absolute top-[30%] -right-[10%] w-[60vw] h-[60vw] max-w-[750px] max-h-[750px] rounded-full blur-[150px] opacity-35 animate-aurora-2 transition-colors duration-1000"
         style={{
           background:
-            'radial-gradient(circle, rgba(127, 0, 255, 0.4) 0%, rgba(79, 172, 254, 0.2) 50%, transparent 75%)',
+            'radial-gradient(circle, rgba(0, 242, 254, 0.45) 0%, rgba(127, 0, 255, 0.35) 45%, rgba(79, 172, 254, 0.15) 65%, transparent 80%)',
         }}
       />
 
-      {/* Center Subtle Audio Pulse Glow */}
+      {/* Center Dynamic Fluid Pulse Glow */}
       <div
-        className={`absolute top-[20%] left-[25%] w-[50vw] h-[50vw] max-w-[500px] max-h-[500px] rounded-full blur-[140px] transition-all duration-700 ${
-          isPlaying ? 'opacity-25 animate-pulse-glow' : 'opacity-10'
+        className={`absolute top-[20%] left-[25%] w-[55vw] h-[55vw] max-w-[600px] max-h-[600px] rounded-full blur-[140px] transition-all duration-700 ${
+          isPlaying ? 'opacity-40 animate-pulse-glow' : 'opacity-20'
         }`}
         style={{
-          background: `radial-gradient(circle, ${primaryColor} 0%, transparent 70%)`,
+          background: `radial-gradient(circle, ${primaryColor} 0%, rgba(255, 94, 58, 0.3) 40%, transparent 70%)`,
         }}
       />
 
