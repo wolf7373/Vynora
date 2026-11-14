@@ -88,6 +88,44 @@ export const MobileNowPlayingDrawer: React.FC = () => {
     }
   }, [currentTrack?.id, currentTrack?.coverUrl, currentTrack?.color])
 
+  // --- Dynamic Mouse Parallax & 3D Card Tilt for Heavy Liquid Glass feel ---
+  const [drawerParallax, setDrawerParallax] = useState<{ x: number; y: number }>({ x: 0, y: 0 })
+  const [cardTilt, setCardTilt] = useState<{ x: number; y: number }>({ x: 0, y: 0 })
+
+  useEffect(() => {
+    if (!isMobileDrawerOpen) return
+    let animId: number
+    let targetX = 0
+    let targetY = 0
+    let currX = 0
+    let currY = 0
+
+    const handlePointerMove = (e: MouseEvent | PointerEvent) => {
+      const w = window.innerWidth || 1
+      const h = window.innerHeight || 1
+      targetX = (e.clientX / w - 0.5) * 2
+      targetY = (e.clientY / h - 0.5) * 2
+    }
+
+    const loop = () => {
+      currX += (targetX - currX) * 0.08
+      currY += (targetY - currY) * 0.08
+      setDrawerParallax({ x: currX, y: currY })
+      setCardTilt({ x: currX * 7.5, y: -currY * 7.5 })
+      animId = requestAnimationFrame(loop)
+    }
+
+    window.addEventListener('pointermove', handlePointerMove, { passive: true })
+    window.addEventListener('mousemove', handlePointerMove, { passive: true })
+    animId = requestAnimationFrame(loop)
+
+    return () => {
+      window.removeEventListener('pointermove', handlePointerMove)
+      window.removeEventListener('mousemove', handlePointerMove)
+      cancelAnimationFrame(animId)
+    }
+  }, [isMobileDrawerOpen])
+
   // --- Smooth Touch & Gesture Swipe Carousel Animation ---
   const [swipeOffset, setSwipeOffset] = useState<number>(0)
   const [isSwiping, setIsSwiping] = useState<boolean>(false)
@@ -328,20 +366,37 @@ export const MobileNowPlayingDrawer: React.FC = () => {
             background: palette.gradient,
             transition: 'background 0.8s cubic-bezier(0.16, 1, 0.3, 1)',
           }}
-          className="fixed inset-0 h-[100dvh] max-h-[100dvh] w-full z-50 flex flex-col outline-none select-none text-text-primary shadow-[0_-25px_80px_rgba(0,0,0,0.95)] overflow-hidden"
+          className="heavy-liquid-glass-chassis fixed inset-0 h-[100dvh] max-h-[100dvh] w-full z-50 flex flex-col outline-none select-none text-text-primary shadow-[0_-25px_80px_rgba(0,0,0,0.95)] overflow-hidden"
         >
-          {/* Animated Dynamic Aurora Glow Orbs in Background */}
+          {/* Animated Dynamic Aurora Glow Orbs with Parallax */}
           <div
-            style={{ backgroundColor: palette.primary }}
-            className="absolute -top-36 -left-36 w-96 h-96 rounded-full blur-[120px] opacity-40 pointer-events-none animate-aurora-1"
+            style={{
+              backgroundColor: palette.primary,
+              transform: `translate3d(${(drawerParallax.x * 40).toFixed(1)}px, ${(drawerParallax.y * 30).toFixed(1)}px, 0)`,
+            }}
+            className="absolute -top-36 -left-36 w-96 h-96 rounded-full blur-[120px] opacity-40 pointer-events-none animate-aurora-1 will-change-transform"
           />
           <div
-            style={{ backgroundColor: palette.secondary }}
-            className="absolute top-1/4 -right-32 w-88 h-88 rounded-full blur-[110px] opacity-35 pointer-events-none animate-aurora-2"
+            style={{
+              backgroundColor: palette.secondary,
+              transform: `translate3d(${(drawerParallax.x * -50).toFixed(1)}px, ${(drawerParallax.y * -40).toFixed(1)}px, 0)`,
+            }}
+            className="absolute top-1/4 -right-32 w-88 h-88 rounded-full blur-[110px] opacity-35 pointer-events-none animate-aurora-2 will-change-transform"
           />
           <div
-            style={{ backgroundColor: palette.glowColor }}
-            className="absolute -bottom-32 left-1/4 w-[420px] h-[420px] rounded-full blur-[130px] opacity-30 pointer-events-none animate-pulse-glow"
+            style={{
+              backgroundColor: palette.glowColor,
+              transform: `translate3d(${(drawerParallax.x * 20).toFixed(1)}px, ${(drawerParallax.y * 20).toFixed(1)}px, 0)`,
+            }}
+            className="absolute -bottom-32 left-1/4 w-[420px] h-[420px] rounded-full blur-[130px] opacity-30 pointer-events-none animate-pulse-glow will-change-transform"
+          />
+
+          {/* Liquid Caustics Shimmer Layer inside Drawer */}
+          <div
+            className="absolute inset-0 opacity-20 pointer-events-none mix-blend-screen will-change-transform"
+            style={{
+              background: `radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), ${palette.primary}40 0%, rgba(0, 242, 254, 0.1) 40%, transparent 70%)`,
+            }}
           />
 
           {/* Inner Content Wrapper */}
@@ -351,7 +406,7 @@ export const MobileNowPlayingDrawer: React.FC = () => {
               {/* Minimize Chevron */}
               <button
                 onClick={() => setIsMobileDrawerOpen(false)}
-                className="min-h-[44px] min-w-[44px] p-2.5 rounded-full bg-white/10 hover:bg-white/20 active:scale-90 text-white/80 hover:text-white transition-all flex items-center justify-center cursor-pointer shadow-md"
+                className="min-h-[44px] min-w-[44px] liquid-droplet-btn rounded-full text-white/90 hover:text-white flex items-center justify-center cursor-pointer shadow-lg"
                 aria-label="Close now playing drawer"
                 title="Minimize player"
               >
@@ -360,10 +415,10 @@ export const MobileNowPlayingDrawer: React.FC = () => {
 
               {/* Center Title */}
               <div className="flex flex-col items-center text-center px-2 min-w-0">
-                <span className="text-[10px] uppercase font-bold tracking-widest text-vyn-primary/90 font-mono truncate max-w-[200px] sm:max-w-[320px]">
+                <span className="text-[10px] sm:text-[11px] uppercase font-mono font-bold tracking-widest text-vyn-primary/95 truncate max-w-[200px] sm:max-w-[320px] drop-shadow-sm">
                   {currentTrack?.artist || 'Vynora Studio'}
                 </span>
-                <span className="text-xs sm:text-sm font-black text-white truncate max-w-[200px] sm:max-w-[320px]">
+                <span className="text-xs sm:text-sm font-black text-white truncate max-w-[200px] sm:max-w-[320px] drop-shadow-md">
                   {currentTrack?.title || 'No Track Playing'}
                 </span>
               </div>
@@ -372,7 +427,7 @@ export const MobileNowPlayingDrawer: React.FC = () => {
               <div className="flex items-center gap-1.5 flex-shrink-0">
                 <button
                   onClick={() => setIsInstallModalOpen(true)}
-                  className="min-h-[44px] min-w-[44px] p-2 rounded-full bg-vyn-primary/15 border border-vyn-primary/30 text-vyn-primary hover:bg-vyn-primary/25 active:scale-90 transition-all flex items-center justify-center cursor-pointer shadow-md"
+                  className="min-h-[44px] min-w-[44px] p-2 rounded-full liquid-droplet-btn text-vyn-primary transition-all flex items-center justify-center cursor-pointer shadow-md"
                   title="Install Mobile App"
                   aria-label="Install mobile app"
                 >
@@ -381,7 +436,7 @@ export const MobileNowPlayingDrawer: React.FC = () => {
 
                 <button
                   onClick={() => setIsSleepTimerOpen(true)}
-                  className="min-h-[44px] min-w-[44px] p-2 rounded-full bg-white/10 hover:bg-white/20 active:scale-90 text-white/80 hover:text-white transition-all flex items-center justify-center cursor-pointer shadow-md"
+                  className="min-h-[44px] min-w-[44px] p-2 rounded-full liquid-droplet-btn text-white/90 hover:text-white transition-all flex items-center justify-center cursor-pointer shadow-md"
                   title="Sleep Timer"
                   aria-label="Sleep timer"
                 >
@@ -390,23 +445,23 @@ export const MobileNowPlayingDrawer: React.FC = () => {
 
                 <button
                   onClick={() => currentTrack && toggleLikeTrack(currentTrack)}
-                  className="min-h-[44px] min-w-[44px] p-2 rounded-full bg-white/10 hover:bg-white/20 active:scale-90 text-white/80 hover:text-white transition-all flex items-center justify-center cursor-pointer shadow-md"
+                  className="min-h-[44px] min-w-[44px] p-2 rounded-full liquid-droplet-btn text-white/90 hover:text-white transition-all flex items-center justify-center cursor-pointer shadow-md"
                   aria-label="Toggle like"
                 >
-                  <Heart className={`w-5 h-5 ${liked ? 'fill-red-500 text-red-500' : 'text-white/70'}`} />
+                  <Heart className={`w-5 h-5 ${liked ? 'fill-red-500 text-red-500' : 'text-white/80'}`} />
                 </button>
               </div>
             </div>
 
             {/* 2. Mode Selector Tabs: Card | Lyrics | Video */}
             <div className="flex items-center justify-center my-1.5 gap-1.5 flex-shrink-0">
-              <div className="flex items-center gap-1 bg-black/45 p-1 rounded-2xl border border-white/10 backdrop-blur-md shadow-lg">
+              <div className="flex items-center gap-1 liquid-glass-tube p-1 rounded-2xl shadow-xl">
                 <button
                   onClick={() => setActiveTab('visualizer')}
                   className={`min-h-[44px] px-4 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                     activeTab === 'visualizer'
-                      ? 'bg-vyn-primary text-black shadow-glow-cyan'
-                      : 'text-white/60 hover:text-white hover:bg-white/5'
+                      ? 'bg-gradient-to-r from-vyn-primary to-vyn-secondary text-black shadow-glow-cyan font-black'
+                      : 'text-white/70 hover:text-white hover:bg-white/10'
                   }`}
                 >
                   <Disc3 className="w-4 h-4" />
@@ -417,8 +472,8 @@ export const MobileNowPlayingDrawer: React.FC = () => {
                   onClick={() => setActiveTab('lyrics')}
                   className={`min-h-[44px] px-4 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                     activeTab === 'lyrics'
-                      ? 'bg-vyn-primary text-black shadow-glow-cyan'
-                      : 'text-white/60 hover:text-white hover:bg-white/5'
+                      ? 'bg-gradient-to-r from-vyn-primary to-vyn-secondary text-black shadow-glow-cyan font-black'
+                      : 'text-white/70 hover:text-white hover:bg-white/10'
                   }`}
                 >
                   <Mic2 className="w-4 h-4" />
@@ -429,8 +484,8 @@ export const MobileNowPlayingDrawer: React.FC = () => {
                   onClick={() => setActiveTab('video')}
                   className={`min-h-[44px] px-4 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
                     activeTab === 'video'
-                      ? 'bg-vyn-primary text-black shadow-glow-cyan'
-                      : 'text-white/60 hover:text-white hover:bg-white/5'
+                      ? 'bg-gradient-to-r from-vyn-primary to-vyn-secondary text-black shadow-glow-cyan font-black'
+                      : 'text-white/70 hover:text-white hover:bg-white/10'
                   }`}
                 >
                   <Tv className="w-4 h-4" />
@@ -441,7 +496,7 @@ export const MobileNowPlayingDrawer: React.FC = () => {
 
             {/* 3. Center Dynamic Section (Card / Lyrics / Video) */}
             <div className="flex-1 min-h-0 relative flex flex-col justify-center my-1 overflow-hidden">
-              {/* TAB 1: SWIPEABLE ALBUM CARD */}
+              {/* TAB 1: SWIPEABLE 3D OPTICAL LENS ALBUM CARD */}
               {activeTab === 'visualizer' && (
                 <div className="h-full flex flex-col items-center justify-center min-h-0 py-2 relative">
                   {/* Glowing Animated Aura Orb behind Album Art */}
@@ -461,15 +516,17 @@ export const MobileNowPlayingDrawer: React.FC = () => {
                     onTouchMove={handleTouchMove}
                     onTouchEnd={handleTouchEnd}
                     style={{
-                      transform: `translateX(${swipeOffset}px) rotate(${swipeOffset * 0.04}deg)`,
+                      transform: `perspective(1000px) rotateY(${cardTilt.x.toFixed(1)}deg) rotateX(${cardTilt.y.toFixed(1)}deg) translateX(${swipeOffset}px) rotate(${swipeOffset * 0.04}deg)`,
                       opacity: 1 - Math.min(0.4, Math.abs(swipeOffset) / 360),
                       transition: isSwiping ? 'none' : 'transform 0.35s cubic-bezier(0.18, 0.9, 0.3, 1), opacity 0.35s ease',
-                      boxShadow: `0 30px 80px -15px ${palette.glowColor}, 0 0 35px ${palette.secondary}40`,
-                      borderColor: `${palette.primary}40`,
+                      boxShadow: `0 35px 90px -15px ${palette.glowColor}, 0 0 35px ${palette.secondary}40`,
                       touchAction: 'none',
                     }}
-                    className="w-56 h-56 sm:w-68 sm:h-68 md:w-76 md:h-76 rounded-[2rem] liquid-glass-card border overflow-hidden flex items-center justify-center relative group cursor-grab active:cursor-grabbing select-none shadow-2xl z-10"
+                    className="w-56 h-56 sm:w-68 sm:h-68 md:w-80 md:h-80 heavy-liquid-glass-lens flex items-center justify-center relative group cursor-grab active:cursor-grabbing select-none shadow-2xl z-10"
                   >
+                    {/* Top specular reflection curve */}
+                    <div className="liquid-specular-edge" />
+
                     {currentTrack?.coverUrl ? (
                       <img
                         src={currentTrack.coverUrl}
@@ -502,17 +559,18 @@ export const MobileNowPlayingDrawer: React.FC = () => {
                       </div>
                     )}
 
-                    {/* Equalizer Playing Bars */}
+                    {/* Equalizer Playing Bars in Glass Capsule */}
                     {isPlaying && (
-                      <div className="absolute bottom-3 right-3 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full flex items-center gap-1 border border-white/10 pointer-events-none">
+                      <div className="absolute bottom-3 right-3 liquid-glass-tube px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-white/25 pointer-events-none shadow-lg">
                         <span className="w-1 h-3 animate-pulse rounded-full" style={{ backgroundColor: palette.primary }} />
                         <span className="w-1 h-5 animate-pulse delay-75 rounded-full" style={{ backgroundColor: palette.primary }} />
                         <span className="w-1 h-2 animate-pulse delay-150 rounded-full" style={{ backgroundColor: palette.primary }} />
+                        <span className="w-1 h-4 animate-pulse delay-100 rounded-full" style={{ backgroundColor: palette.secondary }} />
                       </div>
                     )}
 
                     {/* Swipe Hint Top Left */}
-                    <div className="absolute top-3 left-3 px-2 py-0.5 rounded-full bg-black/55 backdrop-blur-md border border-white/10 text-[10px] text-white/80 font-mono">
+                    <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full liquid-glass-tube border border-white/20 text-[10px] text-white/90 font-mono shadow-md">
                       ↔ Swipe to change
                     </div>
                   </div>
@@ -523,25 +581,27 @@ export const MobileNowPlayingDrawer: React.FC = () => {
                       <h2 className="text-lg sm:text-xl md:text-2xl font-black text-white truncate drop-shadow-md leading-tight">
                         {currentTrack ? currentTrack.title : 'No Track Loaded'}
                       </h2>
-                      <p className="text-xs sm:text-sm md:text-base font-semibold text-white/70 truncate mt-0.5">
+                      <p className="text-xs sm:text-sm md:text-base font-semibold text-white/75 truncate mt-0.5">
                         {currentTrack ? currentTrack.artist : 'Vynora Studio'}
                       </p>
                     </div>
 
-                    <span
-                      className={`text-[9px] font-mono font-bold px-2.5 py-1 rounded-full border uppercase shrink-0 shadow-sm ${
-                        isRealFFT
-                          ? 'bg-vyn-primary/20 text-vyn-primary border-vyn-primary/50'
-                          : 'bg-vyn-secondary/20 text-vyn-secondary border-vyn-secondary/50'
-                      }`}
-                    >
-                      {isRealFFT ? 'REAL FFT' : 'BEAT SIM'}
-                    </span>
+                    <div className="flex items-center gap-2 shrink-0">
+                      <span
+                        className={`text-[9px] font-mono font-bold px-2.5 py-1 rounded-full border uppercase shadow-sm ${
+                          isRealFFT
+                            ? 'bg-vyn-primary/20 text-vyn-primary border-vyn-primary/50 shadow-glow-cyan'
+                            : 'bg-vyn-secondary/20 text-vyn-secondary border-vyn-secondary/50'
+                        }`}
+                      >
+                        {isRealFFT ? 'REAL FFT' : 'BEAT SIM'}
+                      </span>
+                    </div>
                   </div>
                 </div>
               )}
 
-              {/* TAB 2: FULL-HEIGHT KARAOKE SYNCED LYRICS */}
+              {/* TAB 2: FULL-HEIGHT KARAOKE SYNCED LYRICS WITH LIQUID CAPSULE */}
               {activeTab === 'lyrics' && (
                 <div className="h-full flex flex-col min-h-0 w-full overflow-hidden">
                   {/* Lyrics Header Status */}
@@ -580,33 +640,37 @@ export const MobileNowPlayingDrawer: React.FC = () => {
                         const isPast = idx < activeLyricIdx
 
                         return (
-                          <p
+                          <div
                             key={`${line.rawTime}-${idx}`}
                             ref={isCurrent ? activeLineRef : null}
                             onClick={() => {
                               adapterManager.seek(line.rawTime)
                             }}
-                            className={`transition-all duration-300 cursor-pointer select-none leading-relaxed px-3 py-1 rounded-xl ${
+                            className={`transition-all duration-300 cursor-pointer select-none leading-relaxed px-4 py-2 rounded-2xl ${
                               isCurrent
-                                ? 'text-xl sm:text-2xl md:text-3xl font-black scale-105 text-white'
+                                ? 'karaoke-glass-capsule scale-105 shadow-2xl text-white'
                                 : isPast
                                 ? 'text-white/50 text-sm sm:text-base font-medium hover:text-white/80'
-                                : 'text-white/20 text-sm sm:text-base font-normal hover:text-white/50'
+                                : 'text-white/25 text-sm sm:text-base font-normal hover:text-white/50'
                             }`}
-                            style={
-                              isCurrent
-                                ? {
-                                    color: palette.primary,
-                                    textShadow: `0 0 30px ${palette.glowColor}`,
-                                  }
-                                : undefined
-                            }
                           >
-                            <span className="text-[10px] font-mono mr-2.5 opacity-40">
-                              {formatTime(line.rawTime)}
-                            </span>
-                            {line.text}
-                          </p>
+                            <p
+                              className={`font-black ${isCurrent ? 'text-xl sm:text-2xl md:text-3xl' : ''}`}
+                              style={
+                                isCurrent
+                                  ? {
+                                      color: palette.primary,
+                                      textShadow: `0 0 25px ${palette.glowColor}`,
+                                    }
+                                  : undefined
+                              }
+                            >
+                              <span className="text-[10px] font-mono mr-2.5 opacity-40 font-normal">
+                                {formatTime(line.rawTime)}
+                              </span>
+                              {line.text}
+                            </p>
+                          </div>
                         )
                       })
                     ) : (
@@ -618,12 +682,12 @@ export const MobileNowPlayingDrawer: React.FC = () => {
                 </div>
               )}
 
-              {/* TAB 3: DOCKED FULL HD YOUTUBE VIDEO STREAM (ZERO SOUND OVERLAP & SYNCHRONIZED) */}
+              {/* TAB 3: DOCKED FULL HD YOUTUBE VIDEO STREAM */}
               {activeTab === 'video' && (
                 <div className="h-full flex flex-col items-center justify-center min-h-0 py-2 w-full">
                   <div
                     id="vynora-drawer-video-anchor"
-                    className="w-full max-w-lg aspect-video rounded-2xl bg-black border border-white/20 shadow-2xl relative overflow-hidden ring-1 ring-white/10 group flex items-center justify-center"
+                    className="w-full max-w-lg aspect-video rounded-2xl bg-black heavy-liquid-glass-chassis border border-white/25 shadow-2xl relative overflow-hidden ring-1 ring-white/10 group flex items-center justify-center"
                   >
                     {!currentTrack?.youtubeId && (
                       <div className="text-xs text-white/50">
@@ -632,7 +696,7 @@ export const MobileNowPlayingDrawer: React.FC = () => {
                     )}
                   </div>
 
-                  <p className="text-xs text-white/50 mt-3 font-mono flex items-center gap-2 bg-white/5 px-3.5 py-1.5 rounded-full border border-white/10">
+                  <p className="text-xs text-white/70 mt-3 font-mono flex items-center gap-2 liquid-glass-tube px-4 py-2 rounded-full border border-white/15 shadow-md">
                     <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
                     <span>Official HD Video • Zero Audio Overlap • Studio Master Sound</span>
                   </p>
@@ -640,8 +704,8 @@ export const MobileNowPlayingDrawer: React.FC = () => {
               )}
             </div>
 
-            {/* 4. High-Precision Touchable & Draggable Seekbar Anywhere */}
-            <div className="w-full flex flex-col gap-1 my-1 flex-shrink-0">
+            {/* 4. High-Precision Touchable & Draggable Liquid Mercury Seekbar */}
+            <div className="w-full flex flex-col gap-1.5 my-1.5 flex-shrink-0">
               <div
                 ref={progressBarRef}
                 onPointerDown={handleSeekPointerDown}
@@ -650,26 +714,24 @@ export const MobileNowPlayingDrawer: React.FC = () => {
                 className="w-full h-8 flex items-center cursor-pointer select-none group relative touch-none"
                 title="Tap or drag anywhere to seek"
               >
-                {/* Visual Track Bar */}
-                <div className="w-full h-2.5 bg-white/15 rounded-full overflow-hidden relative group-hover:h-3 transition-all">
+                {/* Visual Liquid Glass Tube */}
+                <div className="liquid-glass-tube w-full h-3 sm:h-3.5 rounded-full overflow-hidden relative p-0.5 group-hover:h-4 transition-all">
                   <div
                     style={{
                       width: `${progressPercent}%`,
-                      backgroundColor: palette.primary,
-                      boxShadow: `0 0 12px ${palette.glowColor}`,
+                      background: `linear-gradient(90deg, ${palette.secondary}, ${palette.primary})`,
+                      boxShadow: `0 0 16px ${palette.glowColor}`,
                     }}
-                    className="h-full rounded-full transition-all duration-75"
+                    className="h-full rounded-full transition-all duration-75 relative"
                   />
                 </div>
 
-                {/* Floating Glow Thumb */}
+                {/* Floating Liquid Glass Knob */}
                 <div
                   style={{
                     left: `${progressPercent}%`,
-                    backgroundColor: '#FFFFFF',
-                    boxShadow: `0 0 14px 2px ${palette.glowColor}`,
                   }}
-                  className="absolute w-4 h-4 rounded-full -ml-2 group-hover:scale-125 transition-transform duration-75 pointer-events-none"
+                  className="absolute w-5 h-5 liquid-glass-knob rounded-full -ml-2.5 group-hover:scale-125 transition-transform duration-75 pointer-events-none"
                 />
 
                 {/* Hidden accessible input for screen readers and automated test suites */}
@@ -685,19 +747,19 @@ export const MobileNowPlayingDrawer: React.FC = () => {
               </div>
 
               {/* Time Indicators */}
-              <div className="flex justify-between text-[11px] font-mono text-white/60 tabular-nums px-0.5">
+              <div className="flex justify-between text-[11px] font-mono text-white/70 tabular-nums px-0.5">
                 <span>{formatTime(displayCurrentTime)}</span>
                 <span>{formatTime(duration)}</span>
               </div>
             </div>
 
             {/* 5. Main Playback Controls: Shuffle, Prev, Play/Pause, Next, Repeat */}
-            <div className="w-full flex items-center justify-between max-w-md mx-auto my-1 flex-shrink-0">
+            <div className="w-full flex items-center justify-between max-w-md mx-auto my-1.5 flex-shrink-0">
               <button
                 onClick={toggleShuffle}
                 aria-label="Toggle shuffle"
-                className={`min-h-[44px] min-w-[44px] flex items-center justify-center rounded-full transition-all active:scale-90 hover:scale-105 cursor-pointer ${
-                  isShuffle ? 'text-vyn-primary bg-vyn-primary/20 scale-105 shadow-glow-cyan' : 'text-white/60 hover:text-white'
+                className={`min-h-[44px] min-w-[44px] w-11 h-11 flex items-center justify-center rounded-full liquid-droplet-btn transition-all cursor-pointer ${
+                  isShuffle ? 'text-vyn-primary shadow-glow-cyan border-vyn-primary/60 scale-105' : 'text-white/70 hover:text-white'
                 }`}
               >
                 <Shuffle className="w-5 h-5" />
@@ -706,40 +768,40 @@ export const MobileNowPlayingDrawer: React.FC = () => {
               <button
                 onClick={() => adapterManager.playPrevious()}
                 aria-label="Previous track"
-                className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-full text-white/80 hover:text-white active:scale-90 hover:scale-105 transition-all cursor-pointer"
+                className="min-h-[44px] min-w-[44px] w-12 h-12 flex items-center justify-center rounded-full liquid-droplet-btn text-white/90 hover:text-white transition-all cursor-pointer"
               >
-                <SkipBack className="w-6 h-6 fill-current" />
+                <SkipBack className="w-5 h-5 fill-current" />
               </button>
 
               <button
                 onClick={handlePlayPause}
                 aria-label={isPlaying ? 'Pause track' : 'Play track'}
                 style={{
-                  backgroundColor: palette.primary,
-                  boxShadow: `0 8px 30px ${palette.glowColor}`,
+                  background: `radial-gradient(circle at 35% 30%, #FFFFFF 0%, ${palette.primary} 45%, ${palette.secondary} 100%)`,
+                  boxShadow: `0 10px 35px ${palette.glowColor}, inset 0 2px 3px rgba(255,255,255,0.8)`,
                 }}
-                className="min-h-[56px] min-w-[56px] w-14 h-14 rounded-full text-black flex items-center justify-center active:scale-90 hover:scale-105 transition-all shadow-xl cursor-pointer"
+                className="min-h-[56px] min-w-[56px] w-16 h-16 rounded-full text-black flex items-center justify-center active:scale-90 hover:scale-105 transition-all shadow-2xl cursor-pointer border-2 border-white/40"
               >
                 {isPlaying ? (
-                  <Pause className="w-6 h-6 fill-current text-black" />
+                  <Pause className="w-7 h-7 fill-current text-black" />
                 ) : (
-                  <Play className="w-6 h-6 fill-current ml-0.5 text-black" />
+                  <Play className="w-7 h-7 fill-current ml-0.5 text-black" />
                 )}
               </button>
 
               <button
                 onClick={() => adapterManager.playNext()}
                 aria-label="Next track"
-                className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-full text-white/80 hover:text-white active:scale-90 hover:scale-105 transition-all cursor-pointer"
+                className="min-h-[44px] min-w-[44px] w-12 h-12 flex items-center justify-center rounded-full liquid-droplet-btn text-white/90 hover:text-white transition-all cursor-pointer"
               >
-                <SkipForward className="w-6 h-6 fill-current" />
+                <SkipForward className="w-5 h-5 fill-current" />
               </button>
 
               <button
                 onClick={cycleRepeatMode}
                 aria-label="Toggle repeat mode"
-                className={`min-h-[44px] min-w-[44px] flex items-center justify-center rounded-full transition-all active:scale-90 hover:scale-105 relative cursor-pointer ${
-                  repeatMode !== 'off' ? 'text-vyn-primary bg-vyn-primary/20 scale-105 shadow-glow-cyan' : 'text-white/60 hover:text-white'
+                className={`min-h-[44px] min-w-[44px] w-11 h-11 flex items-center justify-center rounded-full liquid-droplet-btn transition-all relative cursor-pointer ${
+                  repeatMode !== 'off' ? 'text-vyn-primary shadow-glow-cyan border-vyn-primary/60 scale-105' : 'text-white/70 hover:text-white'
                 }`}
               >
                 <Repeat className="w-5 h-5" />
@@ -749,8 +811,8 @@ export const MobileNowPlayingDrawer: React.FC = () => {
               </button>
             </div>
 
-            {/* 6. Restored Dedicated Volume Slider Bar */}
-            <div className="w-full max-w-md mx-auto flex items-center gap-3 px-3.5 py-1.5 my-1 liquid-glass-pill rounded-2xl border-white/15 transition-all shadow-lg flex-shrink-0">
+            {/* 6. Volume Slider in Liquid Glass Tube */}
+            <div className="w-full max-w-md mx-auto flex items-center gap-3 px-4 py-2 my-1 liquid-glass-tube rounded-2xl transition-all shadow-lg flex-shrink-0">
               <button
                 onClick={handleToggleMute}
                 aria-label={isMuted || volume === 0 ? 'Unmute volume' : 'Mute volume'}
@@ -776,7 +838,7 @@ export const MobileNowPlayingDrawer: React.FC = () => {
                 className="flex-1 h-2 bg-white/20 rounded-full appearance-none cursor-pointer accent-vyn-primary"
               />
 
-              <span className="text-[11px] font-mono text-white/70 w-8 text-right tabular-nums">
+              <span className="text-[11px] font-mono text-white/80 w-8 text-right tabular-nums">
                 {Math.round((isMuted ? 0 : volume) * 100)}%
               </span>
             </div>
@@ -786,7 +848,7 @@ export const MobileNowPlayingDrawer: React.FC = () => {
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setIsQueueDrawerOpen(true)}
-                  className="min-h-[44px] px-4 py-2 rounded-full liquid-glass-pill active:scale-95 hover:scale-105 text-white/90 hover:text-white transition-all text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-md border-white/15"
+                  className="min-h-[44px] px-4 py-2 rounded-full liquid-glass-tube active:scale-95 hover:scale-105 text-white/90 hover:text-white transition-all text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-md border-white/20"
                 >
                   <ListMusic className="w-3.5 h-3.5 text-vyn-primary" />
                   <span>Queue {queue.length > 0 ? `(${queue.length})` : ''}</span>
@@ -794,14 +856,14 @@ export const MobileNowPlayingDrawer: React.FC = () => {
 
                 <button
                   onClick={() => setIsPlaybackSettingsOpen(true)}
-                  className="min-h-[44px] px-4 py-2 rounded-full liquid-glass-pill active:scale-95 hover:scale-105 text-white/90 hover:text-white transition-all text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-md border-white/15"
+                  className="min-h-[44px] px-4 py-2 rounded-full liquid-glass-tube active:scale-95 hover:scale-105 text-white/90 hover:text-white transition-all text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-md border-white/20"
                 >
                   <Sliders className="w-3.5 h-3.5 text-vyn-primary" />
                   <span>Crossfade</span>
                 </button>
               </div>
 
-              <span className="text-[10px] uppercase tracking-wider text-vyn-primary font-mono font-bold px-2.5 py-1 rounded-full bg-vyn-primary/10 border border-vyn-primary/20 shadow-sm flex-shrink-0">
+              <span className="text-[10px] uppercase tracking-wider text-vyn-primary font-mono font-bold px-3 py-1.5 rounded-full liquid-glass-tube border border-vyn-primary/30 shadow-sm flex-shrink-0">
                 Hi-Res Lossless
               </span>
             </div>

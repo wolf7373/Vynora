@@ -134,7 +134,7 @@ export const PlayerBar: React.FC = () => {
       id="vynora-player-bar-liquid"
       onClick={handleBarClick}
       title="Click anywhere to open full now playing screen & lyrics"
-      className="relative h-16 md:h-20 liquid-glass-pane border-t border-white/10 hover:border-vyn-primary/40 px-3 md:px-6 flex items-center justify-between gap-2 md:gap-4 z-40 flex-shrink-0 select-none cursor-pointer transition-all duration-200 group/footer"
+      className="relative h-16 md:h-20 heavy-liquid-glass-chassis border-t border-white/20 hover:border-vyn-primary/50 px-3 md:px-6 flex items-center justify-between gap-2 md:gap-4 z-40 flex-shrink-0 select-none cursor-pointer transition-all duration-200 group/footer"
     >
       {/* liquidGL Top Specular Edge Highlight */}
       <div className="liquid-specular-edge" />
