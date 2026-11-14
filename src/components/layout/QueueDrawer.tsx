@@ -94,8 +94,8 @@ export const QueueDrawer: React.FC = () => {
               Now Playing
             </h3>
             {currentTrack ? (
-              <div className="flex items-center gap-3 p-3.5 rounded-2xl liquid-glass-card border border-accent-cyan/40 shadow-glow-cyan">
-                <div className="relative w-12 h-12 rounded-xl bg-canvas-base border border-white/10 overflow-hidden flex-shrink-0 flex items-center justify-center">
+              <div className="flex items-center gap-3 p-3.5 rounded-2xl liquid-glass-card border border-amber-400/40 shadow-glow-amber">
+                <div className="relative w-12 h-12 rounded-xl liquid-glass-pill border border-white/20 overflow-hidden flex-shrink-0 flex items-center justify-center">
                   {currentTrack.coverUrl ? (
                     <img
                       src={currentTrack.coverUrl}
@@ -103,25 +103,25 @@ export const QueueDrawer: React.FC = () => {
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <Music className="w-6 h-6 text-accent-cyan" />
+                    <Music className="w-6 h-6 text-amber-300" />
                   )}
                   {isPlaying && (
                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                      <span className="w-3 h-3 rounded-full bg-accent-cyan animate-ping" />
+                      <span className="w-3 h-3 rounded-full bg-amber-400 animate-ping" />
                     </div>
                   )}
                 </div>
 
                 <div className="min-w-0 flex-1">
-                  <span className="text-xs font-bold text-accent-cyan truncate block">
+                  <span className="text-xs font-bold text-amber-300 truncate block">
                     {currentTrack.title}
                   </span>
-                  <span className="text-[11px] text-text-muted truncate block">
+                  <span className="text-[11px] text-white/60 truncate block">
                     {currentTrack.artist}
                   </span>
                 </div>
 
-                <span className="text-xs font-mono text-text-muted">
+                <span className="text-xs font-mono text-white/60">
                   {formatTime(currentTrack.duration)}
                 </span>
               </div>
@@ -146,9 +146,9 @@ export const QueueDrawer: React.FC = () => {
                 {upcomingQueueItems.map((track, idx) => (
                   <div
                     key={`${track.id}-${idx}`}
-                    className="flex items-center gap-3 p-2 rounded-xl bg-canvas-base/80 border border-white/5 hover:border-white/10 transition-colors group"
+                    className="flex items-center gap-3 p-2 rounded-2xl liquid-glass-pane border border-white/10 hover:border-white/25 transition-colors group"
                   >
-                    <span className="text-xs font-mono font-bold text-text-muted w-4 text-center">
+                    <span className="text-xs font-mono font-bold text-white/50 w-4 text-center">
                       {idx + 1}
                     </span>
 
@@ -156,7 +156,7 @@ export const QueueDrawer: React.FC = () => {
                       onClick={() => handlePlayFromQueue(track, idx)}
                       className="flex items-center gap-2.5 min-w-0 flex-1 cursor-pointer"
                     >
-                      <div className="w-10 h-10 rounded-lg bg-canvas-surface overflow-hidden flex-shrink-0">
+                      <div className="w-10 h-10 rounded-xl bg-white/5 overflow-hidden flex-shrink-0 border border-white/10">
                         {track.coverUrl ? (
                           <img
                             src={track.coverUrl}
@@ -164,14 +164,14 @@ export const QueueDrawer: React.FC = () => {
                             className="w-full h-full object-cover"
                           />
                         ) : (
-                          <Music className="w-5 h-5 text-text-muted m-2.5" />
+                          <Music className="w-5 h-5 text-white/50 m-2.5" />
                         )}
                       </div>
                       <div className="min-w-0">
-                        <span className="text-xs font-semibold text-vyn-high group-hover:text-accent-cyan truncate block transition-colors">
+                        <span className="text-xs font-semibold text-white group-hover:text-amber-300 truncate block transition-colors">
                           {track.title}
                         </span>
-                        <span className="text-[10px] text-text-muted truncate block">
+                        <span className="text-[10px] text-white/60 truncate block">
                           {track.artist}
                         </span>
                       </div>
@@ -180,7 +180,7 @@ export const QueueDrawer: React.FC = () => {
                     <button
                       onClick={() => removeFromQueue(currentIndex + 1 + idx)}
                       aria-label={`Remove ${track.title} from queue`}
-                      className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg text-text-muted hover:text-red-400 hover:bg-white/5 transition-colors"
+                      className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-xl text-white/50 hover:text-rose-400 liquid-glass-pill transition-colors cursor-pointer"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -193,26 +193,26 @@ export const QueueDrawer: React.FC = () => {
           {/* Section 3: Next Up (Smart Vibe Autoplay) */}
           <div>
             <div className="flex items-center justify-between mb-2.5">
-              <div className="flex items-center gap-1.5 text-amber-400">
+              <div className="flex items-center gap-1.5 text-amber-300">
                 <Sparkles className="w-4 h-4" />
-                <h3 className="text-[11px] font-bold uppercase tracking-wider text-text-muted">
+                <h3 className="text-[11px] font-bold uppercase tracking-wider text-white/70">
                   Next Up (Smart Vibe Autoplay)
                 </h3>
               </div>
-              <span className="text-[10px] text-text-muted font-mono">Spotify-Style</span>
+              <span className="text-[10px] text-white/50 font-mono">Spotify-Style</span>
             </div>
 
             <div className="space-y-1.5">
               {upcomingVibeTracks.map((track) => (
                 <div
                   key={track.id}
-                  className="flex items-center justify-between p-2 rounded-xl bg-canvas-base/50 hover:bg-canvas-base border border-transparent hover:border-white/5 transition-colors group"
+                  className="flex items-center justify-between p-2 rounded-2xl liquid-glass-pane border border-white/10 hover:border-white/20 transition-colors group"
                 >
                   <div
                     onClick={() => handlePlayRecommendation(track)}
                     className="flex items-center gap-2.5 min-w-0 flex-1 cursor-pointer"
                   >
-                    <div className="w-9 h-9 rounded-lg bg-canvas-surface overflow-hidden flex-shrink-0">
+                    <div className="w-9 h-9 rounded-xl bg-white/5 overflow-hidden flex-shrink-0 border border-white/10">
                       {track.coverUrl ? (
                         <img
                           src={track.coverUrl}
@@ -220,7 +220,7 @@ export const QueueDrawer: React.FC = () => {
                           className="w-full h-full object-cover"
                         />
                       ) : (
-                        <Music className="w-4 h-4 text-text-muted m-2.5" />
+                        <Music className="w-4 h-4 text-white/50 m-2.5" />
                       )}
                     </div>
                     <div className="min-w-0">

@@ -468,7 +468,7 @@ export const MobileNowPlayingDrawer: React.FC = () => {
                       borderColor: `${palette.primary}40`,
                       touchAction: 'none',
                     }}
-                    className="w-56 h-56 sm:w-68 sm:h-68 md:w-76 md:h-76 rounded-3xl bg-canvas-base border overflow-hidden flex items-center justify-center relative group cursor-grab active:cursor-grabbing select-none shadow-2xl z-10"
+                    className="w-56 h-56 sm:w-68 sm:h-68 md:w-76 md:h-76 rounded-[2rem] liquid-glass-card border overflow-hidden flex items-center justify-center relative group cursor-grab active:cursor-grabbing select-none shadow-2xl z-10"
                   >
                     {currentTrack?.coverUrl ? (
                       <img

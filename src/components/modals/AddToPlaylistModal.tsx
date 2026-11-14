@@ -53,31 +53,30 @@ export const AddToPlaylistModal: React.FC = () => {
       role="dialog"
       aria-modal="true"
       aria-label="Add to Playlist"
-      className="fixed inset-0 z-[75] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md transition-opacity select-none"
+      className="fixed inset-0 z-[75] flex items-center justify-center p-4 bg-black/60 backdrop-blur-xl transition-opacity select-none"
       onClick={closeAddToPlaylist}
     >
       <div
-        className="w-full max-w-md bg-vyn-surface border border-vyn-border rounded-3xl p-6 shadow-2xl relative overflow-hidden flex flex-col gap-4 text-vyn-high"
+        className="w-full max-w-md liquid-glass-card rounded-[2.5rem] p-6 shadow-2xl relative overflow-hidden flex flex-col gap-4 text-white border border-white/20"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Glow orb */}
-        <div className="absolute -top-20 -right-20 w-48 h-48 bg-vyn-primary/20 rounded-full blur-3xl pointer-events-none" />
+        <div className="liquid-specular-edge pointer-events-none" />
 
         {/* Modal Header */}
-        <div className="flex items-center justify-between border-b border-vyn-border/50 pb-3">
+        <div className="flex items-center justify-between border-b border-white/10 pb-3">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-vyn-primary/20 text-vyn-primary flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-amber-400/20 text-amber-300 flex items-center justify-center border border-amber-400/30">
               <FolderPlus className="w-4 h-4" />
             </div>
             <div>
-              <h2 className="text-base font-bold text-vyn-high">Add to Playlist</h2>
-              <p className="text-[11px] text-vyn-muted">Choose where to save this track</p>
+              <h2 className="text-base font-bold text-white">Add to Playlist</h2>
+              <p className="text-[11px] text-white/60">Choose where to save this track</p>
             </div>
           </div>
 
           <button
             onClick={closeAddToPlaylist}
-            className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-full hover:bg-white/10 text-vyn-muted hover:text-white transition-all cursor-pointer"
+            className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-full liquid-glass-pill text-white/70 hover:text-white transition-all cursor-pointer"
             aria-label="Close modal"
           >
             <X className="w-5 h-5" />
@@ -85,8 +84,8 @@ export const AddToPlaylistModal: React.FC = () => {
         </div>
 
         {/* Track Banner */}
-        <div className="flex items-center gap-3 p-2.5 rounded-2xl bg-vyn-elevated border border-vyn-border">
-          <div className="w-12 h-12 rounded-xl bg-vyn-canvas overflow-hidden flex-shrink-0 border border-vyn-border">
+        <div className="flex items-center gap-3 p-3 rounded-2xl liquid-glass-pane border border-white/15">
+          <div className="w-12 h-12 rounded-xl bg-white/5 overflow-hidden flex-shrink-0 border border-white/20">
             <img
               src={trackForPlaylist.coverUrl || fallbackCover}
               alt={trackForPlaylist.title}
@@ -98,14 +97,14 @@ export const AddToPlaylistModal: React.FC = () => {
             />
           </div>
           <div className="min-w-0 flex-1">
-            <span className="text-sm font-bold text-vyn-high truncate block">{trackForPlaylist.title}</span>
-            <span className="text-xs text-vyn-muted truncate block">{trackForPlaylist.artist}</span>
+            <span className="text-sm font-bold text-white truncate block">{trackForPlaylist.title}</span>
+            <span className="text-xs text-white/65 truncate block">{trackForPlaylist.artist}</span>
           </div>
         </div>
 
         {/* Toast Feedback */}
         {toastMessage && (
-          <div className="px-3 py-1.5 rounded-xl bg-vyn-primary/20 border border-vyn-primary/40 text-vyn-primary text-xs font-semibold text-center flex items-center justify-center gap-1.5 animate-pulse">
+          <div className="px-3 py-1.5 rounded-xl bg-amber-400/20 border border-amber-400/40 text-amber-300 text-xs font-semibold text-center flex items-center justify-center gap-1.5 animate-pulse">
             <Sparkles className="w-3.5 h-3.5" />
             <span>{toastMessage}</span>
           </div>
@@ -120,19 +119,19 @@ export const AddToPlaylistModal: React.FC = () => {
               placeholder="Enter playlist name..."
               value={newPlaylistName}
               onChange={(e) => setNewPlaylistName(e.target.value)}
-              className="flex-1 min-h-[44px] px-3.5 py-2 rounded-xl bg-vyn-canvas border border-vyn-border text-xs text-white focus:outline-none focus:border-vyn-primary"
+              className="flex-1 min-h-[44px] px-3.5 py-2 rounded-xl liquid-glass-input text-xs text-white focus:outline-none focus:border-amber-400/60"
             />
             <button
               type="submit"
               disabled={!newPlaylistName.trim()}
-              className="min-h-[44px] px-4 rounded-xl bg-vyn-primary text-black font-bold text-xs hover:opacity-90 active:scale-95 disabled:opacity-40 transition-all cursor-pointer whitespace-nowrap"
+              className="min-h-[44px] px-4 rounded-xl bg-gradient-to-r from-amber-400 to-rose-400 text-slate-950 font-bold text-xs hover:opacity-90 active:scale-95 disabled:opacity-40 transition-all cursor-pointer whitespace-nowrap shadow-sm"
             >
               Create
             </button>
             <button
               type="button"
               onClick={() => setIsCreating(false)}
-              className="min-h-[44px] px-3 rounded-xl hover:bg-white/10 text-xs text-vyn-muted hover:text-white transition-all cursor-pointer"
+              className="min-h-[44px] px-3 rounded-xl liquid-glass-pill text-xs text-white/70 hover:text-white transition-all cursor-pointer"
             >
               Cancel
             </button>
@@ -140,9 +139,9 @@ export const AddToPlaylistModal: React.FC = () => {
         ) : (
           <button
             onClick={() => setIsCreating(true)}
-            className="min-h-[44px] w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl border border-dashed border-white/20 hover:border-vyn-primary bg-white/[0.02] hover:bg-white/[0.06] text-white/80 hover:text-white transition-all cursor-pointer group"
+            className="min-h-[44px] w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl border border-dashed border-white/20 hover:border-amber-400/50 bg-white/5 hover:bg-white/10 text-white/80 hover:text-white transition-all cursor-pointer group"
           >
-            <div className="w-8 h-8 rounded-lg bg-vyn-primary/10 group-hover:bg-vyn-primary/20 text-vyn-primary flex items-center justify-center flex-shrink-0 transition-transform group-hover:scale-105">
+            <div className="w-8 h-8 rounded-lg bg-amber-400/10 group-hover:bg-amber-400/20 text-amber-300 flex items-center justify-center flex-shrink-0 transition-transform group-hover:scale-105 border border-white/10">
               <Plus className="w-4 h-4" />
             </div>
             <span className="text-xs font-bold text-white">Create New Playlist</span>
@@ -152,7 +151,7 @@ export const AddToPlaylistModal: React.FC = () => {
         {/* Existing Playlists Scrollable List */}
         <div className="flex flex-col gap-1.5 max-h-56 overflow-y-auto pr-1 scrollbar-none custom-scrollbar">
           {playlists.length === 0 ? (
-            <div className="text-center py-6 text-vyn-muted text-xs">
+            <div className="text-center py-6 text-white/50 text-xs">
               No playlists found. Create one above to get started!
             </div>
           ) : (
@@ -163,25 +162,25 @@ export const AddToPlaylistModal: React.FC = () => {
                 <div
                   key={pl.id}
                   onClick={() => handleTogglePlaylist(pl.id, pl.name)}
-                  className={`min-h-[44px] flex items-center justify-between p-2.5 rounded-xl border transition-all cursor-pointer group ${
+                  className={`min-h-[44px] flex items-center justify-between p-2.5 rounded-2xl border transition-all cursor-pointer group ${
                     isPresent
-                      ? 'bg-vyn-primary/15 border-vyn-primary/50 text-white shadow-sm'
-                      : 'bg-white/5 hover:bg-white/10 border-white/5 text-vyn-muted hover:text-white'
+                      ? 'bg-amber-400/20 border-amber-400/50 text-white shadow-sm'
+                      : 'liquid-glass-pill border-white/10 hover:border-white/25 text-white/80 hover:text-white'
                   }`}
                 >
                   <div className="flex items-center gap-3 min-w-0 flex-1">
-                    <div className="w-9 h-9 rounded-lg bg-vyn-canvas overflow-hidden flex items-center justify-center border border-vyn-border flex-shrink-0">
+                    <div className="w-9 h-9 rounded-lg bg-white/5 overflow-hidden flex items-center justify-center border border-white/15 flex-shrink-0">
                       {pl.coverUrl ? (
                         <img src={pl.coverUrl} alt={pl.name} className="w-full h-full object-cover" />
                       ) : (
-                        <Music className="w-4 h-4 text-vyn-muted" />
+                        <Music className="w-4 h-4 text-white/60" />
                       )}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <span className="text-xs font-bold truncate block group-hover:text-vyn-primary transition-colors">
+                      <span className="text-xs font-bold truncate block group-hover:text-amber-300 transition-colors">
                         {pl.name}
                       </span>
-                      <span className="text-[10px] text-vyn-muted truncate block">
+                      <span className="text-[10px] text-white/60 truncate block">
                         {pl.tracks.length} {pl.tracks.length === 1 ? 'track' : 'tracks'}
                       </span>
                     </div>
@@ -190,11 +189,11 @@ export const AddToPlaylistModal: React.FC = () => {
                   <div
                     className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 transition-transform ${
                       isPresent
-                        ? 'bg-vyn-primary text-black'
-                        : 'bg-white/10 text-white/50 group-hover:text-white group-hover:scale-110'
+                        ? 'bg-gradient-to-r from-amber-400 to-rose-400 text-slate-950 font-bold'
+                        : 'bg-white/10 text-white/60 group-hover:text-white group-hover:scale-110'
                     }`}
                   >
-                    {isPresent ? <Check className="w-3.5 h-3.5" /> : <Plus className="w-3.5 h-3.5" />}
+                    {isPresent ? <Check className="w-3.5 h-3.5 stroke-[3]" /> : <Plus className="w-3.5 h-3.5" />}
                   </div>
                 </div>
               )

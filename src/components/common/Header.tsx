@@ -9,26 +9,26 @@ export const Header: React.FC = () => {
   const { activeTab, setActiveTab } = useUIStore()
 
   return (
-    <header className="h-16 border-b border-vyn-border flex items-center justify-between px-6 bg-vyn-surface/60 backdrop-blur-md sticky top-0 z-50">
+    <header className="h-16 border-b border-white/10 flex items-center justify-between px-6 liquid-glass-pane sticky top-0 z-50">
       <div className="flex items-center gap-3">
         <VynoraLogo className="w-8 h-8" />
         <div>
-          <h1 className="text-base font-bold font-display tracking-widest bg-gradient-to-r from-vyn-primary via-vyn-secondary to-vyn-accent bg-clip-text text-transparent">
+          <h1 className="text-base font-bold font-display tracking-widest bg-gradient-to-r from-amber-300 via-rose-300 to-cyan-300 bg-clip-text text-transparent">
             VYNORA
           </h1>
-          <p className="text-[10px] text-vyn-muted tracking-wider uppercase">3D Audio Studio • M1 Online</p>
+          <p className="text-[10px] text-white/60 tracking-wider uppercase">Liquid Glass Studio • M1 Online</p>
         </div>
       </div>
 
-      <nav className="flex items-center gap-1 bg-vyn-elevated/70 p-1 rounded-lg border border-vyn-border">
+      <nav className="flex items-center gap-1.5 liquid-glass-pane p-1.5 rounded-2xl border border-white/15">
         {NAV_TABS.map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`min-h-[44px] min-w-[44px] px-3.5 py-1.5 rounded-md text-xs font-medium transition-all duration-200 capitalize flex items-center justify-center ${
+            className={`min-h-[44px] min-w-[44px] px-3.5 py-1.5 rounded-xl text-xs font-medium transition-all duration-200 capitalize flex items-center justify-center cursor-pointer ${
               activeTab === tab
-                ? 'bg-vyn-primary text-vyn-canvas shadow-glow-cyan font-semibold'
-                : 'text-vyn-muted hover:text-vyn-high hover:bg-white/5'
+                ? 'bg-gradient-to-r from-amber-400 to-rose-400 text-slate-950 shadow-md font-bold'
+                : 'text-white/60 hover:text-white liquid-glass-pill'
             }`}
           >
             {tab}

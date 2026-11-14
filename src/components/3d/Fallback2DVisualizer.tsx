@@ -89,18 +89,18 @@ export const Fallback2DVisualizer: React.FC<Fallback2DVisualizerProps> = ({
   }, [mode, isPlaying, getAudioData])
 
   return (
-    <div className="relative w-full h-full min-h-[380px] flex flex-col items-center justify-center p-6 bg-canvas-base/80 rounded-2xl border border-white/5">
+    <div className="relative w-full h-full min-h-[380px] flex flex-col items-center justify-center p-6 liquid-glass-pane rounded-[2rem] border border-white/15">
       <div className="w-full max-w-lg h-56 flex items-center justify-center">
         <canvas
           ref={canvasRef}
           width={600}
           height={240}
-          className="w-full h-full rounded-xl bg-canvas-surface/40"
+          className="w-full h-full rounded-2xl liquid-glass-card border border-white/10"
         />
       </div>
 
-      <div className="mt-4 flex items-center gap-2 text-xs text-text-muted">
-        <Disc3 className="w-3.5 h-3.5 text-accent-cyan" />
+      <div className="mt-4 flex items-center gap-2 text-xs text-white/60">
+        <Disc3 className="w-3.5 h-3.5 text-amber-300" />
         <span>2D Canvas Mode (WebGL Fallback Active)</span>
       </div>
     </div>

@@ -51,22 +51,24 @@ export const SleepTimerModal: React.FC<SleepTimerModalProps> = ({ isOpen, onClos
       role="dialog"
       aria-label="Sleep Timer"
       onClick={onClose}
-      className="fixed inset-0 z-[75] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
+      className="fixed inset-0 z-[75] flex items-center justify-center p-4 bg-black/60 backdrop-blur-xl"
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-sm bg-canvas-surface border border-white/10 rounded-2xl shadow-2xl p-6 text-text-primary"
+        className="relative w-full max-w-sm liquid-glass-card rounded-[2.5rem] border border-white/20 shadow-2xl p-6 text-white overflow-hidden"
       >
+        <div className="liquid-specular-edge pointer-events-none" />
+
         {/* Header */}
-        <div className="flex items-center justify-between pb-3 border-b border-white/5">
+        <div className="flex items-center justify-between pb-3 border-b border-white/10">
           <div className="flex items-center gap-2">
-            <Clock className="w-5 h-5 text-accent-cyan" />
-            <h2 className="text-base font-bold tracking-wide">Sleep Timer</h2>
+            <Clock className="w-5 h-5 text-amber-300" />
+            <h2 className="text-base font-bold tracking-wide text-white">Sleep Timer</h2>
           </div>
           <button
             onClick={onClose}
             aria-label="Close sleep timer modal"
-            className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-xl text-text-muted hover:text-white hover:bg-white/5 transition-colors"
+            className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-full liquid-glass-pill text-white/70 hover:text-white transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -74,10 +76,10 @@ export const SleepTimerModal: React.FC<SleepTimerModalProps> = ({ isOpen, onClos
 
         {/* Active Timer Indicator */}
         {activeMode && (
-          <div className="flex items-center justify-between p-3 rounded-xl bg-accent-cyan/10 border border-accent-cyan/30 my-3">
+          <div className="flex items-center justify-between p-3 rounded-2xl bg-amber-400/15 border border-amber-400/40 my-3 backdrop-blur-md">
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-accent-cyan animate-pulse" />
-              <span className="text-xs font-bold text-accent-cyan">
+              <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+              <span className="text-xs font-bold text-amber-300">
                 {activeMode === 'end_of_track'
                   ? 'Pauses at end of track'
                   : `Active: ${formatCountdown(remainingSec)} left`}
@@ -85,15 +87,15 @@ export const SleepTimerModal: React.FC<SleepTimerModalProps> = ({ isOpen, onClos
             </div>
             <button
               onClick={handleTurnOff}
-              className="text-xs text-red-400 hover:text-red-300 font-bold px-2 py-1 rounded bg-red-500/10 hover:bg-red-500/20 flex items-center gap-1 transition-colors"
+              className="min-h-[44px] text-xs text-rose-300 hover:text-rose-200 font-bold px-3 py-1 rounded-xl liquid-glass-pill border-rose-400/30 hover:border-rose-400/60 flex items-center gap-1 transition-colors"
             >
-              <PowerOff className="w-3 h-3" />
+              <PowerOff className="w-3.5 h-3.5" />
               <span>Turn off</span>
             </button>
           </div>
         )}
 
-        <p className="text-xs text-text-muted mt-2 mb-3">
+        <p className="text-xs text-white/60 mt-2 mb-3">
           Audio will smoothly fade out and pause when the timer expires.
         </p>
 
@@ -111,10 +113,10 @@ export const SleepTimerModal: React.FC<SleepTimerModalProps> = ({ isOpen, onClos
               <button
                 key={opt.label}
                 onClick={() => handleSelect(opt.value)}
-                className={`min-h-[44px] flex items-center justify-between px-4 py-2.5 rounded-xl text-xs font-semibold transition-all ${
+                className={`min-h-[44px] flex items-center justify-between px-4 py-2.5 rounded-2xl text-xs font-semibold transition-all ${
                   isSelected
-                    ? 'bg-accent-cyan text-canvas-base shadow-glow-cyan font-bold'
-                    : 'bg-white/5 text-text-secondary hover:text-white hover:bg-white/10'
+                    ? 'bg-gradient-to-r from-amber-400 to-rose-400 text-slate-950 font-bold shadow-lg'
+                    : 'liquid-glass-pill border-white/10 hover:border-white/20 text-white/80 hover:text-white'
                 }`}
               >
                 <span>{opt.label}</span>

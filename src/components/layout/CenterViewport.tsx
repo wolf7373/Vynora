@@ -33,7 +33,7 @@ export const CenterViewport: React.FC = () => {
   return (
     <main
       id="vynora-center-viewport"
-      className="flex-1 flex flex-col h-full bg-vyn-canvas overflow-y-auto overflow-x-hidden select-none"
+      className="flex-1 flex flex-col h-full bg-transparent overflow-y-auto overflow-x-hidden select-none"
     >
       <TopBar />
       <div className="flex-1 pb-36 md:pb-12">

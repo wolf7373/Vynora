@@ -424,9 +424,9 @@ export const WorkstationView: React.FC = () => {
           ].map((dial) => (
             <div
               key={dial.label}
-              className="p-4 rounded-xl bg-vyn-elevated border border-white/5 text-center flex flex-col items-center justify-center"
+              className="p-4 rounded-2xl liquid-glass-pane border border-white/10 text-center flex flex-col items-center justify-center"
             >
-              <div className="w-12 h-12 rounded-full border-2 border-vyn-primary/30 flex items-center justify-center mb-2 bg-vyn-canvas text-vyn-primary font-mono text-xs font-bold">
+              <div className="w-12 h-12 rounded-full border-2 border-amber-400/40 flex items-center justify-center mb-2 liquid-glass-card text-amber-300 font-mono text-xs font-bold shadow-sm">
                 {dial.value}
               </div>
               <span className="text-[11px] font-bold text-white">{dial.label}</span>

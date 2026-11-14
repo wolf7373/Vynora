@@ -282,7 +282,7 @@ export const HomeView: React.FC = () => {
             }}
             className="liquid-glass-card p-3 rounded-2xl border border-white/15 hover:border-vyn-primary/50 flex items-center gap-3 cursor-pointer group hover:scale-[1.02] transition-all shadow-md"
           >
-            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-vyn-surface overflow-hidden flex-shrink-0 border border-white/10 shadow-sm">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-white/5 overflow-hidden flex-shrink-0 border border-white/10 shadow-sm">
               {pl.coverUrl ? (
                 <img src={pl.coverUrl} alt={pl.name} className="w-full h-full object-cover" />
               ) : (
@@ -341,7 +341,7 @@ export const HomeView: React.FC = () => {
               onClick={() => handlePlayDailyMix(mix.id)}
               className="liquid-glass-card p-4 rounded-3xl border border-white/15 hover:border-vyn-primary/50 transition-all duration-300 group cursor-pointer relative hover:-translate-y-1 shadow-lg"
             >
-              <div className="w-full aspect-square rounded-2xl bg-vyn-canvas overflow-hidden mb-3 relative border border-white/10 shadow-md">
+              <div className="w-full aspect-square rounded-2xl bg-white/5 overflow-hidden mb-3 relative border border-white/10 shadow-md">
                 <img
                   src={mix.cover}
                   alt={mix.title}
@@ -398,7 +398,7 @@ export const HomeView: React.FC = () => {
                 }`}
               >
                 <div>
-                  <div className="w-full aspect-square rounded-2xl bg-vyn-canvas overflow-hidden mb-2.5 relative border border-white/10 shadow-md">
+                  <div className="w-full aspect-square rounded-2xl bg-white/5 overflow-hidden mb-2.5 relative border border-white/10 shadow-md">
                     {track.coverUrl ? (
                       <img
                         src={track.coverUrl}
@@ -482,9 +482,9 @@ export const HomeView: React.FC = () => {
                 setActivePlaylistId(pl.id)
                 setActiveTab('library')
               }}
-              className="glass-panel p-4 rounded-2xl border border-vyn-border hover:border-vyn-primary/40 transition-colors flex items-center gap-4 cursor-pointer group focus-visible:ring-2 focus-visible:ring-vyn-primary"
+              className="liquid-glass-card p-4 rounded-2xl border border-white/15 hover:border-amber-400/50 transition-all flex items-center gap-4 cursor-pointer group focus-visible:ring-2 focus-visible:ring-amber-400"
             >
-              <div className="w-16 h-16 rounded-xl bg-canvas-base overflow-hidden flex-shrink-0 border border-white/5">
+              <div className="w-16 h-16 rounded-xl bg-white/5 overflow-hidden flex-shrink-0 border border-white/10">
                 {pl.coverUrl ? (
                   <img src={pl.coverUrl} alt={pl.name} className="w-full h-full object-cover" />
                 ) : (

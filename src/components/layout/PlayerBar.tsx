@@ -163,7 +163,7 @@ export const PlayerBar: React.FC = () => {
           className="flex items-center gap-2.5 min-w-0 cursor-pointer hover:opacity-90 transition-opacity flex-1 group"
           title="Click to open Full Now Playing View"
         >
-          <div className="w-10 h-10 md:w-12 md:h-12 rounded-lg bg-vyn-canvas border border-vyn-border flex items-center justify-center overflow-hidden flex-shrink-0 group-hover:ring-2 group-hover:ring-vyn-primary/50 transition-all shadow-md">
+          <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center overflow-hidden flex-shrink-0 group-hover:ring-2 group-hover:ring-amber-400/50 transition-all shadow-md">
             {currentTrack?.coverUrl ? (
               <img
                 src={currentTrack.coverUrl}

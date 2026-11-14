@@ -536,7 +536,7 @@ export const SearchView: React.FC = () => {
                   <div
                     className="col-span-6 sm:col-span-5 flex items-center gap-3 pr-2 min-w-0"
                   >
-                    <div className="w-10 h-10 rounded-lg bg-vyn-canvas overflow-hidden flex-shrink-0 border border-vyn-border relative">
+                    <div className="w-10 h-10 rounded-xl bg-white/5 overflow-hidden flex-shrink-0 border border-white/10 relative">
                       <img
                         src={track.coverUrl || fallbackCover}
                         alt={track.title}
@@ -562,8 +562,8 @@ export const SearchView: React.FC = () => {
                   </div>
 
                   {/* Source Engine */}
-                  <div className="hidden sm:block sm:col-span-4 text-xs text-vyn-muted truncate pr-2">
-                    <span className="text-[10px] px-2 py-0.5 rounded bg-vyn-elevated border border-vyn-border font-semibold text-vyn-secondary">
+                  <div className="hidden sm:block sm:col-span-4 text-xs text-white/60 truncate pr-2">
+                    <span className="text-[10px] px-2.5 py-0.5 rounded-full liquid-glass-pill border border-amber-400/30 font-semibold text-amber-300">
                       {track.source === 'youtube' ? 'YouTube Full' : 'Local Audio'}
                     </span>
                   </div>

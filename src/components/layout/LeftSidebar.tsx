@@ -105,12 +105,12 @@ export const LeftSidebar: React.FC = () => {
       {/* Scrollable Playlist List */}
       <div className="flex-1 overflow-y-auto px-3 pb-4 space-y-1">
         {playlists.length === 0 ? (
-          <div className="p-4 text-center rounded-xl bg-vyn-canvas/40 border border-vyn-border/40 my-2">
-            <Music2 className="w-6 h-6 text-vyn-muted/60 mx-auto mb-1.5" />
-            <p className="text-xs text-vyn-muted mb-2">No playlists yet</p>
+          <div className="p-4 text-center rounded-2xl liquid-glass-pane border border-white/10 my-2">
+            <Music2 className="w-6 h-6 text-white/50 mx-auto mb-1.5" />
+            <p className="text-xs text-white/60 mb-2">No playlists yet</p>
             <button
               onClick={handleCreatePlaylist}
-              className="min-h-[44px] min-w-[44px] text-[11px] px-3 py-2 rounded-md bg-vyn-primary/10 text-vyn-primary border border-vyn-primary/20 hover:bg-vyn-primary/20 transition-all font-medium inline-flex items-center justify-center"
+              className="min-h-[44px] min-w-[44px] text-[11px] px-3.5 py-2 rounded-xl bg-gradient-to-r from-amber-400 to-rose-400 text-slate-950 hover:shadow-md transition-all font-bold inline-flex items-center justify-center cursor-pointer"
             >
               + Create First
             </button>
@@ -125,10 +125,10 @@ export const LeftSidebar: React.FC = () => {
                   setActivePlaylistId(pl.id)
                   setActiveTab('library')
                 }}
-                className={`w-full min-h-[44px] px-3 py-2 rounded-lg text-left transition-all flex items-center justify-between group ${
+                className={`w-full min-h-[44px] px-3 py-2 rounded-xl text-left transition-all flex items-center justify-between group cursor-pointer ${
                   isSelected
-                    ? 'bg-vyn-elevated text-vyn-primary border border-vyn-primary/20 font-medium'
-                    : 'text-vyn-muted hover:text-vyn-high hover:bg-white/5'
+                    ? 'liquid-glass-pane text-amber-300 border border-amber-400/30 font-semibold shadow-sm'
+                    : 'text-white/60 hover:text-white hover:bg-white/5'
                 }`}
               >
                 <div className="truncate pr-2">
