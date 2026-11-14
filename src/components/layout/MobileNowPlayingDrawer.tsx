@@ -133,7 +133,8 @@ export const MobileNowPlayingDrawer: React.FC = () => {
       targetFlareY = e.clientY
     }
 
-    if (typeof process !== 'undefined' && process.env.NODE_ENV === 'test') {
+    const isTestEnv = import.meta.env?.MODE === 'test' || (typeof globalThis !== 'undefined' && (globalThis as any).process?.env?.NODE_ENV === 'test')
+    if (isTestEnv) {
       return
     }
 

@@ -91,7 +91,8 @@ export const AmbientBackground: React.FC = () => {
     }
 
     // In automated unit tests, skip infinite rAF loop to prevent jsdom timeout starvation
-    if (typeof process !== 'undefined' && process.env.NODE_ENV === 'test') {
+    const isTestEnv = import.meta.env?.MODE === 'test' || (typeof globalThis !== 'undefined' && (globalThis as any).process?.env?.NODE_ENV === 'test')
+    if (isTestEnv) {
       window.addEventListener('pointermove', handlePointerMove, { passive: true })
       window.addEventListener('mousemove', handlePointerMove, { passive: true })
       return () => {

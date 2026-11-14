@@ -324,7 +324,8 @@ export const SingletonYouTubePlayer: React.FC = () => {
 
   // 5b. Synchronize Play / Pause state with singleton iframe
   useEffect(() => {
-    if (typeof process !== 'undefined' && process.env.NODE_ENV === 'test') return
+    const isTest = import.meta.env?.MODE === 'test' || (typeof globalThis !== 'undefined' && (globalThis as any).process?.env?.NODE_ENV === 'test')
+    if (isTest) return
     if (iframeRef.current?.contentWindow && (youtubeId || youtubePlaylistId)) {
       try {
         if (isPlaying) {
@@ -345,7 +346,8 @@ export const SingletonYouTubePlayer: React.FC = () => {
   // 5c. Synchronize Seek position with singleton iframe
   const lastSyncTimeRef = useRef<number>(0)
   useEffect(() => {
-    if (typeof process !== 'undefined' && process.env.NODE_ENV === 'test') return
+    const isTest = import.meta.env?.MODE === 'test' || (typeof globalThis !== 'undefined' && (globalThis as any).process?.env?.NODE_ENV === 'test')
+    if (isTest) return
     if (!iframeRef.current?.contentWindow || !youtubeId) return
     if (Math.abs(currentTime - lastSyncTimeRef.current) > 2) {
       lastSyncTimeRef.current = currentTime

@@ -3,7 +3,6 @@ import { Home, Search, Library, Download, Disc3, Cpu, Plus, Music2, Radio, Heart
 import { VynoraLogo } from '@/components/common/VynoraLogo'
 import { useUIStore } from '@/stores/useUIStore'
 import { usePlaylistStore } from '@/stores/usePlaylistStore'
-import { SyncCodeModal } from '@/components/sync/SyncCodeModal'
 import { PWAInstallModal } from '@/components/modals/PWAInstallModal'
 import type { NavTab } from '@/types'
 
