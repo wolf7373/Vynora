@@ -169,10 +169,8 @@ export const PlayerBar: React.FC = () => {
                 src={currentTrack.coverUrl}
                 alt={currentTrack.title}
                 onError={(e) => {
-                  if (currentTrack.youtubeId) {
-                    e.currentTarget.onerror = null
-                    e.currentTarget.src = `https://i.ytimg.com/vi/${currentTrack.youtubeId}/hqdefault.jpg`
-                  }
+                  e.currentTarget.onerror = null
+                  e.currentTarget.src = 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600&auto=format&fit=crop&q=80'
                 }}
                 className="w-full h-full object-cover"
               />

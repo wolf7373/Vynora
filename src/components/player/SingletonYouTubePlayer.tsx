@@ -203,11 +203,11 @@ export const SingletonYouTubePlayer: React.FC = () => {
             return
           }
 
-          // Strict Skip Guard: Allow at most 1 automatic skip, debounced by 3s, NEVER cascade
-          if (now - lastErrorSkipRef.current > 3000 && autoErrorSkipCountRef.current < 1) {
+          // Auto-advance guard: allow up to 3 consecutive error skips, debounced by 1.5s
+          if (now - lastErrorSkipRef.current > 1500 && autoErrorSkipCountRef.current < 3) {
             lastErrorSkipRef.current = now
             autoErrorSkipCountRef.current += 1
-            console.warn('[SingletonYT] YouTube playback error (code:', data.info?.errorCode || data.data, '), advancing to next track...')
+            console.warn('[SingletonYT] YouTube playback error (code:', data.info?.errorCode || data.data, '), advancing to next verified track...')
             PlaybackAdapterManager.getInstance().playNext()
           } else {
             console.warn('[SingletonYT] Auto-advance halted to prevent infinite loop. Pausing playback.')

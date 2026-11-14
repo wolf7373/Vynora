@@ -476,10 +476,8 @@ export const MobileNowPlayingDrawer: React.FC = () => {
                         alt={currentTrack.title}
                         draggable={false}
                         onError={(e) => {
-                          if (currentTrack.youtubeId) {
-                            e.currentTarget.onerror = null
-                            e.currentTarget.src = `https://i.ytimg.com/vi/${currentTrack.youtubeId}/hqdefault.jpg`
-                          }
+                          e.currentTarget.onerror = null
+                          e.currentTarget.src = 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600&auto=format&fit=crop&q=80'
                         }}
                         className="w-full h-full object-cover pointer-events-none transition-transform duration-500 group-hover:scale-105"
                       />

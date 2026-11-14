@@ -180,10 +180,8 @@ export const LiquidGlassPlayerCard: React.FC<LiquidGlassPlayerCardProps> = ({
                 src={activeTrack.coverUrl}
                 alt={activeTrack.title}
                 onError={(e) => {
-                  if (activeTrack.youtubeId) {
-                    e.currentTarget.onerror = null
-                    e.currentTarget.src = `https://i.ytimg.com/vi/${activeTrack.youtubeId}/hqdefault.jpg`
-                  }
+                  e.currentTarget.onerror = null
+                  e.currentTarget.src = 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600&auto=format&fit=crop&q=80'
                 }}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />

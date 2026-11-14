@@ -1092,7 +1092,7 @@ export const INITIAL_TRACKS: ResonixTrack[] = [
   },
   {
     id: 'hit-husn',
-    youtubeId: 'gXYpH_tE3H4',
+    youtubeId: 'gJLVTKhTnog',
     title: 'Husn',
     artist: 'Anuv Jain',
     album: 'Husn Single',
@@ -1102,7 +1102,7 @@ export const INITIAL_TRACKS: ResonixTrack[] = [
     bpm: 82,
     style: 'ambient',
     scale: [261.63, 293.66, 329.63, 392.0, 440.0],
-    cover: 'https://i.ytimg.com/vi/gXYpH_tE3H4/hqdefault.jpg',
+    cover: 'https://i.ytimg.com/vi/gJLVTKhTnog/hqdefault.jpg',
     color: '#1e3264',
     liked: false,
     lyrics: [
@@ -1113,7 +1113,7 @@ export const INITIAL_TRACKS: ResonixTrack[] = [
   },
   {
     id: 'hit-jo-tum-mere-ho',
-    youtubeId: 'ilNt2bikxZ8',
+    youtubeId: '9fKQJcbd-jY',
     title: 'Jo Tum Mere Ho',
     artist: 'Anuv Jain',
     album: 'Jo Tum Mere Ho',
@@ -1123,7 +1123,7 @@ export const INITIAL_TRACKS: ResonixTrack[] = [
     bpm: 78,
     style: 'ambient',
     scale: [261.63, 293.66, 329.63, 392.0, 440.0],
-    cover: 'https://i.ytimg.com/vi/ilNt2bikxZ8/hqdefault.jpg',
+    cover: 'https://i.ytimg.com/vi/9fKQJcbd-jY/hqdefault.jpg',
     color: '#10b981',
     liked: false,
     lyrics: [
@@ -1176,7 +1176,7 @@ export const INITIAL_TRACKS: ResonixTrack[] = [
   },
   {
     id: 'hit-khoobsurat',
-    youtubeId: 'QqqqfWfO9nU',
+    youtubeId: '1-nnEM8chwo',
     title: 'Khoobsurat',
     artist: 'Vishal Mishra, Sachin-Jigar',
     album: 'Stree 2',
@@ -1186,7 +1186,7 @@ export const INITIAL_TRACKS: ResonixTrack[] = [
     bpm: 86,
     style: 'jazz_soul',
     scale: [261.63, 293.66, 329.63, 392.0, 440.0],
-    cover: 'https://i.ytimg.com/vi/QqqqfWfO9nU/hqdefault.jpg',
+    cover: 'https://i.ytimg.com/vi/1-nnEM8chwo/hqdefault.jpg',
     color: '#ba5d07',
     liked: false,
     lyrics: [
@@ -1218,7 +1218,7 @@ export const INITIAL_TRACKS: ResonixTrack[] = [
   },
   {
     id: 'hit-payal',
-    youtubeId: 'u2g5mZ6Lq_8',
+    youtubeId: 'kt9IiIWRVnU',
     title: 'Payal',
     artist: 'Yo Yo Honey Singh, Paradox',
     album: 'Glory',
@@ -1228,7 +1228,7 @@ export const INITIAL_TRACKS: ResonixTrack[] = [
     bpm: 104,
     style: 'pop_dance',
     scale: [261.63, 293.66, 349.23, 392.0, 440.0],
-    cover: 'https://i.ytimg.com/vi/u2g5mZ6Lq_8/hqdefault.jpg',
+    cover: 'https://i.ytimg.com/vi/kt9IiIWRVnU/hqdefault.jpg',
     color: '#8400e7',
     liked: false,
     lyrics: [
@@ -1239,7 +1239,7 @@ export const INITIAL_TRACKS: ResonixTrack[] = [
   },
   {
     id: 'hit-big-dawgs',
-    youtubeId: 'hOhPCfyF4hU',
+    youtubeId: 'hOHKltAiKXQ',
     title: 'Big Dawgs',
     artist: 'Hanumankind, Kalmi',
     album: 'Big Dawgs Single',
@@ -1249,7 +1249,7 @@ export const INITIAL_TRACKS: ResonixTrack[] = [
     bpm: 130,
     style: 'cyberpunk',
     scale: [261.63, 293.66, 349.23, 392.0, 440.0],
-    cover: 'https://i.ytimg.com/vi/hOhPCfyF4hU/hqdefault.jpg',
+    cover: 'https://i.ytimg.com/vi/hOHKltAiKXQ/hqdefault.jpg',
     color: '#1e3264',
     liked: false,
     lyrics: [
@@ -1341,7 +1341,7 @@ export const INITIAL_TRACKS: ResonixTrack[] = [
   },
   {
     id: 'hit-antidote',
-    youtubeId: 'vX2cDY8pgnw',
+    youtubeId: 'rXoReWNm8Zo',
     title: 'Antidote',
     artist: 'Karan Aujla',
     album: 'Street Dreams',
@@ -1351,7 +1351,7 @@ export const INITIAL_TRACKS: ResonixTrack[] = [
     bpm: 96,
     style: 'pop_dance',
     scale: [261.63, 293.66, 349.23, 392.0, 440.0],
-    cover: 'https://i.ytimg.com/vi/vX2cDY8pgnw/hqdefault.jpg',
+    cover: 'https://i.ytimg.com/vi/rXoReWNm8Zo/hqdefault.jpg',
     color: '#8400e7',
     liked: false,
     lyrics: [
@@ -1361,7 +1361,7 @@ export const INITIAL_TRACKS: ResonixTrack[] = [
   },
   {
     id: 'hit-jee-ni-lagda',
-    youtubeId: 'D8wWqE4gD7g',
+    youtubeId: 'BXNxrT59MzQ',
     title: 'Jee Ni Lagda',
     artist: 'Karan Aujla',
     album: 'Way Ahead',
@@ -1371,7 +1371,7 @@ export const INITIAL_TRACKS: ResonixTrack[] = [
     bpm: 94,
     style: 'jazz_soul',
     scale: [261.63, 293.66, 349.23, 392.0, 440.0],
-    cover: 'https://i.ytimg.com/vi/D8wWqE4gD7g/hqdefault.jpg',
+    cover: 'https://i.ytimg.com/vi/BXNxrT59MzQ/hqdefault.jpg',
     color: '#8400e7',
     liked: false,
     lyrics: [
@@ -1381,7 +1381,7 @@ export const INITIAL_TRACKS: ResonixTrack[] = [
   },
   {
     id: 'hit-check-it-out',
-    youtubeId: '5h3y5t5c9hM',
+    youtubeId: 'G15dcnngU10',
     title: 'Check It Out',
     artist: 'Parmish Verma, Paradox',
     album: 'Check It Out Single',
@@ -1391,7 +1391,7 @@ export const INITIAL_TRACKS: ResonixTrack[] = [
     bpm: 110,
     style: 'pop_dance',
     scale: [261.63, 293.66, 349.23, 392.0, 440.0],
-    cover: 'https://i.ytimg.com/vi/5h3y5t5c9hM/hqdefault.jpg',
+    cover: 'https://i.ytimg.com/vi/G15dcnngU10/hqdefault.jpg',
     color: '#8400e7',
     liked: false,
     lyrics: [
@@ -1401,7 +1401,7 @@ export const INITIAL_TRACKS: ResonixTrack[] = [
   },
   {
     id: 'hit-still-rollin',
-    youtubeId: 'Gz3F8B3e1cE',
+    youtubeId: '0mCVpUDCkEk',
     title: 'Still Rollin',
     artist: 'Shubh',
     album: 'Still Rollin EP',
@@ -1411,7 +1411,7 @@ export const INITIAL_TRACKS: ResonixTrack[] = [
     bpm: 104,
     style: 'synthwave',
     scale: [261.63, 293.66, 349.23, 392.0, 440.0],
-    cover: 'https://i.ytimg.com/vi/Gz3F8B3e1cE/hqdefault.jpg',
+    cover: 'https://i.ytimg.com/vi/0mCVpUDCkEk/hqdefault.jpg',
     color: '#8400e7',
     liked: false,
     lyrics: [
@@ -1521,7 +1521,7 @@ export const INITIAL_TRACKS: ResonixTrack[] = [
   },
   {
     id: 'hit-taste',
-    youtubeId: 'T62mEIvC8iA',
+    youtubeId: 'KEG7b851Ric',
     title: 'Taste',
     artist: 'Sabrina Carpenter',
     album: 'Short n Sweet',
@@ -1531,7 +1531,7 @@ export const INITIAL_TRACKS: ResonixTrack[] = [
     bpm: 113,
     style: 'pop_dance',
     scale: [261.63, 293.66, 329.63, 349.23, 392.0, 440.0],
-    cover: 'https://i.ytimg.com/vi/T62mEIvC8iA/hqdefault.jpg',
+    cover: 'https://i.ytimg.com/vi/KEG7b851Ric/hqdefault.jpg',
     color: '#1e3264',
     liked: false,
     lyrics: [
@@ -1581,7 +1581,7 @@ export const INITIAL_TRACKS: ResonixTrack[] = [
   },
   {
     id: 'hit-die-with-a-smile',
-    youtubeId: 'kPa7bsKwL-8',
+    youtubeId: 'kPa7bsKwL-c',
     title: 'Die With A Smile',
     artist: 'Lady Gaga, Bruno Mars',
     album: 'Die With A Smile',
@@ -1591,7 +1591,7 @@ export const INITIAL_TRACKS: ResonixTrack[] = [
     bpm: 104,
     style: 'pop_dance',
     scale: [261.63, 293.66, 329.63, 392.0, 440.0, 523.25],
-    cover: 'https://i.ytimg.com/vi/kPa7bsKwL-8/hqdefault.jpg',
+    cover: 'https://i.ytimg.com/vi/kPa7bsKwL-c/hqdefault.jpg',
     color: '#8400e7',
     liked: false,
     lyrics: [
@@ -1760,8 +1760,8 @@ export const INITIAL_TRACKS: ResonixTrack[] = [
     ]
   },
   {
-    id: 'bolly-satranga',
-    youtubeId: 'hrMo3BPY2rg',
+    id: 'bolly-satranga-2',
+    youtubeId: 'zDknxGb00I4',
     title: 'Satranga',
     artist: 'Arijit Singh, Shreyas Puranik',
     album: 'Animal',
@@ -1771,7 +1771,7 @@ export const INITIAL_TRACKS: ResonixTrack[] = [
     bpm: 92,
     style: 'ambient',
     scale: [261.63, 293.66, 329.63, 392.0, 440.0, 523.25],
-    cover: 'https://i.ytimg.com/vi/hrMo3BPY2rg/hqdefault.jpg',
+    cover: 'https://i.ytimg.com/vi/zDknxGb00I4/hqdefault.jpg',
     color: '#e13300',
     liked: false,
     lyrics: [
@@ -1880,8 +1880,8 @@ export const INITIAL_TRACKS: ResonixTrack[] = [
     ]
   },
   {
-    id: 'bolly-husn',
-    youtubeId: 'gVYrPswp_80',
+    id: 'bolly-husn-2',
+    youtubeId: 'gJLVTKhTnog',
     title: 'Husn',
     artist: 'Anuv Jain',
     album: 'Husn Single',
@@ -1891,7 +1891,7 @@ export const INITIAL_TRACKS: ResonixTrack[] = [
     bpm: 98,
     style: 'ambient',
     scale: [261.63, 293.66, 329.63, 392.0, 440.0, 523.25],
-    cover: 'https://i.ytimg.com/vi/gVYrPswp_80/hqdefault.jpg',
+    cover: 'https://i.ytimg.com/vi/gJLVTKhTnog/hqdefault.jpg',
     color: '#8b5cf6',
     liked: false,
     lyrics: [
@@ -1900,8 +1900,8 @@ export const INITIAL_TRACKS: ResonixTrack[] = [
     ]
   },
   {
-    id: 'bolly-jo-tum-mere-ho',
-    youtubeId: 'ilNt2bikxwc',
+    id: 'bolly-jo-tum-mere-ho-2',
+    youtubeId: '9fKQJcbd-jY',
     title: 'Jo Tum Mere Ho',
     artist: 'Anuv Jain',
     album: 'Jo Tum Mere Ho',
@@ -1911,7 +1911,7 @@ export const INITIAL_TRACKS: ResonixTrack[] = [
     bpm: 96,
     style: 'ambient',
     scale: [261.63, 293.66, 329.63, 392.0, 440.0, 523.25],
-    cover: 'https://i.ytimg.com/vi/ilNt2bikxwc/hqdefault.jpg',
+    cover: 'https://i.ytimg.com/vi/9fKQJcbd-jY/hqdefault.jpg',
     color: '#f59e0b',
     liked: false,
     lyrics: [
@@ -1981,7 +1981,7 @@ export const INITIAL_TRACKS: ResonixTrack[] = [
   },
   {
     id: 'punjabi-lover',
-    youtubeId: 'mH_LFuy8m4o',
+    youtubeId: 'mH_LFkWxpI0',
     title: 'Lover',
     artist: 'Diljit Dosanjh, Intense',
     album: 'MoonChild Era',
@@ -1991,7 +1991,7 @@ export const INITIAL_TRACKS: ResonixTrack[] = [
     bpm: 120,
     style: 'pop_dance',
     scale: [261.63, 293.66, 329.63, 392.0, 440.0, 523.25],
-    cover: 'https://i.ytimg.com/vi/mH_LFuy8m4o/hqdefault.jpg',
+    cover: 'https://i.ytimg.com/vi/mH_LFkWxpI0/hqdefault.jpg',
     color: '#1ed760',
     liked: false,
     lyrics: [
@@ -2061,7 +2061,7 @@ export const INITIAL_TRACKS: ResonixTrack[] = [
   },
   {
     id: 'punjabi-same-beef',
-    youtubeId: '1w7DgK4K3i8',
+    youtubeId: 'qk2WMmiiVFE',
     title: 'Same Beef',
     artist: 'Sidhu Moose Wala, Bohemia',
     album: 'Same Beef Single',
@@ -2071,7 +2071,7 @@ export const INITIAL_TRACKS: ResonixTrack[] = [
     bpm: 96,
     style: 'cyberpunk',
     scale: [261.63, 293.66, 329.63, 392.0, 440.0, 523.25],
-    cover: 'https://i.ytimg.com/vi/1w7DgK4K3i8/hqdefault.jpg',
+    cover: 'https://i.ytimg.com/vi/qk2WMmiiVFE/hqdefault.jpg',
     color: '#e13300',
     liked: false,
     lyrics: [
@@ -2214,7 +2214,7 @@ export const INITIAL_TRACKS: ResonixTrack[] = [
   },
   {
     id: 'bhakti-har-har-shambhu',
-    youtubeId: 'u4i735i0z6w',
+    youtubeId: 'aRoMeNr1mMQ',
     title: 'Har Har Shambhu Shiv Mahadeva',
     artist: 'Abhilipsa Panda, Jeetu Sharma',
     album: 'Shiv Mahadeva',
@@ -2224,7 +2224,7 @@ export const INITIAL_TRACKS: ResonixTrack[] = [
     bpm: 105,
     style: 'acoustic',
     scale: [261.63, 293.66, 329.63, 392.0, 440.0],
-    cover: 'https://i.ytimg.com/vi/u4i735i0z6w/hqdefault.jpg',
+    cover: 'https://i.ytimg.com/vi/aRoMeNr1mMQ/hqdefault.jpg',
     color: '#ea580c',
     liked: false,
     lyrics: [
@@ -2236,7 +2236,7 @@ export const INITIAL_TRACKS: ResonixTrack[] = [
   },
   {
     id: 'bhakti-mere-ghar-ram',
-    youtubeId: '7R4bK_G2k4A',
+    youtubeId: 'pSSlULPgiGY',
     title: 'Mere Ghar Ram Aaye Hain',
     artist: 'Jubin Nautiyal',
     album: 'Ram Aaye Hain',
@@ -2246,7 +2246,7 @@ export const INITIAL_TRACKS: ResonixTrack[] = [
     bpm: 90,
     style: 'acoustic',
     scale: [261.63, 293.66, 329.63, 392.0, 440.0],
-    cover: 'https://i.ytimg.com/vi/7R4bK_G2k4A/hqdefault.jpg',
+    cover: 'https://i.ytimg.com/vi/pSSlULPgiGY/hqdefault.jpg',
     color: '#f59e0b',
     liked: false,
     lyrics: [
@@ -2301,7 +2301,7 @@ export const INITIAL_TRACKS: ResonixTrack[] = [
   },
   {
     id: 'bhakti-achyutam-keshavam',
-    youtubeId: '9U_0S_8b05A',
+    youtubeId: 'gvu891ubYWE',
     title: 'Achyutam Keshavam',
     artist: 'Shreya Ghoshal',
     album: 'Krishna Bhajans',
@@ -2311,7 +2311,7 @@ export const INITIAL_TRACKS: ResonixTrack[] = [
     bpm: 88,
     style: 'acoustic',
     scale: [261.63, 293.66, 329.63, 392.0, 440.0],
-    cover: 'https://i.ytimg.com/vi/9U_0S_8b05A/hqdefault.jpg',
+    cover: 'https://i.ytimg.com/vi/gvu891ubYWE/hqdefault.jpg',
     color: '#ea580c',
     liked: false,
     lyrics: [
@@ -2343,7 +2343,7 @@ export const INITIAL_TRACKS: ResonixTrack[] = [
   },
   {
     id: 'bhakti-shiv-kailash',
-    youtubeId: 'm4XJm5R6j7Y',
+    youtubeId: 'PlIoHp6v3LI',
     title: 'Shiv Kailash Ke Vasi',
     artist: 'Hansraj Raghuwanshi',
     album: 'Shiv Stuti',
@@ -2353,7 +2353,7 @@ export const INITIAL_TRACKS: ResonixTrack[] = [
     bpm: 90,
     style: 'acoustic',
     scale: [261.63, 293.66, 329.63, 392.0, 440.0],
-    cover: 'https://i.ytimg.com/vi/m4XJm5R6j7Y/hqdefault.jpg',
+    cover: 'https://i.ytimg.com/vi/PlIoHp6v3LI/hqdefault.jpg',
     color: '#c2410c',
     liked: false,
     lyrics: [
@@ -2363,7 +2363,7 @@ export const INITIAL_TRACKS: ResonixTrack[] = [
   },
   {
     id: 'indie-majboor',
-    youtubeId: 'qB5fR5h6k7l',
+    youtubeId: 'zaFGQEIcetM',
     title: 'Majboor',
     artist: 'Sheheryar Rehan x Zoha Waseem',
     album: 'Majboor Acoustic',
@@ -2373,7 +2373,7 @@ export const INITIAL_TRACKS: ResonixTrack[] = [
     bpm: 90,
     style: 'acoustic',
     scale: [261.63, 293.66, 329.63, 392.0, 440.0],
-    cover: 'https://i.ytimg.com/vi/qB5fR5h6k7l/hqdefault.jpg',
+    cover: 'https://i.ytimg.com/vi/zaFGQEIcetM/hqdefault.jpg',
     color: '#e13300',
     liked: false,
     lyrics: [
