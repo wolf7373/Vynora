@@ -21,6 +21,10 @@ const INITIAL_STATE: UIState = {
   isAddToPlaylistOpen: false,
   trackForPlaylist: null,
   isSyncModalOpen: false,
+  backgroundStyle: typeof window !== 'undefined' && localStorage.getItem('vynora_background_style')
+    ? (localStorage.getItem('vynora_background_style') as any)
+    : 'aurora',
+  isBackgroundSwitcherOpen: false,
 }
 
 export const useUIStore = create<UIStore>((set, get) => ({
@@ -111,6 +115,19 @@ export const useUIStore = create<UIStore>((set, get) => ({
 
   setIsSyncModalOpen: (isOpen: boolean) => {
     set({ isSyncModalOpen: isOpen })
+  },
+
+  setBackgroundStyle: (style) => {
+    try {
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('vynora_background_style', style)
+      }
+    } catch { }
+    set({ backgroundStyle: style })
+  },
+
+  setIsBackgroundSwitcherOpen: (isOpen: boolean) => {
+    set({ isBackgroundSwitcherOpen: isOpen })
   },
 
   openAddToPlaylist: (track: Track) => {

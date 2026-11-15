@@ -11,6 +11,7 @@ import { SleepTimerModal } from '@/components/modals/SleepTimerModal'
 import { PlaybackSettingsModal } from '@/components/modals/PlaybackSettingsModal'
 import { AddToPlaylistModal } from '@/components/modals/AddToPlaylistModal'
 import { SyncCodeModal } from '@/components/sync/SyncCodeModal'
+import { BackgroundSwitcherModal } from '@/components/modals/BackgroundSwitcherModal'
 import { SingletonYouTubePlayer } from '@/components/player/SingletonYouTubePlayer'
 import { useGlobalShortcuts } from '@/hooks/useGlobalShortcuts'
 import { useUIStore } from '@/stores/useUIStore'
@@ -79,6 +80,9 @@ export const AppShell: React.FC = () => {
         isOpen={isSyncModalOpen}
         onClose={() => setIsSyncModalOpen(false)}
       />
+
+      {/* Interactive Background Canvas Switcher Modal */}
+      <BackgroundSwitcherModal />
 
       {/* Singleton YouTube Video & Audio Player Host (Zero Audio Overlap & Lockstep Sync) */}
       <SingletonYouTubePlayer />

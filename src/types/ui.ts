@@ -5,6 +5,8 @@ export type NavTab = 'home' | 'search' | 'library' | 'visualizer' | 'downloaded'
 
 export type RightSidebarView = 'video' | 'lyrics' | 'closed'
 
+export type BackgroundStyle = 'aurora' | 'ripples' | 'particles' | 'ribbons' | 'plasma' | 'grid'
+
 export interface UIState {
   activeTab: NavTab
   navHistory: NavTab[]
@@ -23,6 +25,8 @@ export interface UIState {
   isAddToPlaylistOpen: boolean
   trackForPlaylist: Track | null
   isSyncModalOpen: boolean
+  backgroundStyle: BackgroundStyle
+  isBackgroundSwitcherOpen: boolean
 }
 
 export interface UIActions {
@@ -42,6 +46,8 @@ export interface UIActions {
   setIsPlaybackSettingsOpen: (isOpen: boolean) => void
   setIsQueueDrawerOpen: (isOpen: boolean) => void
   setIsSyncModalOpen: (isOpen: boolean) => void
+  setBackgroundStyle: (style: BackgroundStyle) => void
+  setIsBackgroundSwitcherOpen: (isOpen: boolean) => void
   openAddToPlaylist: (track: Track) => void
   closeAddToPlaylist: () => void
 }

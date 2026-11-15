@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { Search, X, ChevronLeft, ChevronRight, Radio, Disc3 } from 'lucide-react'
+import { Search, X, ChevronLeft, ChevronRight, Radio, Disc3, Sparkles } from 'lucide-react'
 import { useUIStore } from '@/stores/useUIStore'
 
 export const TopBar: React.FC = () => {
@@ -13,6 +13,8 @@ export const TopBar: React.FC = () => {
     goBack,
     goForward,
     setIsSyncModalOpen,
+    backgroundStyle,
+    setIsBackgroundSwitcherOpen,
   } = useUIStore()
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -115,7 +117,7 @@ export const TopBar: React.FC = () => {
         </div>
       </div>
 
-      {/* Right Controls: Quick Search on Mobile Home + Sync Indicator */}
+      {/* Right Controls: Quick Search on Mobile Home + Background Switcher + Sync Indicator */}
       <div className="flex items-center gap-2">
         {/* Mobile Quick Search trigger when on Home/Library */}
         {activeTab !== 'search' && (
@@ -127,6 +129,17 @@ export const TopBar: React.FC = () => {
             <Search className="w-4 h-4" />
           </button>
         )}
+
+        {/* Interactive Background Canvas Switcher Button */}
+        <button
+          onClick={() => setIsBackgroundSwitcherOpen(true)}
+          title={`Background Theme: ${backgroundStyle} (Click to switch)`}
+          aria-label="Open background style switcher"
+          className="min-h-[44px] px-3.5 py-1.5 rounded-full liquid-glass-pill hover:border-cyan-400/60 hover:text-white flex items-center gap-1.5 text-[11px] font-mono text-cyan-400 active:scale-95 transition-all cursor-pointer shadow-md"
+        >
+          <Sparkles className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
+          <span className="font-bold hidden sm:inline capitalize">{backgroundStyle}</span>
+        </button>
 
         <button
           onClick={() => setIsSyncModalOpen(true)}
