@@ -4,7 +4,7 @@ import type { BackgroundProps } from './AuroraBackground'
 export const GridBackground: React.FC<BackgroundProps> = ({
   vibrantColors,
   isPlaying,
-  mousePos,
+  mouseRef,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
@@ -17,7 +17,7 @@ export const GridBackground: React.FC<BackgroundProps> = ({
 
     const canvas = canvasRef.current
     if (!canvas) return
-    const ctx = canvas.getContext('2d')
+    const ctx = canvas.getContext('2d', { alpha: true })
     if (!ctx) return
 
     let animId: number
@@ -34,16 +34,18 @@ export const GridBackground: React.FC<BackgroundProps> = ({
     let gridOffset = 0
 
     const render = () => {
-      gridOffset = (gridOffset + (isPlaying ? 1.6 : 0.8)) % 50
+      gridOffset = (gridOffset + (isPlaying ? 1.5 : 0.8)) % 40
       ctx.clearRect(0, 0, width, height)
+
+      const m = mouseRef.current || { pixelX: width / 2, pixelY: height / 2, dirX: 0, dirY: 0 }
 
       // Base background
       ctx.fillStyle = '#07080B'
       ctx.fillRect(0, 0, width, height)
 
       // Horizon line position tilted with mouse
-      const horizonY = height * 0.45 + mousePos.dirY * 40
-      const vanishingX = width / 2 + mousePos.dirX * 90
+      const horizonY = height * 0.45 + m.dirY * 40
+      const vanishingX = width / 2 + m.dirX * 90
 
       // Horizon atmospheric glow
       const horizonGlow = ctx.createRadialGradient(
@@ -63,54 +65,56 @@ export const GridBackground: React.FC<BackgroundProps> = ({
 
       // Specular cursor puddle
       const cursorPuddle = ctx.createRadialGradient(
-        mousePos.pixelX,
-        mousePos.pixelY,
+        m.pixelX,
+        m.pixelY,
         20,
-        mousePos.pixelX,
-        mousePos.pixelY,
-        350
+        m.pixelX,
+        m.pixelY,
+        280
       )
-      cursorPuddle.addColorStop(0, `${vibrantColors.primary}45`)
+      cursorPuddle.addColorStop(0, `${vibrantColors.primary}44`)
       cursorPuddle.addColorStop(0.5, `${vibrantColors.electric}20`)
       cursorPuddle.addColorStop(1, 'transparent')
       ctx.fillStyle = cursorPuddle
       ctx.fillRect(0, 0, width, height)
 
-      // Perspective Grid Floor Lines
-      ctx.save()
-
-      // 1. Vertical perspective lines radiating from vanishing point
-      const numRays = 32
-      for (let i = -numRays / 2; i <= numRays / 2; i++) {
-        const bottomX = width / 2 + i * (width / (numRays * 0.45))
-        ctx.beginPath()
+      // Batched perspective floor lines (Z-rays)
+      ctx.beginPath()
+      const numRays = 26
+      for (let i = 0; i <= numRays; i++) {
+        const bottomX = (width / numRays) * i
         ctx.moveTo(vanishingX, horizonY)
         ctx.lineTo(bottomX, height)
-        ctx.strokeStyle = `${vibrantColors.primary}25`
-        ctx.lineWidth = 1.2
-        ctx.stroke()
       }
+      ctx.strokeStyle = vibrantColors.primary
+      ctx.globalAlpha = 0.22
+      ctx.lineWidth = 1
+      ctx.stroke()
 
-      // 2. Horizontal depth lines with exponential spacing
-      const numHoriz = 24
-      for (let i = 1; i <= numHoriz; i++) {
-        // Exponential spacing for 3D depth
-        const progress = Math.pow(i / numHoriz, 2.4)
-        const y = horizonY + (height - horizonY) * progress + (gridOffset * progress * 0.2)
-
-        if (y > horizonY && y < height) {
-          ctx.beginPath()
-          ctx.moveTo(0, y)
-          ctx.lineTo(width, y)
-          const lineAlpha = (progress * 0.45).toFixed(3)
-          ctx.strokeStyle = `rgba(0, 242, 254, ${lineAlpha})`
-          ctx.lineWidth = 1 + progress * 1.5
-          ctx.stroke()
-        }
+      // Batched horizontal grid lines with exponential perspective spacing
+      ctx.beginPath()
+      const numHoriz = 16
+      for (let j = 0; j < numHoriz; j++) {
+        const factor = Math.pow((j + gridOffset / 40) / numHoriz, 2.2)
+        const lineY = horizonY + (height - horizonY) * factor
+        ctx.moveTo(0, lineY)
+        ctx.lineTo(width, lineY)
       }
+      ctx.strokeStyle = vibrantColors.electric
+      ctx.globalAlpha = 0.25
+      ctx.lineWidth = 1
+      ctx.stroke()
 
-      ctx.restore()
+      // Horizon beam line
+      ctx.beginPath()
+      ctx.moveTo(0, horizonY)
+      ctx.lineTo(width, horizonY)
+      ctx.strokeStyle = vibrantColors.primary
+      ctx.globalAlpha = 0.65
+      ctx.lineWidth = 1.5
+      ctx.stroke()
 
+      ctx.globalAlpha = 1
       animId = requestAnimationFrame(render)
     }
 
@@ -119,15 +123,15 @@ export const GridBackground: React.FC<BackgroundProps> = ({
       window.removeEventListener('resize', handleResize)
       cancelAnimationFrame(animId)
     }
-  }, [vibrantColors, isPlaying, mousePos])
+  }, [vibrantColors, isPlaying])
 
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden">
       <canvas
         ref={canvasRef}
-        className="w-full h-full block mix-blend-screen opacity-85"
+        className="w-full h-full block mix-blend-screen opacity-90 will-change-transform"
       />
-      <div className="absolute inset-0 bg-radial-vignette opacity-35 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#07080B] via-transparent to-[#07080B]/80 pointer-events-none" />
     </div>
   )
 }

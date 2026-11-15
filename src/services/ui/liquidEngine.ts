@@ -81,27 +81,46 @@ export function useLiquidGlass(
     ;(el.style as any).webkitBackdropFilter = `blur(${Math.max(16, (options.frost ?? 2) * 12)}px) saturate(180%)`
     el.style.backgroundColor = trackTint
 
-    // Mouse / Touch Fluid Tilt Interaction
+    // Mouse / Touch Fluid Tilt Interaction (RAF throttled for 120fps performance)
     if (options.interaction === 'fluid' || options.interaction === 'tilt') {
-      const handlePointerMove = (e: PointerEvent) => {
-        const rect = el.getBoundingClientRect()
-        const x = (e.clientX - rect.left) / rect.width - 0.5
-        const y = (e.clientY - rect.top) / rect.height - 0.5
-        const strength = options.interactionStrength ?? 0.6
-        const tiltX = -y * 12 * strength
-        const tiltY = x * 12 * strength
+      let rafId: number | null = null
+      let cachedRect: DOMRect | null = null
 
-        el.style.transform = `perspective(800px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) translateZ(0)`
+      const updateRect = () => {
+        cachedRect = el.getBoundingClientRect()
+      }
+      updateRect()
+      window.addEventListener('resize', updateRect, { passive: true })
+
+      const handlePointerMove = (e: PointerEvent) => {
+        if (rafId !== null) return
+        rafId = requestAnimationFrame(() => {
+          rafId = null
+          const rect = cachedRect || el.getBoundingClientRect()
+          const x = (e.clientX - rect.left) / rect.width - 0.5
+          const y = (e.clientY - rect.top) / rect.height - 0.5
+          const strength = options.interactionStrength ?? 0.6
+          const tiltX = -y * 12 * strength
+          const tiltY = x * 12 * strength
+
+          el.style.transform = `perspective(800px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) translateZ(0)`
+        })
       }
 
       const handlePointerLeave = () => {
+        if (rafId !== null) {
+          cancelAnimationFrame(rafId)
+          rafId = null
+        }
         el.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) translateZ(0)'
       }
 
-      el.addEventListener('pointermove', handlePointerMove)
-      el.addEventListener('pointerleave', handlePointerLeave)
+      el.addEventListener('pointermove', handlePointerMove, { passive: true })
+      el.addEventListener('pointerleave', handlePointerLeave, { passive: true })
 
       return () => {
+        if (rafId !== null) cancelAnimationFrame(rafId)
+        window.removeEventListener('resize', updateRect)
         el.removeEventListener('pointermove', handlePointerMove)
         el.removeEventListener('pointerleave', handlePointerLeave)
         el.style.transform = ''

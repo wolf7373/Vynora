@@ -4,7 +4,7 @@ import type { BackgroundProps } from './AuroraBackground'
 export const PlasmaBackground: React.FC<BackgroundProps> = ({
   vibrantColors,
   isPlaying,
-  mousePos,
+  mouseRef,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
@@ -17,7 +17,7 @@ export const PlasmaBackground: React.FC<BackgroundProps> = ({
 
     const canvas = canvasRef.current
     if (!canvas) return
-    const ctx = canvas.getContext('2d')
+    const ctx = canvas.getContext('2d', { alpha: true })
     if (!ctx) return
 
     let animId: number
@@ -39,15 +39,17 @@ export const PlasmaBackground: React.FC<BackgroundProps> = ({
       time += isPlaying ? 0.03 : 0.018
       ctx.clearRect(0, 0, width, height)
 
+      const m = mouseRef.current || { pixelX: width / 2, pixelY: height / 2, dirX: 0, dirY: 0 }
+
       // Base background
       ctx.fillStyle = '#07080B'
       ctx.fillRect(0, 0, width, height)
 
       // Smooth gravity pull toward mouse
-      const targetBlobX = width / 2 + mousePos.dirX * (width * 0.22)
-      const targetBlobY = height / 2 + mousePos.dirY * (height * 0.22)
-      blobX += (targetBlobX - blobX) * 0.06
-      blobY += (targetBlobY - blobY) * 0.06
+      const targetBlobX = width / 2 + m.dirX * (width * 0.22)
+      const targetBlobY = height / 2 + m.dirY * (height * 0.22)
+      blobX += (targetBlobX - blobX) * 0.08
+      blobY += (targetBlobY - blobY) * 0.08
 
       // Outer radial aura
       const auraGrad = ctx.createRadialGradient(
@@ -58,72 +60,74 @@ export const PlasmaBackground: React.FC<BackgroundProps> = ({
         blobY,
         Math.min(width, height) * 0.65
       )
-      auraGrad.addColorStop(0, `${vibrantColors.primary}44`)
-      auraGrad.addColorStop(0.4, `${vibrantColors.electric}25`)
-      auraGrad.addColorStop(0.8, `${vibrantColors.accent}10`)
+      auraGrad.addColorStop(0, `${vibrantColors.primary}50`)
+      auraGrad.addColorStop(0.35, `${vibrantColors.electric}25`)
+      auraGrad.addColorStop(0.7, `${vibrantColors.accent}12`)
       auraGrad.addColorStop(1, 'transparent')
       ctx.fillStyle = auraGrad
       ctx.fillRect(0, 0, width, height)
 
-      // Draw multi-layered morphing liquid blob
-      const baseRadius = Math.min(width, height) * 0.24 + (isPlaying ? Math.sin(time * 3) * 18 : 0)
-      const numPoints = 64
-      const angleStep = (Math.PI * 2) / numPoints
+      // Morphing Blob Core
+      const baseRadius = Math.min(width, height) * 0.22 + (isPlaying ? 15 : 0)
+      const points = 10
+      const angleStep = (Math.PI * 2) / points
 
-      // Secondary magnetic stretch toward cursor
-      const dx = mousePos.pixelX - blobX
-      const dy = mousePos.pixelY - blobY
-      const mouseAngle = Math.atan2(dy, dx)
-      const mouseDist = Math.sqrt(dx * dx + dy * dy)
-      const stretchStrength = Math.min(1, 400 / (mouseDist + 1)) * 60
+      ctx.beginPath()
+      const coords: { x: number; y: number }[] = []
 
-      const drawBlob = (radiusMod: number, alpha: number, color1: string, color2: string) => {
-        ctx.save()
-        ctx.beginPath()
+      for (let i = 0; i < points; i++) {
+        const theta = i * angleStep
+        const wave1 = Math.sin(theta * 3 + time * 1.5) * 32
+        const wave2 = Math.cos(theta * 2 - time * 2.2) * 22
+        const r = baseRadius + wave1 + wave2
 
-        for (let i = 0; i <= numPoints; i++) {
-          const angle = i * angleStep
-          // Harmonic wave distortion
-          const wave1 = Math.sin(angle * 3 + time * 1.5) * 22
-          const wave2 = Math.cos(angle * 5 - time * 2) * 16
-          const wave3 = Math.sin(angle * 7 + time) * 10
+        // Stretch toward mouse cursor
+        const toMouseAngle = Math.atan2(m.pixelY - blobY, m.pixelX - blobX)
+        const angleDiff = Math.abs(theta - toMouseAngle)
+        const stretchFactor = Math.max(0, Math.cos(angleDiff)) * 45
 
-          // Directional stretch toward mouse
-          const angleDiff = Math.cos(angle - mouseAngle)
-          const stretch = Math.max(0, angleDiff) * stretchStrength
-
-          const r = baseRadius * radiusMod + wave1 + wave2 + wave3 + stretch
-          const px = blobX + Math.cos(angle) * r
-          const py = blobY + Math.sin(angle) * r
-
-          if (i === 0) {
-            ctx.moveTo(px, py)
-          } else {
-            ctx.lineTo(px, py)
-          }
-        }
-
-        ctx.closePath()
-        const grad = ctx.createRadialGradient(blobX, blobY, 20, blobX, blobY, baseRadius * radiusMod + stretchStrength)
-        grad.addColorStop(0, color1)
-        grad.addColorStop(0.7, color2)
-        grad.addColorStop(1, 'transparent')
-
-        ctx.fillStyle = grad
-        ctx.globalAlpha = alpha
-        ctx.shadowColor = color2
-        ctx.shadowBlur = 45
-        ctx.fill()
-        ctx.restore()
+        const px = blobX + Math.cos(theta) * (r + stretchFactor)
+        const py = blobY + Math.sin(theta) * (r + stretchFactor)
+        coords.push({ x: px, y: py })
       }
 
-      // Layer 1: Outer glowing fluid skirt
-      drawBlob(1.15, 0.45, vibrantColors.electric, vibrantColors.accent)
-      // Layer 2: Main liquid body
-      drawBlob(0.95, 0.75, '#FFFFFF', vibrantColors.primary)
-      // Layer 3: Inner bright mercury core
-      drawBlob(0.65, 0.9, '#FFFFFF', vibrantColors.electric)
+      // Smooth bezier loop through points
+      ctx.moveTo((coords[0].x + coords[points - 1].x) / 2, (coords[0].y + coords[points - 1].y) / 2)
+      for (let i = 0; i < points; i++) {
+        const p1 = coords[i]
+        const p2 = coords[(i + 1) % points]
+        const midX = (p1.x + p2.x) / 2
+        const midY = (p1.y + p2.y) / 2
+        ctx.quadraticCurveTo(p1.x, p1.y, midX, midY)
+      }
+      ctx.closePath()
 
+      // Bioluminescent Plasma Core Gradient
+      const plasmaGrad = ctx.createRadialGradient(
+        blobX,
+        blobY,
+        20,
+        blobX,
+        blobY,
+        baseRadius * 1.4
+      )
+      plasmaGrad.addColorStop(0, '#FFFFFF')
+      plasmaGrad.addColorStop(0.2, vibrantColors.primary)
+      plasmaGrad.addColorStop(0.55, vibrantColors.electric)
+      plasmaGrad.addColorStop(0.85, vibrantColors.accent)
+      plasmaGrad.addColorStop(1, 'transparent')
+
+      ctx.fillStyle = plasmaGrad
+      ctx.globalAlpha = 0.8
+      ctx.fill()
+
+      // Specular rim stroke
+      ctx.strokeStyle = '#FFFFFF'
+      ctx.lineWidth = 1.2
+      ctx.globalAlpha = 0.4
+      ctx.stroke()
+
+      ctx.globalAlpha = 1
       animId = requestAnimationFrame(render)
     }
 
@@ -132,15 +136,15 @@ export const PlasmaBackground: React.FC<BackgroundProps> = ({
       window.removeEventListener('resize', handleResize)
       cancelAnimationFrame(animId)
     }
-  }, [vibrantColors, isPlaying, mousePos])
+  }, [vibrantColors, isPlaying])
 
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden">
       <canvas
         ref={canvasRef}
-        className="w-full h-full block mix-blend-screen opacity-90"
+        className="w-full h-full block mix-blend-screen opacity-90 will-change-transform"
       />
-      <div className="absolute inset-0 bg-radial-vignette opacity-35 pointer-events-none" />
+      <div className="absolute inset-0 bg-radial-vignette opacity-25 pointer-events-none" />
     </div>
   )
 }

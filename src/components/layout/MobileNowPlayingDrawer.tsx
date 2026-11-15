@@ -32,6 +32,7 @@ import { PlaybackAdapterManager } from '@/adapters'
 import { formatTime } from '@/utils/formatTime'
 import { extractColorFromImage, type ExtractedPalette, createPaletteFromHex } from '@/utils/colorExtractor'
 import { lrcLibClient, findActiveLyricIndex, type ParsedLyrics } from '@/services/lyrics'
+import { AmbientBackground } from './AmbientBackground'
 
 export const MobileNowPlayingDrawer: React.FC = () => {
   const {
@@ -107,10 +108,8 @@ export const MobileNowPlayingDrawer: React.FC = () => {
     }
   }, [palette])
 
-  // --- Dynamic Mouse Parallax & 3D Card Tilt for Heavy Liquid Glass feel ---
-  const [drawerParallax, setDrawerParallax] = useState<{ x: number; y: number }>({ x: 0, y: 0 })
-  const [cardTilt, setCardTilt] = useState<{ x: number; y: number }>({ x: 0, y: 0 })
-  const drawerCursorRef = useRef<HTMLDivElement>(null)
+  // --- High-Performance 3D Card Tilt via Ref (ZERO React state re-renders!) ---
+  const cardContainerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (!isMobileDrawerOpen) return
@@ -119,47 +118,38 @@ export const MobileNowPlayingDrawer: React.FC = () => {
     let targetY = 0
     let currX = 0
     let currY = 0
-    let curFlareX = window.innerWidth / 2
-    let curFlareY = window.innerHeight / 2
-    let targetFlareX = window.innerWidth / 2
-    let targetFlareY = window.innerHeight / 2
 
-    const handlePointerMove = (e: MouseEvent | PointerEvent) => {
+    const handlePointerMove = (e: PointerEvent) => {
       const w = window.innerWidth || 1
       const h = window.innerHeight || 1
       targetX = (e.clientX / w - 0.5) * 2
       targetY = (e.clientY / h - 0.5) * 2
-      targetFlareX = e.clientX
-      targetFlareY = e.clientY
     }
 
-    const isTestEnv = import.meta.env?.MODE === 'test' || (typeof globalThis !== 'undefined' && (globalThis as any).process?.env?.NODE_ENV === 'test')
+    const isTestEnv =
+      import.meta.env?.MODE === 'test' ||
+      (typeof globalThis !== 'undefined' &&
+        (globalThis as any).process?.env?.NODE_ENV === 'test')
     if (isTestEnv) {
       return
     }
 
     const loop = () => {
-      currX += (targetX - currX) * 0.08
-      currY += (targetY - currY) * 0.08
-      curFlareX += (targetFlareX - curFlareX) * 0.15
-      curFlareY += (targetFlareY - curFlareY) * 0.15
+      currX += (targetX - currX) * 0.1
+      currY += (targetY - currY) * 0.1
 
-      if (drawerCursorRef.current) {
-        drawerCursorRef.current.style.transform = `translate3d(${curFlareX.toFixed(1)}px, ${curFlareY.toFixed(1)}px, 0) translate(-50%, -50%)`
+      if (cardContainerRef.current) {
+        cardContainerRef.current.style.setProperty('--card-tilt-x', `${(currX * 10).toFixed(1)}deg`)
+        cardContainerRef.current.style.setProperty('--card-tilt-y', `${(-currY * 10).toFixed(1)}deg`)
       }
-
-      setDrawerParallax({ x: currX, y: currY })
-      setCardTilt({ x: currX * 12, y: -currY * 12 })
       animId = requestAnimationFrame(loop)
     }
 
     window.addEventListener('pointermove', handlePointerMove, { passive: true })
-    window.addEventListener('mousemove', handlePointerMove, { passive: true })
     animId = requestAnimationFrame(loop)
 
     return () => {
       window.removeEventListener('pointermove', handlePointerMove)
-      window.removeEventListener('mousemove', handlePointerMove)
       cancelAnimationFrame(animId)
     }
   }, [isMobileDrawerOpen])
@@ -390,54 +380,13 @@ export const MobileNowPlayingDrawer: React.FC = () => {
   return (
     <Drawer.Root open={isMobileDrawerOpen} onOpenChange={setIsMobileDrawerOpen}>
       <Drawer.Portal>
-        <Drawer.Overlay className="fixed inset-0 bg-black/45 backdrop-blur-xl z-50 transition-opacity duration-300" />
+        <Drawer.Overlay className="fixed inset-0 bg-black/40 backdrop-blur-md z-50 transition-opacity duration-300" />
         <Drawer.Content
           aria-label="Now Playing Drawer"
-          className="fixed inset-0 h-[100dvh] max-h-[100dvh] w-full z-50 flex flex-col outline-none select-none text-text-primary shadow-[0_-25px_80px_rgba(0,0,0,0.95)] overflow-hidden bg-[#07080B]/55 backdrop-blur-3xl"
+          className="fixed inset-0 h-[100dvh] max-h-[100dvh] w-full z-50 flex flex-col outline-none select-none text-text-primary shadow-[0_-25px_80px_rgba(0,0,0,0.95)] overflow-hidden bg-transparent"
         >
-          {/* Real-time Cursor Glow Flare inside Drawer */}
-          <div
-            ref={drawerCursorRef}
-            className="absolute top-0 left-0 w-[550px] h-[550px] rounded-full pointer-events-none blur-[95px] opacity-75 will-change-transform mix-blend-screen"
-            style={{
-              background: `radial-gradient(circle at center, ${vibrantPalette.primary} 0%, ${vibrantPalette.electric} 40%, ${vibrantPalette.accent} 70%, transparent 80%)`,
-            }}
-          />
-
-          {/* Large Vibrant Liquid Aurora Wave 1 with Parallax */}
-          <div
-            style={{
-              background: `radial-gradient(ellipse at center, ${vibrantPalette.primary} 0%, ${vibrantPalette.accent} 45%, transparent 75%)`,
-              transform: `translate3d(${(drawerParallax.x * 90).toFixed(1)}px, ${(drawerParallax.y * 65).toFixed(1)}px, 0)`,
-            }}
-            className="absolute -top-28 -left-28 w-[75vw] h-[75vw] max-w-[850px] max-h-[850px] rounded-full blur-[100px] opacity-70 pointer-events-none will-change-transform"
-          />
-
-          {/* Large Vibrant Liquid Counter-Wave 2 with Reverse Parallax */}
-          <div
-            style={{
-              background: `radial-gradient(circle at center, ${vibrantPalette.electric} 0%, #00F2FE 40%, transparent 75%)`,
-              transform: `translate3d(${(drawerParallax.x * -110).toFixed(1)}px, ${(drawerParallax.y * -80).toFixed(1)}px, 0)`,
-            }}
-            className="absolute top-1/3 -right-28 w-[70vw] h-[70vw] max-w-[800px] max-h-[800px] rounded-full blur-[110px] opacity-65 pointer-events-none will-change-transform"
-          />
-
-          {/* Bottom Ambient Glow Core */}
-          <div
-            style={{
-              background: `radial-gradient(circle, ${vibrantPalette.primary} 0%, ${vibrantPalette.electric} 50%, transparent 80%)`,
-              transform: `translate3d(${(drawerParallax.x * 50).toFixed(1)}px, ${(drawerParallax.y * 40).toFixed(1)}px, 0)`,
-            }}
-            className="absolute -bottom-24 left-1/4 w-[60vw] h-[60vw] max-w-[700px] max-h-[700px] rounded-full blur-[120px] opacity-60 pointer-events-none will-change-transform animate-pulse-glow"
-          />
-
-          {/* Liquid Caustics Shimmer Layer inside Drawer */}
-          <div
-            className="absolute inset-0 opacity-25 pointer-events-none mix-blend-screen will-change-transform"
-            style={{
-              background: `radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), ${vibrantPalette.primary}55 0%, rgba(0, 242, 254, 0.2) 40%, transparent 70%)`,
-            }}
-          />
+          {/* Universal Ambient Dynamic Background (Reflects selected background: Grid, Ripples, Particles, Plasma, etc.) */}
+          <AmbientBackground className="absolute inset-0 pointer-events-none overflow-hidden z-0 select-none overscroll-none" />
 
           {/* Inner Content Wrapper */}
           <div className="relative z-10 flex flex-col h-full w-full max-w-xl md:max-w-2xl mx-auto px-4 sm:px-6 pt-3 pb-6 justify-between overflow-hidden">
@@ -549,6 +498,7 @@ export const MobileNowPlayingDrawer: React.FC = () => {
                   />
 
                   <div
+                    ref={cardContainerRef}
                     onPointerDown={handlePointerDown}
                     onPointerMove={handlePointerMove}
                     onPointerUp={handlePointerUp}
@@ -556,7 +506,7 @@ export const MobileNowPlayingDrawer: React.FC = () => {
                     onTouchMove={handleTouchMove}
                     onTouchEnd={handleTouchEnd}
                     style={{
-                      transform: `perspective(1000px) rotateY(${cardTilt.x.toFixed(1)}deg) rotateX(${cardTilt.y.toFixed(1)}deg) translateX(${swipeOffset}px) rotate(${swipeOffset * 0.04}deg)`,
+                      transform: `perspective(1000px) rotateY(var(--card-tilt-x, 0deg)) rotateX(var(--card-tilt-y, 0deg)) translateX(${swipeOffset}px) rotate(${swipeOffset * 0.04}deg)`,
                       opacity: 1 - Math.min(0.4, Math.abs(swipeOffset) / 360),
                       transition: isSwiping ? 'none' : 'transform 0.35s cubic-bezier(0.18, 0.9, 0.3, 1), opacity 0.35s ease',
                       boxShadow: `0 35px 90px -15px ${vibrantPalette.glow}, 0 0 45px ${vibrantPalette.secondary}60`,

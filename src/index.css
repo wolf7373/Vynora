@@ -107,11 +107,11 @@ input[type="search"]::-webkit-search-results-decoration {
 }
 
 .liquid-glass-pane {
-  background: radial-gradient(140% 120% at 50% 0%, rgba(255, 255, 255, 0.09) 0%, rgba(255, 255, 255, 0.02) 65%, rgba(8, 10, 15, 0.72) 100%);
-  backdrop-filter: blur(26px) saturate(190%);
-  -webkit-backdrop-filter: blur(26px) saturate(190%);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.45), inset 0 1px 1px 0 rgba(255, 255, 255, 0.22);
+  background: radial-gradient(140% 120% at 50% 0%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.03) 65%, rgba(8, 10, 15, 0.45) 100%);
+  backdrop-filter: blur(20px) saturate(190%);
+  -webkit-backdrop-filter: blur(20px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.35), inset 0 1px 1px 0 rgba(255, 255, 255, 0.25);
 }
 
 .liquid-glass-pill {
@@ -222,14 +222,14 @@ input[type="search"]::-webkit-search-results-decoration {
    Heavy Liquid Glass Design System (LiquidGL & 3D Optics)
    ========================================================================= */
 .heavy-liquid-glass-chassis {
-  background: radial-gradient(135% 120% at 50% 0%, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.04) 45%, rgba(6, 8, 14, 0.88) 100%);
-  backdrop-filter: blur(40px) saturate(210%);
-  -webkit-backdrop-filter: blur(40px) saturate(210%);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: radial-gradient(135% 120% at 50% 0%, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.04) 45%, rgba(6, 8, 14, 0.52) 100%);
+  backdrop-filter: blur(24px) saturate(210%);
+  -webkit-backdrop-filter: blur(24px) saturate(210%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 
-    0 28px 80px -15px rgba(0, 0, 0, 0.85),
+    0 24px 60px -15px rgba(0, 0, 0, 0.7),
     inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.45),
-    inset 0 -1.5px 3px 0 rgba(0, 0, 0, 0.6),
+    inset 0 -1.5px 3px 0 rgba(0, 0, 0, 0.4),
     inset 0 0 24px rgba(255, 255, 255, 0.04);
 }
 

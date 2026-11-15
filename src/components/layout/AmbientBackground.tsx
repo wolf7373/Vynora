@@ -1,15 +1,19 @@
-import React, { useEffect, useState, useMemo } from 'react'
+import React, { useEffect, useState, useMemo, useRef } from 'react'
 import { usePlayerStore } from '@/stores/usePlayerStore'
 import { useUIStore } from '@/stores/useUIStore'
 import { createPaletteFromHex, extractColorFromImage, type ExtractedPalette } from '@/utils/colorExtractor'
-import { AuroraBackground } from '@/components/backgrounds/AuroraBackground'
+import { AuroraBackground, type MousePosRef } from '@/components/backgrounds/AuroraBackground'
 import { RipplesBackground } from '@/components/backgrounds/RipplesBackground'
 import { ParticlesBackground } from '@/components/backgrounds/ParticlesBackground'
 import { RibbonsBackground } from '@/components/backgrounds/RibbonsBackground'
 import { PlasmaBackground } from '@/components/backgrounds/PlasmaBackground'
 import { GridBackground } from '@/components/backgrounds/GridBackground'
 
-export const AmbientBackground: React.FC = () => {
+interface AmbientBackgroundProps {
+  className?: string
+}
+
+export const AmbientBackground: React.FC<AmbientBackgroundProps> = ({ className }) => {
   const { currentTrack, isPlaying } = usePlayerStore()
   const { ambientColor, backgroundStyle } = useUIStore()
 
@@ -49,8 +53,8 @@ export const AmbientBackground: React.FC = () => {
     }
   }, [palette])
 
-  // Interactive mouse tracking state (shared across all background modes & liquid glass CSS variables)
-  const [mousePos, setMousePos] = useState({
+  // High-performance mutable mouse tracking ref (ZERO React re-renders on mouse motion!)
+  const mouseRef = useRef<MousePosRef>({
     pixelX: typeof window !== 'undefined' ? window.innerWidth / 2 : 500,
     pixelY: typeof window !== 'undefined' ? window.innerHeight / 2 : 400,
     dirX: 0,
@@ -62,59 +66,55 @@ export const AmbientBackground: React.FC = () => {
       import.meta.env?.MODE === 'test' ||
       (typeof globalThis !== 'undefined' &&
         (globalThis as any).process?.env?.NODE_ENV === 'test')
+    if (isTestEnv) return
 
-    let targetPixelX = window.innerWidth / 2
-    let targetPixelY = window.innerHeight / 2
-    let targetDirX = 0
-    let targetDirY = 0
+    let rafScheduled = false
 
-    const handlePointerMove = (e: MouseEvent | PointerEvent) => {
+    const handlePointerMove = (e: PointerEvent) => {
       const width = window.innerWidth || 1
       const height = window.innerHeight || 1
-      targetPixelX = e.clientX
-      targetPixelY = e.clientY
-      targetDirX = (e.clientX / width - 0.5) * 2
-      targetDirY = (e.clientY / height - 0.5) * 2
+      mouseRef.current.pixelX = e.clientX
+      mouseRef.current.pixelY = e.clientY
+      mouseRef.current.dirX = (e.clientX / width - 0.5) * 2
+      mouseRef.current.dirY = (e.clientY / height - 0.5) * 2
 
-      // Expose CSS variables for all liquid glass cards and specular rim highlights
-      const pctX = ((e.clientX / width) * 100).toFixed(1)
-      const pctY = ((e.clientY / height) * 100).toFixed(1)
-      document.documentElement.style.setProperty('--mouse-x', `${pctX}%`)
-      document.documentElement.style.setProperty('--mouse-y', `${pctY}%`)
-      document.documentElement.style.setProperty('--cursor-px-x', `${e.clientX}px`)
-      document.documentElement.style.setProperty('--cursor-px-y', `${e.clientY}px`)
-      document.documentElement.style.setProperty('--mouse-dir-x', targetDirX.toFixed(3))
-      document.documentElement.style.setProperty('--mouse-dir-y', targetDirY.toFixed(3))
-
-      if (isTestEnv) return
-      setMousePos({
-        pixelX: targetPixelX,
-        pixelY: targetPixelY,
-        dirX: targetDirX,
-        dirY: targetDirY,
-      })
+      if (!rafScheduled) {
+        rafScheduled = true
+        requestAnimationFrame(() => {
+          rafScheduled = false
+          // Expose CSS variables for all liquid glass cards and specular rim highlights
+          const pctX = ((mouseRef.current.pixelX / width) * 100).toFixed(1)
+          const pctY = ((mouseRef.current.pixelY / height) * 100).toFixed(1)
+          document.documentElement.style.setProperty('--mouse-x', `${pctX}%`)
+          document.documentElement.style.setProperty('--mouse-y', `${pctY}%`)
+          document.documentElement.style.setProperty('--cursor-px-x', `${mouseRef.current.pixelX}px`)
+          document.documentElement.style.setProperty('--cursor-px-y', `${mouseRef.current.pixelY}px`)
+          document.documentElement.style.setProperty('--mouse-dir-x', mouseRef.current.dirX.toFixed(3))
+          document.documentElement.style.setProperty('--mouse-dir-y', mouseRef.current.dirY.toFixed(3))
+        })
+      }
     }
 
     window.addEventListener('pointermove', handlePointerMove, { passive: true })
-    window.addEventListener('mousemove', handlePointerMove, { passive: true })
-
     return () => {
       window.removeEventListener('pointermove', handlePointerMove)
-      window.removeEventListener('mousemove', handlePointerMove)
     }
   }, [])
 
   return (
     <div
       aria-hidden="true"
-      className="fixed inset-0 pointer-events-none overflow-hidden z-0 select-none overscroll-none bg-[#07080B]"
+      className={
+        className ||
+        'fixed inset-0 pointer-events-none overflow-hidden z-0 select-none overscroll-none bg-[#07080B]'
+      }
     >
       {/* Dynamic Active Background Style Switcher */}
       {backgroundStyle === 'ripples' && (
         <RipplesBackground
           vibrantColors={vibrantColors}
           isPlaying={isPlaying}
-          mousePos={mousePos}
+          mouseRef={mouseRef}
         />
       )}
 
@@ -122,7 +122,7 @@ export const AmbientBackground: React.FC = () => {
         <ParticlesBackground
           vibrantColors={vibrantColors}
           isPlaying={isPlaying}
-          mousePos={mousePos}
+          mouseRef={mouseRef}
         />
       )}
 
@@ -130,7 +130,7 @@ export const AmbientBackground: React.FC = () => {
         <RibbonsBackground
           vibrantColors={vibrantColors}
           isPlaying={isPlaying}
-          mousePos={mousePos}
+          mouseRef={mouseRef}
         />
       )}
 
@@ -138,7 +138,7 @@ export const AmbientBackground: React.FC = () => {
         <PlasmaBackground
           vibrantColors={vibrantColors}
           isPlaying={isPlaying}
-          mousePos={mousePos}
+          mouseRef={mouseRef}
         />
       )}
 
@@ -146,7 +146,7 @@ export const AmbientBackground: React.FC = () => {
         <GridBackground
           vibrantColors={vibrantColors}
           isPlaying={isPlaying}
-          mousePos={mousePos}
+          mouseRef={mouseRef}
         />
       )}
 
@@ -155,12 +155,12 @@ export const AmbientBackground: React.FC = () => {
         <AuroraBackground
           vibrantColors={vibrantColors}
           isPlaying={isPlaying}
-          mousePos={mousePos}
+          mouseRef={mouseRef}
         />
       )}
 
       {/* Subtle Refined Vignette */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#07080B]/20 via-transparent to-[#07080B]/50 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#07080B]/15 via-transparent to-[#07080B]/40 pointer-events-none" />
       <div className="absolute inset-0 bg-radial-vignette opacity-25 pointer-events-none" />
     </div>
   )
