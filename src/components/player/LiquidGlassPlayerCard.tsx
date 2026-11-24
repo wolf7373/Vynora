@@ -156,7 +156,7 @@ export const LiquidGlassPlayerCard: React.FC<LiquidGlassPlayerCardProps> = ({
         <div className="flex items-center justify-between mb-4">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-[11px] font-semibold text-white/90 shadow-sm backdrop-blur-md">
             <Sparkles className="w-3 h-3 text-vyn-primary" />
-            <span className="font-mono tracking-wider">LIQUID GLASS PLAYER</span>
+            <span className="font-sans font-bold tracking-wide">Now Playing</span>
           </div>
 
           <button

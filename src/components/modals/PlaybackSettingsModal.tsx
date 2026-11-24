@@ -140,9 +140,9 @@ export const PlaybackSettingsModal: React.FC<PlaybackSettingsModalProps> = ({
               <Sparkles className="w-4 h-4" />
             </div>
             <div>
-              <span className="text-xs font-bold text-white block">Spotify-Style Smart Autoplay</span>
+              <span className="text-xs font-bold text-white block">Smart Autoplay</span>
               <span className="text-[10px] text-white/60">
-                Keeps playing similar genre hits when queue finishes
+                Keeps playing similar songs when your queue finishes
               </span>
             </div>
           </div>
@@ -166,7 +166,7 @@ export const PlaybackSettingsModal: React.FC<PlaybackSettingsModalProps> = ({
               <Download className="w-4 h-4" />
             </div>
             <div>
-              <span className="text-xs font-bold text-white block">Install Mobile App (PWA)</span>
+              <span className="text-xs font-bold text-white block">Install App on Device</span>
               <span className="text-[10px] text-white/60">
                 Add to Home Screen for Fullscreen & Lock-Screen Audio
               </span>

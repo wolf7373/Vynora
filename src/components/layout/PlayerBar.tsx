@@ -16,6 +16,7 @@ import {
   ListMusic,
   Clock,
   Sliders,
+  Sparkles,
 } from 'lucide-react'
 import { usePlayerStore } from '@/stores/usePlayerStore'
 import { useUIStore } from '@/stores/useUIStore'
@@ -52,7 +53,6 @@ export const PlayerBar: React.FC = () => {
 
   const { toggleLikeTrack, isLiked } = usePlaylistStore()
   const adapterManager = PlaybackAdapterManager.getInstance()
-  const isRealFFT = adapterManager.isRealFFT()
 
   const prevVolumeRef = React.useRef<number>(0.8)
 
@@ -315,16 +315,14 @@ export const PlayerBar: React.FC = () => {
 
       {/* Right: Desktop Dock Toggles & Volume (Always rendered for tests, responsive display) */}
       <div className="hidden md:flex items-center justify-end gap-1.5 w-1/4 min-w-[180px]">
-        {/* Real vs Sim FFT Indicator Badge (REG-08) */}
+        {/* Audio Mode Badge */}
         {activeSource && (
           <span
-            className={`hidden xl:inline-block text-[9px] font-mono font-bold px-1.5 py-0.5 rounded border ${
-              isRealFFT
-                ? 'bg-vyn-primary/10 text-vyn-primary border-vyn-primary/30'
-                : 'bg-vyn-secondary/10 text-vyn-secondary border-vyn-secondary/30'
-            }`}
+            className="hidden xl:inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-full border border-vyn-primary/30 text-vyn-primary bg-vyn-primary/10 select-none font-medium"
+            title="High-fidelity audio enhancement active"
           >
-            {isRealFFT ? 'REAL FFT' : 'BEAT SIM'}
+            <Sparkles className="w-2.5 h-2.5" />
+            <span>Studio Sound</span>
           </span>
         )}
 

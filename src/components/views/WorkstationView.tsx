@@ -202,13 +202,13 @@ export const WorkstationView: React.FC = () => {
         <div className="min-w-0">
           <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-vyn-primary/10 border border-vyn-primary/20 text-vyn-primary text-xs font-medium mb-2">
             <Cpu className="w-3.5 h-3.5" />
-            <span>Ribbon hardware engine, low-latency audio</span>
+            <span>Beat Maker & Audio Studio</span>
           </div>
           <h1 className="text-2xl md:text-4xl font-display font-extrabold tracking-tight text-white">
-            Artist Audio Workstation
+            Audio Workstation
           </h1>
           <p className="text-xs text-vyn-muted mt-1 max-w-xl">
-            Multi-stem sequencing, live oscilloscope DSP inspection, and lossless artist master mixing.
+            Create beats, layer instruments, and shape your own sound.
           </p>
         </div>
 
@@ -220,7 +220,7 @@ export const WorkstationView: React.FC = () => {
             className="min-h-[44px] px-5 py-2 rounded-xl liquid-glass-pill bg-gradient-to-b from-white/95 to-white/75 text-black font-extrabold text-xs flex items-center gap-2 shadow-xl hover:scale-105 active:scale-95 transition-all cursor-pointer border-white/60 focus-visible:ring-2 focus-visible:ring-vyn-primary focus-visible:outline-none"
           >
             {isPlayingSeq ? <Pause className="w-4 h-4 fill-current" /> : <Play className="w-4 h-4 fill-current" />}
-            <span>{isPlayingSeq ? 'Halt clock' : 'Engage clock'}</span>
+            <span>{isPlayingSeq ? 'Pause' : 'Play'}</span>
           </button>
 
           <button
@@ -273,12 +273,10 @@ export const WorkstationView: React.FC = () => {
         <div className="flex items-center justify-between mb-3 text-xs">
           <div className="flex items-center gap-2 text-vyn-muted">
             <Activity className="w-4 h-4 text-vyn-primary" />
-            <span className="text-vyn-high font-bold">Real-time spectral oscilloscope</span>
-            <span className="text-[10px] px-2 py-0.5 rounded-full liquid-glass-pill border-white/10 font-mono">44.1 kHz, 32-bit Float</span>
+            <span className="text-vyn-high font-bold">Sound Waveform</span>
           </div>
           <div className="flex items-center gap-3 text-[11px] text-vyn-muted">
-            <span>Clock step: <strong className="text-vyn-primary font-mono">{(currentStep + 1).toString().padStart(2, '0')}/16</strong></span>
-            <span>Latency: <strong className="text-accent-cyan font-mono">4.2ms</strong></span>
+            <span>Step: <strong className="text-vyn-primary font-mono">{(currentStep + 1).toString().padStart(2, '0')}/16</strong></span>
           </div>
         </div>
 
@@ -393,13 +391,13 @@ export const WorkstationView: React.FC = () => {
           <div>
             <div className="flex items-center gap-2">
               <Sliders className="w-4 h-4 text-vyn-primary" />
-              <h2 className="text-lg font-display font-bold text-white">Analog Master Emulation Rack</h2>
+              <h2 className="text-lg font-display font-bold text-white">Sound Effects & Presets</h2>
             </div>
-            <p className="text-xs text-vyn-muted">Zero-latency tube warmth, stereo widening, and harmonic saturation.</p>
+            <p className="text-xs text-vyn-muted">Add warmth, stereo widening, and rich tone to your sound.</p>
           </div>
 
           <div className="flex items-center gap-2">
-            {['Tape Saturation', 'Pultec EQ', 'SSL G-Bus Comp', 'Linear Phase'].map((preset) => (
+            {['Warm Tape', 'Vintage EQ', 'Studio Punch', 'Clarity'].map((preset) => (
               <button
                 key={preset}
                 onClick={() => setActivePreset(preset)}
@@ -417,10 +415,10 @@ export const WorkstationView: React.FC = () => {
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           {[
-            { label: 'Tube drive', value: '+4.2 dB', sub: 'Even Harmonics' },
-            { label: 'Tape flutter', value: '0.08%', sub: 'Analog Wow' },
-            { label: 'Stereo spread', value: '138%', sub: 'Haas Delay' },
-            { label: 'Headroom', value: '-0.3 dB', sub: 'True Peak Limiter' },
+            { label: 'Warmth', value: '+4.2 dB', sub: 'Analog Tone' },
+            { label: 'Vintage Vibe', value: '0.08%', sub: 'Tape Feel' },
+            { label: 'Stereo Width', value: '138%', sub: 'Spatial Sound' },
+            { label: 'Headroom', value: '-0.3 dB', sub: 'Peak Balance' },
           ].map((dial) => (
             <div
               key={dial.label}

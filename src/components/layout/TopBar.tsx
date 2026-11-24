@@ -143,13 +143,12 @@ export const TopBar: React.FC = () => {
 
         <button
           onClick={() => setIsSyncModalOpen(true)}
-          title="Vynora Device Sync (VYN) - Click to connect or share sync code"
+          title="Connect Devices - Share or enter sync code to listen together"
           aria-label="Open Device Sync Modal"
-          className="min-h-[44px] px-3.5 py-1.5 rounded-full liquid-glass-pill hover:border-vyn-primary/60 hover:text-white flex items-center gap-1.5 text-[11px] font-mono text-vyn-primary active:scale-95 transition-all cursor-pointer shadow-md"
+          className="min-h-[44px] px-3.5 py-1.5 rounded-full liquid-glass-pill hover:border-vyn-primary/60 hover:text-white flex items-center gap-1.5 text-xs text-vyn-primary active:scale-95 transition-all cursor-pointer shadow-md font-semibold"
         >
           <Radio className="w-3.5 h-3.5 text-vyn-primary animate-pulse" />
-          <span className="font-bold hidden xs:inline">VYN-3.0</span>
-          <span className="font-bold xs:hidden">VYN</span>
+          <span>Sync</span>
         </button>
       </div>
     </header>

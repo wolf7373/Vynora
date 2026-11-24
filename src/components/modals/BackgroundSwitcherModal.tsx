@@ -26,15 +26,15 @@ const STYLE_OPTIONS: StyleOption[] = [
   {
     id: 'aurora',
     title: 'Fluid Aurora',
-    subtitle: 'Dynamic organic fluid clouds & interactive cursor flare',
+    subtitle: 'Smooth colorful lights flowing like the Northern Lights',
     icon: Waves,
     badge: 'Popular',
     accentColor: '#00F2FE',
   },
   {
     id: 'ripples',
-    title: 'Water Caustics',
-    subtitle: 'Interactive ripple pool with touch shockwaves & sunbeam caustics',
+    title: 'Water Ripples',
+    subtitle: 'Calming water surface that ripples with your touch',
     icon: Droplets,
     badge: 'Relaxing',
     accentColor: '#38BDF8',
@@ -42,33 +42,33 @@ const STYLE_OPTIONS: StyleOption[] = [
   {
     id: 'particles',
     title: 'Cosmic Stardust',
-    subtitle: '180 3D luminous particles with magnetic cursor attraction',
+    subtitle: 'Glowing stars that float and follow your movement',
     icon: Sparkles,
-    badge: 'Sci-Fi',
+    badge: 'Cosmic',
     accentColor: '#8B5CF6',
   },
   {
     id: 'ribbons',
     title: 'Silk Ribbons',
-    subtitle: 'Floating undulating velvet waves curving with mouse perspective',
+    subtitle: 'Smooth flowing ribbons that sway with your motion',
     icon: Wind,
-    badge: 'Luxury',
+    badge: 'Smooth',
     accentColor: '#EC4899',
   },
   {
     id: 'plasma',
-    title: 'Plasma Core',
-    subtitle: 'Central morphing liquid blob stretching to cursor with audio pulse',
+    title: 'Energy Glow',
+    subtitle: 'Vibrant glowing sphere pulsing with the beat',
     icon: Disc3,
-    badge: 'Reactive',
+    badge: 'Dynamic',
     accentColor: '#F59E0B',
   },
   {
     id: 'grid',
-    title: 'Prismatic Grid',
-    subtitle: '3D perspective neon glass floor with prismatic cursor light',
+    title: 'Neon Horizon',
+    subtitle: 'Futuristic neon grid with ambient reflections',
     icon: Grid,
-    badge: 'Cyberpunk',
+    badge: 'Neon',
     accentColor: '#10B981',
   },
 ]
@@ -115,10 +115,10 @@ export const BackgroundSwitcherModal: React.FC = () => {
             </div>
             <div>
               <h2 id="bg-switcher-title" className="text-base sm:text-lg font-bold text-white">
-                Interactive Background Studio
+                Background Themes
               </h2>
               <p className="text-xs text-white/60">
-                Choose your live responsive background canvas & mouse physics
+                Choose an animated theme for your music experience
               </p>
             </div>
           </div>
@@ -192,9 +192,9 @@ export const BackgroundSwitcherModal: React.FC = () => {
         </div>
 
         {/* Footer info */}
-        <div className="flex items-center justify-between pt-2 border-t border-white/10 text-xs text-white/50 font-mono">
-          <span>Real-time mouse reaction active</span>
-          <span className="text-cyan-400 font-bold">1-Click Live Switch</span>
+        <div className="flex items-center justify-between pt-2 border-t border-white/10 text-xs text-white/50">
+          <span>Themes react to your music and touch</span>
+          <span className="text-cyan-400 font-bold">Tap any style to apply</span>
         </div>
       </div>
     </div>

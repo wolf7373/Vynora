@@ -100,13 +100,13 @@ export const DownloadedView: React.FC = () => {
         <div>
           <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-vyn-primary/10 border border-vyn-primary/20 text-vyn-primary text-[11px] font-medium mb-1">
             <Sparkles className="w-3 h-3" />
-            <span>Confirmed Decision D4 Engine</span>
+            <span>Offline Audio Player</span>
           </div>
           <h1 className="text-xl md:text-2xl font-display font-bold text-vyn-high">
-            Offline Storage & Local Audio Vault
+            Downloaded & Local Songs
           </h1>
           <p className="text-xs text-vyn-muted">
-            100% Private IndexedDB audio blob storage • Zero server requests • Real Web Audio FFT
+            100% Private offline music on your device • Zero internet needed
           </p>
         </div>
 

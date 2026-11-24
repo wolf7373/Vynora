@@ -40,7 +40,7 @@ export const PWAInstallModal: React.FC<PWAInstallModalProps> = ({ isOpen, onClos
             </div>
             <div>
               <h2 className="text-base font-bold text-white tracking-wide">Install Vynora App</h2>
-              <span className="text-[11px] text-white/60 block">Direct Android & iOS Mobile Installation</span>
+              <span className="text-[11px] text-white/60 block">Add to your phone or desktop for the best experience</span>
             </div>
           </div>
           <button
@@ -62,11 +62,11 @@ export const PWAInstallModal: React.FC<PWAInstallModalProps> = ({ isOpen, onClos
               className="w-14 h-14 rounded-2xl border border-white/20 shadow-lg object-cover"
             />
             <div className="flex-1 min-w-0">
-              <span className="text-sm font-bold text-white block truncate">Vynora 3.0</span>
-              <span className="text-xs text-white/60 block truncate">Liquid Glass 3D Audio Studio</span>
+              <span className="text-sm font-bold text-white block truncate">Vynora</span>
+              <span className="text-xs text-white/60 block truncate">Liquid Music Player</span>
               <div className="flex items-center gap-2 mt-1">
-                <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
-                  PWA Ready
+                <span className="text-[9px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                  Ready
                 </span>
                 <span className="text-[9px] font-mono text-white/50">Free • No App Store Needed</span>
               </div>

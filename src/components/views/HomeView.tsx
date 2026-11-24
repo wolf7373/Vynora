@@ -107,8 +107,8 @@ export const HomeView: React.FC = () => {
       default:
         return {
           badge: `✨ ${timeInfo.greeting}`,
-          title: `${timeInfo.greeting} Smart Blend`,
-          description: `${timeInfo.subtitle} 220+ verified official tracks with zero search required.`,
+          title: `${timeInfo.greeting} Mix`,
+          description: `${timeInfo.subtitle} Over 200+ handpicked tracks ready to play.`,
         }
     }
   }, [selectedVibeFilter, timeInfo])

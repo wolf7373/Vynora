@@ -61,7 +61,6 @@ export const MobileNowPlayingDrawer: React.FC = () => {
   const { toggleLikeTrack, isLiked } = usePlaylistStore()
   const queue = useQueueStore((state) => state.queue)
   const adapterManager = PlaybackAdapterManager.getInstance()
-  const isRealFFT = adapterManager.isRealFFT()
 
   // Drawer View Tabs: 'visualizer' | 'lyrics' | 'video' directly bound to useUIStore
   const activeTab = mobileDrawerTab || 'visualizer'
@@ -581,14 +580,9 @@ export const MobileNowPlayingDrawer: React.FC = () => {
                     </div>
 
                     <div className="flex items-center gap-2 shrink-0">
-                      <span
-                        className={`text-[9px] font-mono font-bold px-2.5 py-1 rounded-full border uppercase shadow-sm ${
-                          isRealFFT
-                            ? 'bg-vyn-primary/20 text-vyn-primary border-vyn-primary/50 shadow-glow-cyan'
-                            : 'bg-vyn-secondary/20 text-vyn-secondary border-vyn-secondary/50'
-                        }`}
-                      >
-                        {isRealFFT ? 'REAL FFT' : 'BEAT SIM'}
+                      <span className="text-[10px] font-semibold px-2.5 py-1 rounded-full bg-white/10 text-white/90 border border-white/20 shadow-sm flex items-center gap-1.5">
+                        <Sparkles className="w-3 h-3 text-cyan-400" />
+                        <span>Studio Sound</span>
                       </span>
                     </div>
                   </div>
@@ -600,9 +594,9 @@ export const MobileNowPlayingDrawer: React.FC = () => {
                 <div className="h-full flex flex-col min-h-0 w-full overflow-hidden">
                   {/* Lyrics Header Status */}
                   <div className="flex items-center justify-between pb-2 border-b border-white/10 flex-shrink-0 px-2">
-                    <div className="flex items-center gap-1.5 text-[11px] font-mono text-vyn-primary font-bold">
+                    <div className="flex items-center gap-1.5 text-[11px] text-vyn-primary font-bold">
                       <Sparkles className="w-3.5 h-3.5" />
-                      <span>LRCLIB SYNCHRONIZED</span>
+                      <span>Live Lyrics</span>
                     </div>
                     <span className="text-[10px] text-white/50 font-mono">
                       {formatTime(currentTime)} / {formatTime(duration)}
@@ -617,15 +611,15 @@ export const MobileNowPlayingDrawer: React.FC = () => {
                     {isLyricsLoading ? (
                       <div className="flex flex-col items-center justify-center py-16 gap-3 text-white/60">
                         <Loader2 className="w-8 h-8 text-vyn-primary animate-spin mb-1" />
-                        <p className="text-sm font-bold text-white/80">Syncing live subtitles...</p>
-                        <p className="text-xs text-white/40">Matching LRC timestamps with audio tempo</p>
+                        <p className="text-sm font-bold text-white/80">Loading lyrics...</p>
+                        <p className="text-xs text-white/40">Syncing words with the music</p>
                       </div>
                     ) : !lyrics || (!lyrics.isSynced && !lyrics.plainText) || lyrics.lines.length === 0 ? (
                       <div className="flex flex-col items-center justify-center py-16 gap-3 text-white/40">
                         <Mic2 className="w-10 h-10 text-white/20 mb-1" />
-                        <p className="text-sm font-semibold text-white/70">No synchronized lyrics available</p>
+                        <p className="text-sm font-semibold text-white/70">Lyrics not available</p>
                         <p className="text-xs text-white/40 max-w-xs">
-                          Synchronized LRC timestamps could not be found for this track. Switch to Card or Video mode!
+                          Lyrics could not be found for this song. You can still enjoy Card or Video mode!
                         </p>
                       </div>
                     ) : lyrics.isSynced ? (
@@ -853,8 +847,8 @@ export const MobileNowPlayingDrawer: React.FC = () => {
                 </button>
               </div>
 
-              <span className="text-[10px] uppercase tracking-wider text-vyn-primary font-mono font-bold px-3 py-1.5 rounded-full liquid-glass-tube border border-vyn-primary/30 shadow-sm flex-shrink-0">
-                Hi-Res Lossless
+              <span className="text-[10px] tracking-wider text-vyn-primary font-bold px-3 py-1.5 rounded-full liquid-glass-tube border border-vyn-primary/30 shadow-sm flex-shrink-0">
+                Studio Quality
               </span>
             </div>
           </div>

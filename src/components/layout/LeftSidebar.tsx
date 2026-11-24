@@ -36,7 +36,7 @@ export const LeftSidebar: React.FC = () => {
           <span className="font-display font-bold text-sm tracking-widest bg-gradient-to-r from-vyn-primary via-vyn-secondary to-vyn-accent bg-clip-text text-transparent">
             VYNORA
           </span>
-          <span className="block text-[10px] text-vyn-muted font-mono tracking-wider">3D AUDIO STUDIO</span>
+          <span className="block text-[10px] text-vyn-muted tracking-wider font-semibold">MUSIC STUDIO</span>
         </div>
       </div>
 
@@ -151,8 +151,8 @@ export const LeftSidebar: React.FC = () => {
             <Download className="w-4 h-4 text-vyn-primary group-hover:scale-110 transition-transform" />
             <span>Install App</span>
           </div>
-          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-vyn-primary/20 text-vyn-primary border border-vyn-primary/30">
-            PWA
+          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-vyn-primary/20 text-vyn-primary border border-vyn-primary/30">
+            Get
           </span>
         </button>
 
@@ -164,8 +164,8 @@ export const LeftSidebar: React.FC = () => {
             <Radio className="w-4 h-4 text-accent-cyan group-hover:animate-pulse" />
             <span>Sync Devices</span>
           </div>
-          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-accent-cyan/20 text-accent-cyan border border-accent-cyan/30">
-            VYN
+          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-accent-cyan/20 text-accent-cyan border border-accent-cyan/30">
+            Connect
           </span>
         </button>
       </div>
